@@ -1,7 +1,7 @@
 import Link from "next/link"
-import { Header } from "@/component/Header"
-import { FeatureCard } from "@/component/(landing)/FeatureCard"
-import { TestimonialCard } from "@/component/(landing)/TestimonialCard"
+import { Header } from "@/components/Header"
+import { FeatureCard } from "@/components/(landing)/FeatureCard"
+import { TestimonialCard } from "@/components/(landing)/TestimonialCard"
 
 export default function Home() {
   return (
