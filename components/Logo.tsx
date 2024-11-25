@@ -1,10 +1,13 @@
 import { NotebookPen } from "lucide-react"
+import Link from "next/link"
 
 export function Logo() {
   return (
-    <div className='flex items-center'>
-      <NotebookPen className='mr-2' />
-      <span>Mon planificateur budgétaire</span>
-    </div>
+    <Link href={"/"}>
+      <div className='flex items-center'>
+        <NotebookPen className='mr-2' />
+        <span className='hidden md:flex'>Mon planificateur budgétaire</span>
+      </div>
+    </Link>
   )
 }

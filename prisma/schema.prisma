@@ -49,13 +49,25 @@ model Category {
 }
 
 model SubCategory {
-  id          Int       @id @default(autoincrement())
-  name        String
-  amount      Float     @default(0.0) // Montant associé à cette sous-catégorie
-  categoryId  Int
-  category    Category  @relation(fields: [categoryId], references: [id])
+  id            Int       @id @default(autoincrement())
+  name          String
+  amount        Float     @default(0.0) // Montant associé à cette sous-catégorie
+  categoryId    Int
+  emoji         String?
+  category      Category  @relation(fields: [categoryId], references: [id])
+  transactions  Transaction[]
 
   @@unique([name, categoryId]) // Chaque catégorie a ses propres sous-catégories uniques
+}
+
+model Transaction {
+  id                String     @id @default(uuid())
+  description       String
+  amount            Float
+  subCategoryId     Int?
+  subCategory       SubCategory?    @relation(fields: [subCategoryId], references: [id])
+  emoji             String?  
+  createdAt         DateTime   @default(now())
 }
 
 // enum CategoryType {

@@ -3,6 +3,7 @@ import localFont from "next/font/local"
 import "./globals.css"
 import { ClerkProvider } from "@clerk/nextjs"
 import { frFR } from "@clerk/localizations"
+import { Navbar } from "@/components/Navbar"
 
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
@@ -17,7 +18,7 @@ const geistMono = localFont({
 
 export const metadata: Metadata = {
   title: "Mon planificateur budgétaire",
-  description: "Realisé par Babbbass",
+  description: "Transformez vos finances en un jeu d'enfant !",
 }
 
 export default function RootLayout({
@@ -27,11 +28,12 @@ export default function RootLayout({
 }>) {
   return (
     <ClerkProvider localization={frFR}>
-      <html lang='en'>
+      <html lang='fr'>
         <body
           className={`${geistSans.variable} ${geistMono.variable} antialiased `}
         >
-          <main className='flex flex-col justify-center items-center min-h-screen bg-gradient-to-b from-blue-100 to-white p-2 py-4 max-w-[1440px] mx-auto'>
+          <main className='flex flex-col items-center min-h-screen p-2 py-4 max-w-[1440px] mx-auto'>
+            <Navbar />
             {children}
           </main>
         </body>
