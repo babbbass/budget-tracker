@@ -53,7 +53,7 @@ model SubCategory {
   name          String
   amount        Float     @default(0.0) // Montant associé à cette sous-catégorie
   categoryId    Int
-  emoji         String?
+  // emoji         String?
   category      Category  @relation(fields: [categoryId], references: [id])
   transactions  Transaction[]
 

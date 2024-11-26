@@ -22,9 +22,10 @@ export default async function BudgetPage() {
   const budgets = await findAllBudget(email)
   return (
     <>
-      <BudgetsTable categoriesData={budgets?.categories} />
       <Dialog>
-        <DialogTrigger>Ajoutez un nouveau budget</DialogTrigger>
+        <DialogTrigger className=' cursor-pointer font-semibold rounded-xl text-white px-4 py-2 mb-6 bg-sky-600'>
+          + Ajoutez un nouveau budget
+        </DialogTrigger>
         <DialogContent>
           <DialogHeader>
             <DialogTitle className='text-center text-2xl'>
@@ -37,6 +38,7 @@ export default async function BudgetPage() {
           <AddBudgetForm emailUser={email} />
         </DialogContent>
       </Dialog>
+      {budgets && <BudgetsTable categoriesData={budgets.categories} />}
     </>
   )
 }
