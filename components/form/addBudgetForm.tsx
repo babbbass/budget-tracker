@@ -28,20 +28,6 @@ const formSchema = z.object({
   amount: z.coerce
     .number({ invalid_type_error: "Le montant doit être un nombre." })
     .positive("Le montant doit être supérieur à 0."),
-  // forms: z
-  //   .array(
-  //     z.object({
-  //       subCategoryName: z
-  //         .string()
-  //         .min(1, "Le nom de la sous-catégorie est requis."),
-  //       category: z.string().min(1, "La catégorie est obligatoire."),
-  //       amount: z
-  //         .number({ invalid_type_error: "Le montant doit être un nombre." })
-  //         .positive("Le montant doit être supérieur à 0."),
-  //     })
-  //   )
-  //   .min(1, "Ajoutez au moins une entrée.")
-  //   .max(5, "Vous ne pouvez pas ajouter plus de 5 formulaires."),
 })
 
 const categories = [

@@ -22,7 +22,6 @@ import { Card } from "./ui/card"
 import { CategoryType } from "@/types"
 import { Progress } from "@/components/ui/progress"
 import { useRouter } from "next/navigation"
-import { Router } from "next/router"
 
 const ITEMS_PER_PAGE = 2
 
@@ -138,7 +137,11 @@ export const BudgetsTable = ({
                         >
                           <span className='font-semibold'>{sub.name}</span>
                           <span>0 transaction(s)</span>
-                          <Progress value={60} className='mt-2' />
+                          <Progress
+                            value={60}
+                            className='mt-2'
+                            indicatorColor='bg-sky-600'
+                          />
                         </div>
                       )
                     )}
