@@ -17,7 +17,7 @@ export function Navbar() {
         <Link href={"/dashboard"} className='btn mx-4'>
           Tableau de bord
         </Link>
-        <Link href={"/"} className='btn'>
+        <Link href={"/transactions"} className='btn'>
           Mes Transactions
         </Link>
       </div>

@@ -7,12 +7,12 @@ import {
   TableCell,
   TableHeader,
   TableRow,
-  TableHead,
+  // TableHead,
 } from "@/components/ui/table"
 import { Button } from "@/components/ui/button"
 import { ScrollArea } from "@/components/ui/scroll-area"
 import {
-  ChevronsUpDown,
+  // ChevronsUpDown,
   Trash2,
   Pencil,
   ChevronRight,
@@ -33,8 +33,8 @@ export const BudgetsTable = ({
   const router = useRouter()
   const [categories, setCategories] = useState(categoriesData)
   const [currentPage, setCurrentPage] = useState(1)
-  const [sortColumn, setSortColumn] = useState(null)
-  const [sortOrder, setSortOrder] = useState("asc")
+  // const [sortColumn, setSortColumn] = useState(null)
+  // const [sortOrder, setSortOrder] = useState("asc")
 
   const startIndex = (currentPage - 1) * ITEMS_PER_PAGE
   const endIndex = startIndex + ITEMS_PER_PAGE
@@ -42,34 +42,33 @@ export const BudgetsTable = ({
 
   const totalPages = Math.ceil(categories.length / ITEMS_PER_PAGE)
 
-  //@ts-expect-error next-line
-  const handleSort = (column) => {
-    const order = sortColumn === column && sortOrder === "asc" ? "desc" : "asc"
-    setSortColumn(column)
-    setSortOrder(order)
+  // const handleSort = (column) => {
+  //   const order = sortColumn === column && sortOrder === "asc" ? "desc" : "asc"
+  //   setSortColumn(column)
+  //   setSortOrder(order)
 
-    const sortedCategories = [...categories].sort((a, b) => {
-      if (column === "name") {
-        return order === "asc"
-          ? a.name.localeCompare(b.name)
-          : b.name.localeCompare(a.name)
-      }
-      if (column === "amount") {
-        const totalA = a.subCategories.reduce((acc, sub) => acc + sub.amount, 0)
-        const totalB = b.subCategories.reduce((acc, sub) => acc + sub.amount, 0)
-        return order === "asc" ? totalA - totalB : totalB - totalA
-      }
-      return 0
-    })
+  //   const sortedCategories = [...categories].sort((a, b) => {
+  //     if (column === "name") {
+  //       return order === "asc"
+  //         ? a.name.localeCompare(b.name)
+  //         : b.name.localeCompare(a.name)
+  //     }
+  //     if (column === "amount") {
+  //       const totalA = a.budgets.reduce((acc, sub) => acc + sub.amount, 0)
+  //       const totalB = b.budgets.reduce((acc, sub) => acc + sub.amount, 0)
+  //       return order === "asc" ? totalA - totalB : totalB - totalA
+  //     }
+  //     return 0
+  //   })
 
-    setCategories(sortedCategories)
-  }
+  //   setCategories(sortedCategories)
+  // }
 
-  const handleEdit = (id: number) => {
+  const handleEdit = (id: string) => {
     alert(`Modifier la catégorie avec l'ID : ${id}`)
   }
 
-  const handleDelete = (id: number) => {
+  const handleDelete = (id: string) => {
     if (confirm("Êtes-vous sûr de vouloir supprimer cette catégorie ?")) {
       setCategories(
         categories.filter((category: CategoryType) => category.id !== id)
@@ -77,26 +76,15 @@ export const BudgetsTable = ({
     }
   }
 
-  // const progressValue =
-  //      totalTransactionAmount > budget.amount
-  //      ? 100
-  //      : (totalTransactionAmount /budget.amount) * 100
-
-  //      const transactionCount = budget.transactions ? budget.transactions.length : 0;
-  //      const totalTransactionAmount = budget.transactions
-  //          ? budget.transactions.reduce(
-  //              (sum, transaction) => sum + transaction.amount, 0)
-  //          : 0
-
-  //      const remainingAmount = budget.amount - totalTransactionAmount
-
   return (
-    <Card className='p-6 bg-white rounded-lg shadow-md w-full md:w-1/3'>
-      <h1 className='text-2xl font-bold mb-4'>Tous mes budgets</h1>
+    <Card className='p-6 bg-white rounded-lg shadow-md w-full md:w-1/2'>
+      <h1 className='text-2xl font-bold mb-4 text-center italic'>
+        Tous mes budgets
+      </h1>
       <ScrollArea className='max-w-full overflow-x-auto'>
         <Table>
           <TableHeader>
-            <TableRow>
+            {/* <TableRow>
               <TableHead
                 className='cursor-pointer'
                 onClick={() => handleSort("name")}
@@ -113,29 +101,31 @@ export const BudgetsTable = ({
                 <ChevronsUpDown className='w-4 h-4 inline-block ml-1' />
               </TableHead>
               <TableHead></TableHead>
-            </TableRow>
+            </TableRow> */}
           </TableHeader>
           <TableBody>
             {paginatedCategories.map(
               (category: {
                 name: string
-                id: number
-                subCategories: Array<{ name: string; amount: number }>
+                id: string
+                budgets: Array<{ name: string; amount: number }>
               }) => (
                 <TableRow
                   key={category.id}
-                  className='hover:bg-gray-100 border-0 cursor-pointer h-16'
+                  className='hover:bg-gray-100 cursor-pointer border-b-2 py-4'
                   onClick={() => router.push(`/budgets/${category.id}`)}
                 >
-                  <TableCell className='font-medium'>{category.name}</TableCell>
-                  <TableCell className='text-center'>
-                    {category.subCategories.map(
-                      (sub: { name: string }, index: number) => (
+                  <TableCell className='font-medium text-base italic border-r-2'>
+                    {category.name}
+                  </TableCell>
+                  <TableCell className='text-center pl-4'>
+                    {category.budgets.map(
+                      (budget: { name: string }, index: number) => (
                         <div
                           key={index}
-                          className='flex justify-center flex-col'
+                          className='flex justify-center flex-col mb-4'
                         >
-                          <span className='font-semibold'>{sub.name}</span>
+                          <span className='font-semibold'>{budget.name}</span>
                           <span>0 transaction(s)</span>
                           <Progress
                             value={60}
@@ -147,10 +137,7 @@ export const BudgetsTable = ({
                     )}
                   </TableCell>
                   <TableCell className='text-center'>
-                    {category.subCategories.reduce(
-                      (acc, sub) => acc + sub.amount,
-                      0
-                    )}{" "}
+                    {category.budgets.reduce((acc, sub) => acc + sub.amount, 0)}{" "}
                     €
                   </TableCell>
                   <TableCell>

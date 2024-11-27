@@ -11,7 +11,7 @@ datasource db {
 }
 
 model User {
-  id        Int        @id @default(autoincrement())
+  id        String        @id @default(uuid())
   email     String     @unique
   name      String?
   image      String?
@@ -38,22 +38,21 @@ model Subscription {
 }
 
 model Category {
-  id            Int           @id @default(autoincrement())
+  id            String           @id @default(uuid())
   name          String
   // type          CategoryType
-  subCategories SubCategory[]
-  userId        Int
+  budgets       Budget[]
+  userId        String
   user          User          @relation(fields: [userId], references: [id])
 
   @@unique([name, userId]) // Chaque utilisateur a ses propres catégories uniques
 }
 
-model SubCategory {
-  id            Int       @id @default(autoincrement())
+model Budget {
+  id            String       @id @default(uuid())
   name          String
-  amount        Float     @default(0.0) // Montant associé à cette sous-catégorie
-  categoryId    Int
-  // emoji         String?
+  amount        Float     @default(0.0) 
+  categoryId    String
   category      Category  @relation(fields: [categoryId], references: [id])
   transactions  Transaction[]
 
@@ -64,9 +63,8 @@ model Transaction {
   id                String     @id @default(uuid())
   description       String
   amount            Float
-  subCategoryId     Int?
-  subCategory       SubCategory?    @relation(fields: [subCategoryId], references: [id])
-  emoji             String?  
+  budgetId          String
+  budget            Budget    @relation(fields: [budgetId], references: [id])
   createdAt         DateTime   @default(now())
 }
 

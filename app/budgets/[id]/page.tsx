@@ -14,7 +14,7 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog"
 import { AddTransactionForm } from "@/components/form/addTransactionForm"
-import TransactionsByBudget from "@/components/TransactionsByBudget"
+import { TransactionsByBudget } from "@/components/TransactionsByBudget"
 import { Separator } from "@/components/ui/separator"
 
 export default function Page() {

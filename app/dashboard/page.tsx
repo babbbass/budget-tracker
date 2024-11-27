@@ -15,6 +15,6 @@ export default async function Dashboard() {
   const fullName = user.firstName + " " + user.lastName
   const email = user.emailAddresses[0].emailAddress
 
-  //await addUserToDB(userId, fullName, email)
+  await addUserToDB(userId, fullName, email)
   return <div>Hello {email}</div>
 }

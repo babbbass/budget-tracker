@@ -17,7 +17,7 @@ import {
 } from "lucide-react"
 import { TransactionType } from "@/types"
 
-export default function TransactionsByBudget({
+export function TransactionsByBudget({
   transactions,
 }: {
   transactions: TransactionType[]

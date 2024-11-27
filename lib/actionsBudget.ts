@@ -4,11 +4,11 @@ import { prisma } from "./db"
 export async function addBudget(
   email: string,
   categoryName: string,
-  subCategoryName: string,
+  budgetName: string,
   amount: number
-  // selectedEmoji: string
 ) {
   try {
+    let category = null
     const user = await prisma.user.findUnique({
       where: { email },
     })
@@ -16,22 +16,32 @@ export async function addBudget(
     if (!user) {
       throw new Error("Utilisateur non trouvé")
     }
-
-    const category = await prisma.category.create({
-      data: {
-        name: categoryName,
-        userId: user.id,
+    category = await prisma.category.findUnique({
+      where: {
+        name_userId: {
+          name: categoryName,
+          userId: user.id,
+        },
       },
     })
+    if (!category) {
+      category = await prisma.category.create({
+        data: {
+          name: categoryName,
+          userId: user.id,
+        },
+      })
+    }
 
-    await prisma.subCategory.create({
+    const createdBudget = await prisma.budget.create({
       data: {
-        name: subCategoryName,
+        name: budgetName,
         amount,
-        // emoji: selectedEmoji,
         categoryId: category.id,
       },
     })
+
+    return createdBudget
   } catch (error) {
     console.error("Erreur lors de l'ajout du budget:", error)
     throw error
@@ -40,17 +50,17 @@ export async function addBudget(
 
 export async function findAllBudget(email: string) {
   try {
-    const user = await prisma.user.findUnique({
+    const userBudgets = await prisma.user.findUnique({
       where: { email },
       include: {
         categories: {
           include: {
-            subCategories: true,
+            budgets: true,
           },
         },
       },
     })
-    return user
+    return userBudgets
   } catch (error) {
     console.error("Erreur lors de la recherche des budgets:", error)
     throw error
@@ -58,12 +68,12 @@ export async function findAllBudget(email: string) {
 }
 
 export async function addTransactionToBudget(
-  budgetId: number,
+  budgetId: string,
   amount: number,
   description: string
 ) {
   try {
-    const budget = await prisma.subCategory.findUnique({
+    const budget = await prisma.budget.findUnique({
       where: {
         id: budgetId,
       },
@@ -92,8 +102,7 @@ export async function addTransactionToBudget(
       data: {
         amount,
         description,
-        // emoji: budget.emoji,
-        subCategory: {
+        budget: {
           connect: {
             id: budget.id,
           },
@@ -108,9 +117,9 @@ export async function addTransactionToBudget(
   }
 }
 
-export async function getBudget(budgetId: number) {
+export async function getBudget(budgetId: string) {
   try {
-    const budget = await prisma.subCategory.findUnique({
+    const budget = await prisma.budget.findUnique({
       where: {
         id: budgetId,
       },
@@ -125,9 +134,9 @@ export async function getBudget(budgetId: number) {
   }
 }
 
-export async function deleteBudget(budgetId: number) {
+export async function deleteBudget(budgetId: string) {
   try {
-    await prisma.subCategory.delete({
+    await prisma.budget.delete({
       where: {
         id: budgetId,
       },

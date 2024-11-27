@@ -21,10 +21,11 @@ import {
   FormMessage,
 } from "@/components/ui/form"
 import { addBudget } from "@/lib/actionsBudget"
+import { toast } from "sonner"
 
 const formSchema = z.object({
   category: z.string().min(1, "La catégorie est obligatoire."),
-  subCategoryName: z.string().min(1, "Le nom de la sous-catégorie est requis."),
+  budgetName: z.string().min(1, "Le nom de la sous-catégorie est requis."),
   amount: z.coerce
     .number({ invalid_type_error: "Le montant doit être un nombre." })
     .positive("Le montant doit être supérieur à 0."),
@@ -38,21 +39,36 @@ const categories = [
   "Dépenses fixes",
   "Dépenses variables",
 ]
-export function AddBudgetForm({ emailUser }: { emailUser: string }) {
+export function AddBudgetForm({
+  emailUser,
+  isOpen,
+}: {
+  emailUser: string
+  isOpen: React.Dispatch<React.SetStateAction<boolean>>
+}) {
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
   })
 
   const onSubmit = async (data: z.infer<typeof formSchema>) => {
     console.log("Données soumises :", data)
-    const { category, subCategoryName, amount } = data
-    const response = await addBudget(
-      emailUser,
-      category,
-      subCategoryName,
-      amount
-    )
-    console.log(response)
+    const { category, budgetName, amount } = data
+    const response = await addBudget(emailUser, category, budgetName, amount)
+
+    if (response) {
+      toast.success("Budget ajouté avec succés", {
+        duration: 1500,
+        className: "text-green-500",
+      })
+      setTimeout(() => {
+        isOpen(false)
+      }, 2000)
+    } else {
+      toast.error("Une erreur est survenue veuillez réessayer", {
+        duration: 1500,
+        className: "text-red-500",
+      })
+    }
   }
 
   return (
@@ -84,7 +100,7 @@ export function AddBudgetForm({ emailUser }: { emailUser: string }) {
         />
         <FormField
           control={form.control}
-          name='subCategoryName'
+          name='budgetName'
           render={({ field }) => (
             <FormItem>
               <FormLabel>Budget</FormLabel>
