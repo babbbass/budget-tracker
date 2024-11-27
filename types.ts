@@ -1,24 +1,24 @@
-export type SubCategoryType = {
-  id: number
+export type BudgetType = {
+  id: string
   name: string
   amount: number
-  // emoji?: string | null
-  categoryId: number
-  transactions: TransactionType[]
+  categoryId: string
+  transactions?: TransactionType[]
 }
 export type CategoryType = {
-  id: number
+  id: string
   name: string
-  subCategories: SubCategoryType[]
-  userId?: number
+  budgets: BudgetType[]
+  userId?: string
 }
 
 export type TransactionType = {
   id: string
   amount: number
   description: string
-  // budgetId: number
-  subCategoryId: number | null
+  budgetId: string | null
   createdAt?: Date
   emoji?: string | null
+  budgetName?: string
+  name?: string
 }

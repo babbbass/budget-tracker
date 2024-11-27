@@ -4,6 +4,7 @@ import "./globals.css"
 import { ClerkProvider } from "@clerk/nextjs"
 import { frFR } from "@clerk/localizations"
 import { Navbar } from "@/components/Navbar"
+import { Toaster } from "sonner"
 
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
@@ -34,6 +35,7 @@ export default function RootLayout({
         >
           <main className='flex flex-col items-center min-h-screen p-2 py-4 max-w-[1440px] mx-auto'>
             <Navbar />
+            <Toaster />
             {children}
           </main>
         </body>
