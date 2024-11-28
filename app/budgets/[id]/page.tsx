@@ -13,7 +13,6 @@ export default function Page() {
   const { fetchBudgets, budget } = useBudgetStore()
   const { id } = useParams()
   const idBudget = String(id)
-  console.log(budget)
   useEffect(() => {
     if (id) {
       fetchBudgets(idBudget)

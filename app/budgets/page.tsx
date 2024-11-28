@@ -17,6 +17,7 @@ export default async function BudgetPage() {
     <>
       <AddBudgetDialog email={email} />
       {budgets && budgets.categories.length > 0 && (
+        //@ts-expect-error "resolve later"
         <BudgetsTable categoriesData={budgets.categories} />
       )}
     </>

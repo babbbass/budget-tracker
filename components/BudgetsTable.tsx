@@ -108,7 +108,7 @@ export const BudgetsTable = ({
               (category: {
                 name: string
                 id: string
-                budgets: Array<{ name: string; amount: number }>
+                budgets: Array<{ name: string; amount: number; id: string }>
               }) => (
                 <TableRow key={category.id} className=' border-b-2 py-4'>
                   <TableCell className='font-medium text-base italic border-r-2'>
@@ -116,7 +116,7 @@ export const BudgetsTable = ({
                   </TableCell>
                   <TableCell className='text-center pl-4'>
                     {category.budgets.map(
-                      (budget: { name: string }, index: number) => (
+                      (budget: { name: string; id: string }, index: number) => (
                         <div
                           key={index}
                           className='flex justify-center flex-col mb-4 hover:bg-gray-600 cursor-pointer'

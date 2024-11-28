@@ -1,14 +1,15 @@
 "use client"
 
-import { TransactionType } from "@/types"
+import { BudgetType } from "@/types"
 import { useUser } from "@clerk/nextjs"
 import React, { useEffect, useState } from "react"
 import { getTransactionsByUser } from "@/lib/actionsTransaction"
 import { TransactionCard } from "@/components/TransactionCard"
+import Link from "next/link"
 
 export default function Page() {
   const { user } = useUser()
-  const [transactions, setTransactions] = useState<TransactionType[]>([])
+  const [budget, setTransactions] = useState<BudgetType[]>([])
   const [loading, setLoading] = useState<boolean>(false)
 
   const fetchTransactions = async (period: string) => {
@@ -33,7 +34,7 @@ export default function Page() {
 
   return (
     <>
-      <div className='flex justify-end mb-5 '>
+      {/* <div className='flex justify-end mb-5 '>
         <select
           className='input input-bordered input-md'
           defaultValue='last30'
@@ -44,14 +45,14 @@ export default function Page() {
           <option value='last90'>Derniers 90 jours</option>
           <option value='last365'>Derniers 365 jours</option>
         </select>
-      </div>
+      </div> */}
 
       <div className='flex justify-center w-full bg-base-200/35 p-5 rounded-xl'>
         {loading ? (
           <div className='flex justify-center items-center'>
             <span className='loading loading-spinner loading-md'></span>
           </div>
-        ) : transactions.length === 0 ? (
+        ) : budget.length === 0 ? (
           <div className='flex justify-center items-center h-full'>
             <span className='text-gray-500 text-sm'>
               Aucune transaction à afficher.
@@ -59,14 +60,18 @@ export default function Page() {
           </div>
         ) : (
           <div className='flex flex-col gap-4 justify-center w-3/4 items-center'>
-            {transactions.map((transaction) =>
-              transaction.transactions.map((transact) => (
-                <TransactionCard
-                  transaction={transact}
-                  key={transact.id}
-                  category={transaction.budgetName}
-                  budget={transaction.name}
-                />
+            {budget.map((budget) =>
+              budget.transactions.map((transaction) => (
+                <Link
+                  href={`/budgets/${budget.id}`}
+                  key={transaction.id}
+                  className='w-full'
+                >
+                  <TransactionCard
+                    transaction={transaction}
+                    budget={budget.name}
+                  />
+                </Link>
               ))
             )}
           </div>
