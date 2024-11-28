@@ -16,12 +16,13 @@ import {
   // ChevronLeft,
 } from "lucide-react"
 import { TransactionType } from "@/types"
+import { useBudgetStore } from "@/stores/budget.store"
 
-export function TransactionsByBudget({
-  transactions,
-}: {
-  transactions: TransactionType[]
-}) {
+export function TransactionsByBudget() {
+  const { budget } = useBudgetStore()
+  if (!budget) {
+    return <div>Chargement...</div>
+  }
   return (
     <ScrollArea className='max-w-full overflow-x-auto w-full'>
       <Table className='w-full'>
@@ -39,32 +40,33 @@ export function TransactionsByBudget({
           </TableRow>
         </TableHeader>
         <TableBody>
-          {transactions.map((transaction: TransactionType) => (
-            <TableRow
-              key={transaction.id}
-              className='hover:bg-gray-100 border-0 cursor-pointer h-16'
-              // onClick={() => router.push(`/budgets/${transaction.id}`)}
-            >
-              <TableCell className='font-medium'>
-                {transaction.description}
-              </TableCell>
-              <TableCell className='text-center'>
-                {transaction.amount} €
-              </TableCell>
-              <TableCell>
-                <div className='flex gap-2'>
-                  <Pencil
-                    className='w-4 h-4 mr-2'
-                    // onClick={() => handleEdit(category.id)}
-                  />
-                  <Trash2
-                    className='w-4 h-4 mr-2'
-                    // onClick={() => handleDelete(category.id)}
-                  />
-                </div>
-              </TableCell>
-            </TableRow>
-          ))}
+          {budget &&
+            budget.transactions.map((transaction: TransactionType) => (
+              <TableRow
+                key={transaction.id}
+                className='hover:bg-gray-100 border-0 cursor-pointer h-16'
+                // onClick={() => router.push(`/budgets/${transaction.id}`)}
+              >
+                <TableCell className='font-medium'>
+                  {transaction.description}
+                </TableCell>
+                <TableCell className='text-center'>
+                  {transaction.amount} €
+                </TableCell>
+                <TableCell>
+                  <div className='flex gap-2'>
+                    <Pencil
+                      className='w-4 h-4 mr-2'
+                      // onClick={() => handleEdit(category.id)}
+                    />
+                    <Trash2
+                      className='w-4 h-4 mr-2'
+                      // onClick={() => handleDelete(category.id)}
+                    />
+                  </div>
+                </TableCell>
+              </TableRow>
+            ))}
         </TableBody>
       </Table>
     </ScrollArea>

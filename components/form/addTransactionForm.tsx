@@ -13,13 +13,13 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form"
-import { addTransactionToBudget } from "@/lib/actionsBudget"
+import { toast } from "sonner"
+import { useBudgetStore } from "@/stores/budget.store"
 
 const formSchema = z.object({
   nameTransaction: z
     .string()
     .min(1, "Le nom de la transaction est obligatoire."),
-  // subCategoryName: z.string().min(1, "Le nom de la sous-catégorie est requis."),
   amount: z.coerce
     .number({ invalid_type_error: "Le montant doit être un nombre." })
     .positive("Le montant doit être supérieur à 0."),
@@ -27,9 +27,12 @@ const formSchema = z.object({
 
 export function AddTransactionForm({
   budget,
+  isOpen,
 }: {
-  budget: { budgetId: number; budgetName: string }
+  budget: { budgetId: string; budgetName: string }
+  isOpen: React.Dispatch<React.SetStateAction<boolean>>
 }) {
+  const { addTransaction, fetchBudgets } = useBudgetStore()
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
   })
@@ -37,12 +40,27 @@ export function AddTransactionForm({
   const onSubmit = async (data: z.infer<typeof formSchema>) => {
     console.log("Données soumises :", data)
     const { nameTransaction, amount } = data
-    const response = await addTransactionToBudget(
+    const response = await addTransaction(
       budget.budgetId,
       amount,
       nameTransaction
     )
-    console.log(response)
+    await fetchBudgets(budget.budgetId)
+    // const response = "ok"
+    if (response) {
+      toast.success("Nouvelle Transaction ajouté !", {
+        duration: 1500,
+        className: "text-green-500",
+      })
+      setTimeout(() => {
+        isOpen(false)
+      }, 2000)
+    } else {
+      toast.error("Une erreur est survenue veuillez réessayer", {
+        duration: 1500,
+        className: "text-red-500",
+      })
+    }
   }
 
   return (

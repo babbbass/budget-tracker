@@ -110,11 +110,7 @@ export const BudgetsTable = ({
                 id: string
                 budgets: Array<{ name: string; amount: number }>
               }) => (
-                <TableRow
-                  key={category.id}
-                  className='hover:bg-gray-100 cursor-pointer border-b-2 py-4'
-                  onClick={() => router.push(`/budgets/${category.id}`)}
-                >
+                <TableRow key={category.id} className=' border-b-2 py-4'>
                   <TableCell className='font-medium text-base italic border-r-2'>
                     {category.name}
                   </TableCell>
@@ -123,7 +119,8 @@ export const BudgetsTable = ({
                       (budget: { name: string }, index: number) => (
                         <div
                           key={index}
-                          className='flex justify-center flex-col mb-4'
+                          className='flex justify-center flex-col mb-4 hover:bg-gray-600 cursor-pointer'
+                          onClick={() => router.push(`/budgets/${budget.id}`)}
                         >
                           <span className='font-semibold'>{budget.name}</span>
                           <span>0 transaction(s)</span>

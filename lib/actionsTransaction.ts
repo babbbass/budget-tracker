@@ -33,7 +33,7 @@ export async function getTransactionsByUser(email: string, period: string) {
       include: {
         categories: {
           include: {
-            subCategories: {
+            budgets: {
               include: {
                 transactions: true,
               },
@@ -56,10 +56,10 @@ export async function getTransactionsByUser(email: string, period: string) {
     if (!user) {
       throw new Error("Utilisateur non trouvé.")
     }
-    console.log(user.categories[0].subCategories)
-    return
+    console.log(user.categories[0].budgets)
+    // return
     const transactions = user.categories.flatMap((budjet) =>
-      budjet.subCategories.map((transaction) => ({
+      budjet.budgets.map((transaction) => ({
         ...transaction,
         budgetName: budjet.name,
         budgetId: budjet.id,
@@ -69,6 +69,56 @@ export async function getTransactionsByUser(email: string, period: string) {
     return transactions
   } catch (error) {
     console.error("Erreur lors de la récupération des transactions:", error)
+    throw error
+  }
+}
+
+export async function addTransactionToBudget(
+  budgetId: string,
+  amount: number,
+  description: string
+) {
+  try {
+    const budget = await prisma.budget.findUnique({
+      where: {
+        id: budgetId,
+      },
+      include: {
+        transactions: true,
+      },
+    })
+
+    if (!budget) {
+      throw new Error("Budget non trouvé.")
+    }
+
+    // const totalTransactions = budget.transactions.reduce((sum, transaction) => {
+    //   return sum + transaction.amount
+    // }, 0)
+
+    // const totalWithNewTransaction = totalTransactions + amount
+
+    // if (totalWithNewTransaction > budget.amount) {
+    //   throw new Error(
+    //     "Le montant total des transactions dépasse le montant du budget."
+    //   )
+    // }
+
+    const newTransaction = await prisma.transaction.create({
+      data: {
+        amount,
+        description,
+        budget: {
+          connect: {
+            id: budget.id,
+          },
+        },
+      },
+    })
+    //console.log(budget)
+    return newTransaction
+  } catch (error) {
+    console.error("Erreur lors de l'ajout de la transaction:", error)
     throw error
   }
 }
