@@ -56,7 +56,6 @@ export async function getTransactionsByUser(email: string, period: string) {
     if (!user) {
       throw new Error("Utilisateur non trouvé.")
     }
-    console.log(user.categories[0].budgets)
     // return
     const transactions = user.categories.flatMap((budjet) =>
       budjet.budgets.map((transaction) => ({
@@ -65,7 +64,6 @@ export async function getTransactionsByUser(email: string, period: string) {
         budgetId: budjet.id,
       }))
     )
-    console.log("action", transactions)
     return transactions
   } catch (error) {
     console.error("Erreur lors de la récupération des transactions:", error)
