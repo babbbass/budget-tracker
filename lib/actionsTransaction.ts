@@ -120,3 +120,49 @@ export async function addTransactionToBudget(
     throw error
   }
 }
+
+export async function findTransactionById(id: string) {
+  try {
+    const transaction = await prisma.transaction.findUnique({
+      where: {
+        id,
+      },
+      include: {
+        budget: true,
+      },
+    })
+    console.log(transaction)
+    return transaction
+  } catch (error) {
+    console.log(error)
+    throw new Error("Transaction introuvable")
+  }
+}
+
+export async function updateTransaction(
+  id: string,
+  nameTransaction: string,
+  amount: number,
+  budgetName: string
+) {
+  try {
+    const transaction = await prisma.transaction.update({
+      where: {
+        id,
+      },
+      data: {
+        description: nameTransaction,
+        amount,
+        // budget: {
+        //   connect: {
+        //     name: budgetName,
+        //   },
+        // },
+      },
+    })
+    return transaction
+  } catch (error) {
+    console.log(error)
+    throw new Error("Transaction introuvable")
+  }
+}

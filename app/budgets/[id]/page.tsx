@@ -2,39 +2,49 @@
 import React, { useEffect } from "react"
 import { useParams } from "next/navigation"
 import { BudgetCard } from "@/components/BudgetCard"
-import { Button } from "@/components/ui/button"
-import { Trash2 } from "lucide-react"
 import { AddTransactionDialog } from "@/components/dialog/addTransactionDialog"
 import { TransactionsByBudget } from "@/components/TransactionsByBudget"
 import { Separator } from "@/components/ui/separator"
-import { useBudgetStore } from "@/stores/budget.store"
+import { getBudget } from "@/lib/actionsBudget"
+import { BudgetType } from "@/types"
 
 export default function Page() {
-  const { fetchBudgets, budget } = useBudgetStore()
+  const [budget, setBudget] = React.useState<BudgetType | null>(null)
+
+  async function fetchBudgets(id: string) {
+    try {
+      const budget = await getBudget(id)
+      setBudget(budget)
+    } catch (err: unknown) {
+      //@ts-expect-error "error type unknown"
+      console.log({ error: err.message })
+    }
+  }
+  const handleFormSuccess = () => {
+    console.log("success page")
+    fetchBudgets(idBudget)
+  }
+  // const { fetchBudgets, budget } = useBudgetStore()
   const { id } = useParams()
   const idBudget = String(id)
+
   useEffect(() => {
     if (id) {
       fetchBudgets(idBudget)
     }
-  }, [idBudget])
+  }, [])
 
   if (!budget) {
     return <div>Chargement...</div>
   }
   return (
-    <div className='flex flex-col items-start w-full md:w-1/3'>
+    <div className='flex flex-col items-start w-full md:w-2/3'>
       <BudgetCard budget={budget} />
-      <Button className='mt-4 bg-sky-600 font-semibold hover:bg-sky-600/50 transition-all mb-10'>
-        <Trash2 />
-        Supprimer
-      </Button>
-      <AddTransactionDialog />
+
+      <AddTransactionDialog budget={budget} />
       <Separator className='mb-10' />
-      <h3 className='font-semibold text-xl text-center w-full mb-8'>
-        Toutes mes Transactions
-      </h3>
-      <TransactionsByBudget />
+
+      <TransactionsByBudget budget={budget} onSuccess={handleFormSuccess} />
     </div>
   )
 }

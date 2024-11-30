@@ -1,14 +1,16 @@
 import React from "react"
 import { Card, CardContent, CardHeader } from "@/components/ui/card"
 import { Progress } from "@/components/ui/progress"
-import { SubCategoryType, TransactionType } from "@/types"
+import { BudgetType, TransactionType } from "@/types"
+import { Button } from "@/components/ui/button"
+import { Trash2 } from "lucide-react"
 
 function costTotalTransactions(transactions: TransactionType[]) {
   return transactions.reduce((total, transaction) => {
     return total + transaction.amount
   }, 0)
 }
-export function BudgetCard({ budget }: { budget: SubCategoryType }) {
+export function BudgetCard({ budget }: { budget: BudgetType }) {
   const totalTransactionAmount = costTotalTransactions(
     budget?.transactions || []
   )
@@ -22,19 +24,29 @@ export function BudgetCard({ budget }: { budget: SubCategoryType }) {
     <Card className='w-full'>
       <CardHeader className='flex flex-row justify-between items-center border-b py-1 mb-4'>
         <div>
-          <h2 className='font-bold text-2xl'>{budget?.name}</h2>
+          <h2 className='italic font-semibold text-2xl '>{budget?.name}</h2>
           <span>{budget?.transactions.length} transaction(s)</span>
         </div>
-        <span className='font-semibold text-sky-600'>{budget?.amount}€</span>
+        <span className='font-semibold text-emerald-600'>
+          {budget?.amount}€
+        </span>
       </CardHeader>
       <CardContent className='flex flex-col gap-2'>
         <div className='flex justify-between'>
-          <span>{totalTransactionAmount}€ dépensés</span>
-          <span>{amountRemaining}€ restants</span>
+          <span className='font-semibold text-sm'>
+            {totalTransactionAmount}€ dépensés
+          </span>
+          <span className='font-semibold text-sm'>
+            {amountRemaining}€ restants
+          </span>
         </div>
         <span className='mt-4'>
-          <Progress value={progressValue} indicatorColor='bg-sky-600' />
+          <Progress value={progressValue} indicatorColor='bg-emerald-600' />
         </span>
+        <Button className='mt-4 bg-emerald-600 font-semibold hover:bg-emerald-600/50 transition-all'>
+          <Trash2 />
+          Supprimer
+        </Button>
       </CardContent>
     </Card>
   )
