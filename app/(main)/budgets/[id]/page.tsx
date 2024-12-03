@@ -5,7 +5,7 @@ import { BudgetCard } from "@/components/BudgetCard"
 import { AddTransactionDialog } from "@/components/dialog/addTransactionDialog"
 import { TransactionsByBudget } from "@/components/TransactionsByBudget"
 import { Separator } from "@/components/ui/separator"
-import { getBudget } from "@/lib/actionsBudget"
+import { getBudgetById } from "@/lib/actionsBudget"
 import { BudgetType } from "@/types"
 
 export default function Page() {
@@ -13,7 +13,7 @@ export default function Page() {
 
   async function fetchBudgets(id: string) {
     try {
-      const budget = await getBudget(id)
+      const budget = await getBudgetById(id)
       setBudget(budget)
     } catch (err: unknown) {
       //@ts-expect-error "error type unknown"
