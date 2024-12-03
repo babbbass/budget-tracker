@@ -3,7 +3,7 @@ import { BudgetType, CategoryType } from "@/types"
 
 export function BudgetCards({ budgets }: { budgets: CategoryType[] }) {
   return (
-    <div className='container mx-auto my-4'>
+    <div className='container py-4 my-4'>
       <div className='flex flex-col mb-6'>
         <h2 className='text-3xl font-bold'>Budgets</h2>
         <p className='text-sm text-gray-500'>

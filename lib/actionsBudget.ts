@@ -67,7 +67,7 @@ export async function findAllBudgetByUser(email: string) {
   }
 }
 
-export async function getBudget(budgetId: string) {
+export async function getBudgetById(budgetId: string) {
   try {
     const budget = await prisma.budget.findUnique({
       where: {
