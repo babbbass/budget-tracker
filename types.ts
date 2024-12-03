@@ -3,7 +3,7 @@ export type BudgetType = {
   name: string
   amount: number
   categoryId: string
-  transactions: TransactionType[]
+  transactions?: TransactionType[]
 }
 export type CategoryType = {
   id: string

@@ -1,6 +1,6 @@
 "use client"
 import React from "react"
-import { Download, Upload } from "lucide-react"
+import { Upload } from "lucide-react"
 import {
   exportToExcel,
   exportToPDF,
@@ -13,7 +13,7 @@ interface ExportButtonProps {
   budgets: CategoryType[]
 }
 
-export const ExportButton: React.FC<ExportButtonProps> = ({ budgets }) => {
+export function ExportButton({ budgets }: ExportButtonProps) {
   return (
     <div className='relative inline-block'>
       <div className='group'>

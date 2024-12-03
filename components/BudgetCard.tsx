@@ -21,7 +21,7 @@ export function BudgetCard({ budget }: { budget: BudgetType }) {
       <CardHeader className='flex flex-row justify-between items-center border-b py-1 mb-4'>
         <div>
           <h2 className='italic font-semibold text-2xl '>{budget?.name}</h2>
-          <span>{budget?.transactions.length} transaction(s)</span>
+          <span>{budget?.transactions?.length} transaction(s)</span>
         </div>
         <span className='font-semibold text-emerald-600'>
           {budget?.amount}€

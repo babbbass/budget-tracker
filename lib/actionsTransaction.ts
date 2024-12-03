@@ -162,7 +162,7 @@ export async function updateTransaction(
     })
     return transaction
   } catch (error) {
-    console.log(error)
+    console.log(error, budgetName)
     throw new Error("Transaction introuvable")
   }
 }

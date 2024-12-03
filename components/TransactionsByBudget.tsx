@@ -56,7 +56,7 @@ export function TransactionsByBudget({
           </TableHeader>
           <TableBody>
             {budget &&
-              budget.transactions.map((transaction: TransactionType) => (
+              budget.transactions?.map((transaction: TransactionType) => (
                 <TableRow
                   key={transaction.id}
                   className='hover:bg-gray-100 border-0 cursor-pointer h-16'

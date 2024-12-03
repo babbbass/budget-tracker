@@ -1,6 +1,6 @@
 import { utils, writeFile } from "xlsx"
 import { jsPDF } from "jspdf"
-import { saveAs } from "file-saver"
+// import { saveAs } from "file-saver"
 
 export interface BudgetType {
   id: string
@@ -78,5 +78,6 @@ export const exportToWord = (budgets: CategoryType[]) => {
   `
 
   const blob = new Blob([content], { type: "application/msword" })
-  saveAs(blob, "budgets.doc")
+  console.log(blob)
+  // saveAs(blob, "budgets.doc")
 }

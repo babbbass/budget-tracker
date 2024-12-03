@@ -8,7 +8,6 @@ import { TransactionCards } from "@/components/dashboard/TransactionCards"
 import { getTransactionsByUser } from "@/lib/actionsTransaction"
 import { findAllBudgetByUser } from "@/lib/actionsBudget"
 import { ExportButton } from "@/components/ExportButton"
-import { Button } from "@/components/ui/button"
 import FirstBudget from "@/components/FirstBudget"
 
 export default async function Home() {
@@ -25,7 +24,9 @@ export default async function Home() {
   await addUserToDB(userId, fullName, email)
   const budgets = await findAllBudgetByUser(email)
   const transactions = await getTransactionsByUser(email, "last365")
-  // console.log("categories", budgets)
+  if (!budgets) {
+    return null
+  }
   return (
     <section className='flex flex-1 gap-2 flex-col font-bold w-full px-4'>
       <section className='flex justify-between items-center'>
@@ -39,23 +40,21 @@ export default async function Home() {
           <span className='text-sm italic font-normal'>
             {new Date().toLocaleDateString("fr-FR")}
           </span>
-          <ExportButton budgets={budgets} />
+          <ExportButton budgets={budgets?.categories} />
         </div>
       </section>
       {budgets && budgets.categories.length === 0 && (
         <FirstBudget email={email} />
       )}
-      {/* <div className='h-full'> */}
       <div className='flex flex-col items-center gap-3 md:flex-row md:items-start'>
         <div className='md:w-2/3 w-full flex flex-col items-start'>
-          <BudgetCards budgets={budgets?.categories} />
+          {budgets && <BudgetCards budgets={budgets?.categories} />}
           <CategoryCards categories={budgets?.categories} />
         </div>
         <section className='w-full md:w-1/3 flex justify-center'>
           <TransactionCards transactions={transactions} />
         </section>
       </div>
-      {/* </div> */}
     </section>
   )
 }

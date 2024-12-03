@@ -23,7 +23,9 @@ export default async function Dashboard() {
   await addUserToDB(userId, fullName, email)
   const budgets = await findAllBudgetByUser(email)
   const transactions = await getTransactionsByUser(email, "last365")
-  // console.log("categories", budgets)
+  if (!budgets) {
+    return null
+  }
   return (
     <section className='flex flex-1 gap-2 flex-col font-bold w-full px-4'>
       <section className='flex justify-between items-center'>
@@ -37,7 +39,7 @@ export default async function Dashboard() {
           <span className='text-sm italic font-normal'>
             {new Date().toLocaleDateString("fr-FR")}
           </span>
-          <ExportButton budgets={budgets} />
+          <ExportButton budgets={budgets.categories} />
         </div>
       </section>
       {/* <div className='h-full'> */}

@@ -16,7 +16,7 @@ export function TransactionCards({
       </div>
       <section className='flex flex-col gap-4'>
         {transactions.map((budget: BudgetType) =>
-          budget.transactions.map((transaction: TransactionType) => (
+          budget.transactions?.map((transaction: TransactionType) => (
             <Card
               key={transaction.id}
               className='flex flex-col sm:flex-row items-start sm:items-center p-0 min-h-14 border border-[#118D70]'

@@ -1,5 +1,5 @@
 import { create } from "zustand"
-import { getBudget } from "@/lib/actionsBudget"
+import { getBudgetById } from "@/lib/actionsBudget"
 import { addTransactionToBudget } from "@/lib/actionsTransaction"
 import { BudgetType } from "@/types"
 
@@ -12,7 +12,7 @@ type BudgetStore = {
     budgetId: string,
     amount: number,
     nameTransaction: string
-  ) => Promise<string>
+  ) => Promise<string | null>
 }
 export const useBudgetStore = create<BudgetStore>((set) => ({
   budget: null,
@@ -22,7 +22,7 @@ export const useBudgetStore = create<BudgetStore>((set) => ({
   fetchBudgets: async (id: string) => {
     set({ loading: true, error: null })
     try {
-      const budget = await getBudget(id)
+      const budget = await getBudgetById(id)
       set({ budget, loading: false })
     } catch (err: unknown) {
       //@ts-expect-error "error type unknown"
@@ -30,6 +30,7 @@ export const useBudgetStore = create<BudgetStore>((set) => ({
     }
   },
 
+  //@ts-expect-error "error type unknown"
   addTransaction: async (budgetId, amount, nameTransaction) => {
     try {
       const newTransaction = await addTransactionToBudget(

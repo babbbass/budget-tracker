@@ -11,15 +11,13 @@ export default function Page() {
   const { user } = useUser()
   const [budget, setTransactions] = useState<BudgetType[]>([])
   const [loading, setLoading] = useState<boolean>(false)
+  const email = user?.primaryEmailAddress?.emailAddress
 
   const fetchTransactions = async (period: string) => {
-    if (user?.primaryEmailAddress?.emailAddress) {
+    if (email) {
       setLoading(true)
       try {
-        const transactionsData = await getTransactionsByUser(
-          user?.primaryEmailAddress?.emailAddress,
-          period
-        )
+        const transactionsData = await getTransactionsByUser(email, period)
         setTransactions(transactionsData)
         setLoading(false)
       } catch (err) {
@@ -30,7 +28,7 @@ export default function Page() {
 
   useEffect(() => {
     fetchTransactions("last30")
-  }, [user?.primaryEmailAddress?.emailAddress])
+  }, [email])
 
   return (
     <>
@@ -61,7 +59,7 @@ export default function Page() {
         ) : (
           <div className='flex flex-col gap-4 justify-center w-3/4 items-center'>
             {budget.map((budget) =>
-              budget.transactions.map((transaction) => (
+              budget.transactions?.map((transaction) => (
                 <Link
                   href={`/budgets/${budget.id}`}
                   key={transaction.id}

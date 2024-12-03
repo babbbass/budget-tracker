@@ -19,7 +19,7 @@ import {
 } from "lucide-react"
 import { Card } from "./ui/card"
 import { CategoryType } from "@/types"
-import { Progress } from "@/components/ui/progress"
+// import { Progress } from "@/components/ui/progress"
 import { useRouter } from "next/navigation"
 
 const ITEMS_PER_PAGE = 2
