@@ -10,7 +10,7 @@ export function Header() {
           <Logo />
           <Link
             href='/connexion'
-            className='bg-blue-500 text-white px-4 py-2 rounded'
+            className='bg-emerald-600 text-white px-4 py-2 rounded'
           >
             Essai gratuit
           </Link>
@@ -25,7 +25,7 @@ export function Header() {
         </p>
         <Link
           href='/connexion'
-          className='bg-green-500 text-white px-6 py-3 rounded-lg text-lg'
+          className='bg-emerald-600 text-white px-6 py-3 rounded-lg text-lg'
         >
           Commencer gratuitement
         </Link>

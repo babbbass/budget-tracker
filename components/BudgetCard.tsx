@@ -1,15 +1,11 @@
 import React from "react"
 import { Card, CardContent, CardHeader } from "@/components/ui/card"
 import { Progress } from "@/components/ui/progress"
-import { BudgetType, TransactionType } from "@/types"
+import { BudgetType } from "@/types"
 import { Button } from "@/components/ui/button"
 import { Trash2 } from "lucide-react"
+import { costTotalTransactions } from "@/lib/calculations"
 
-function costTotalTransactions(transactions: TransactionType[]) {
-  return transactions.reduce((total, transaction) => {
-    return total + transaction.amount
-  }, 0)
-}
 export function BudgetCard({ budget }: { budget: BudgetType }) {
   const totalTransactionAmount = costTotalTransactions(
     budget?.transactions || []

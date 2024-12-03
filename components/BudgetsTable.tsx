@@ -1,5 +1,4 @@
 "use client"
-
 import React, { useState } from "react"
 import {
   Table,
@@ -35,7 +34,6 @@ export const BudgetsTable = ({
   const [currentPage, setCurrentPage] = useState(1)
   // const [sortColumn, setSortColumn] = useState(null)
   // const [sortOrder, setSortOrder] = useState("asc")
-
   const startIndex = (currentPage - 1) * ITEMS_PER_PAGE
   const endIndex = startIndex + ITEMS_PER_PAGE
   const paginatedCategories = categoriesData.slice(startIndex, endIndex)
@@ -123,12 +121,12 @@ export const BudgetsTable = ({
                           onClick={() => router.push(`/budgets/${budget.id}`)}
                         >
                           <span className='font-semibold'>{budget.name}</span>
-                          <span>0 transaction(s)</span>
+                          {/* <span>0 transaction(s)</span>
                           <Progress
                             value={60}
                             className='mt-2'
                             indicatorColor='bg-sky-600'
-                          />
+                          /> */}
                         </div>
                       )
                     )}

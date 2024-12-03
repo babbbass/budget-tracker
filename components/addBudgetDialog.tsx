@@ -10,13 +10,19 @@ import {
 } from "@/components/ui/dialog"
 import { AddBudgetForm } from "@/components/form/addBudgetForm"
 
-export function AddBudgetDialog({ email }: { email: string }) {
+export function AddBudgetDialog({
+  email,
+  triggerSentence = "+ Ajoutez un nouveau budget",
+}: {
+  email: string
+  triggerSentence?: string
+}) {
   const [isOpen, setIsOpen] = useState(false)
 
   return (
     <Dialog open={isOpen} onOpenChange={setIsOpen}>
-      <DialogTrigger className=' cursor-pointer font-semibold rounded-xl text-white px-4 py-2 mb-6 bg-sky-600'>
-        + Ajoutez un nouveau budget
+      <DialogTrigger className=' cursor-pointer font-semibold rounded-xl text-white px-4 py-2 mb-6 bg-emerald-600'>
+        {triggerSentence}
       </DialogTrigger>
       <DialogContent>
         <DialogHeader>
