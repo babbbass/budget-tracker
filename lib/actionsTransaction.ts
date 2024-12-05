@@ -71,6 +71,20 @@ export async function getTransactionsByUser(email: string, period: string) {
   }
 }
 
+export async function deleteTransaction(id: string) {
+  try {
+    await prisma.transaction.delete({
+      where: {
+        id,
+      },
+    })
+    return true
+  } catch (error) {
+    console.error("Erreur lors de la suppression de la transaction:", error)
+    throw error
+  }
+}
+
 export async function addTransactionToBudget(
   budgetId: string,
   amount: number,

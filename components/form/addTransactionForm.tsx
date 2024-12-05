@@ -14,7 +14,9 @@ import {
   FormMessage,
 } from "@/components/ui/form"
 import { toast } from "sonner"
-import { useBudgetStore } from "@/stores/budget.store"
+// import { useBudgetStore } from "@/stores/budget.store"
+// import { useRouter } from "next/navigation"
+import { addTransactionToBudget } from "@/lib/actionsTransaction"
 
 const formSchema = z.object({
   nameTransaction: z
@@ -28,11 +30,14 @@ const formSchema = z.object({
 export function AddTransactionForm({
   budget,
   isOpen,
+  onSuccess,
 }: {
   budget: { budgetId: string; budgetName: string }
   isOpen: React.Dispatch<React.SetStateAction<boolean>>
+  onSuccess: () => void
 }) {
-  const { addTransaction, fetchBudgets } = useBudgetStore()
+  // const router = useRouter()
+  // const { fetchBudgets } = useBudgetStore()
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
   })
@@ -40,14 +45,15 @@ export function AddTransactionForm({
   const onSubmit = async (data: z.infer<typeof formSchema>) => {
     console.log("Données soumises :", data)
     const { nameTransaction, amount } = data
-    const response = await addTransaction(
+    const response = await addTransactionToBudget(
       budget.budgetId,
       amount,
       nameTransaction
     )
-    await fetchBudgets(budget.budgetId)
+    // await fetchBudgets(budget.budgetId)
     // const response = "ok"
     if (response) {
+      // router.push(`/budgets/${budget.budgetId}`)
       toast.success("Nouvelle Transaction ajouté !", {
         duration: 1500,
         className: "text-green-500",
@@ -55,6 +61,7 @@ export function AddTransactionForm({
       setTimeout(() => {
         isOpen(false)
       }, 2000)
+      onSuccess()
     } else {
       toast.error("Une erreur est survenue veuillez réessayer", {
         duration: 1500,
@@ -99,7 +106,7 @@ export function AddTransactionForm({
             )}
           />
 
-          <Button type='submit' className='w-full'>
+          <Button type='submit' className='w-full bg-emerald-600'>
             Ajoutez la transaction
           </Button>
         </form>

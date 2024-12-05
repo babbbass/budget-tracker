@@ -9,17 +9,23 @@ import {
 import { AddTransactionForm } from "@/components/form/addTransactionForm"
 import { BudgetType } from "@/types"
 
-export function AddTransactionDialog({ budget }: { budget: BudgetType }) {
+export function AddTransactionDialog({
+  budget,
+  onSuccess,
+}: {
+  budget: BudgetType
+  onSuccess: () => void
+}) {
   const [isOpen, setIsOpen] = useState(false)
 
   return (
     <Dialog open={isOpen} onOpenChange={setIsOpen}>
-      <DialogTrigger className='absolute top-14 right-14 h-12 w-12 flex items-center justify-center text-2xl cursor-pointer font-semibold rounded-3xl text-white px-4 py-2 my-6 bg-primaryCustomColor hover:scale-125 transition-all duration-300 ease-in-out'>
+      <DialogTrigger className='absolute bottom-14 right-14 bg-black h-12 w-12 flex items-center justify-center text-2xl cursor-pointer font-semibold rounded-3xl text-white px-4 py-2 my-6 bg-primaryCustomColor hover:scale-125 transition-all duration-300 ease-in-out'>
         <span>+</span>
       </DialogTrigger>
       <DialogContent>
         <DialogHeader>
-          <DialogTitle className='text-center text-2xl'>
+          <DialogTitle className='text-center text-2xl text-emerald-600'>
             Nouvelle transaction
           </DialogTitle>
         </DialogHeader>
@@ -27,6 +33,7 @@ export function AddTransactionDialog({ budget }: { budget: BudgetType }) {
           <AddTransactionForm
             budget={{ budgetId: budget.id, budgetName: budget.name }}
             isOpen={setIsOpen}
+            onSuccess={onSuccess}
           />
         )}
       </DialogContent>

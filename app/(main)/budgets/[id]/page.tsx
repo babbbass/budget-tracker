@@ -41,7 +41,7 @@ export default function Page() {
     <div className='flex flex-col items-start w-full md:w-2/3'>
       <BudgetCard budget={budget} />
 
-      <AddTransactionDialog budget={budget} />
+      <AddTransactionDialog budget={budget} onSuccess={handleFormSuccess} />
       <Separator className='mb-10' />
 
       <TransactionsByBudget budget={budget} onSuccess={handleFormSuccess} />

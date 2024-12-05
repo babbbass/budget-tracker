@@ -16,9 +16,9 @@ import {
   // ChevronLeft,
 } from "lucide-react"
 import { TransactionType } from "@/types"
-// import { useBudgetStore } from "@/stores/budget.store"
 import { EditTransactionDialog } from "@/components/dialog/EditTransactionDialog"
 import { BudgetType } from "@/types"
+import { DeleteTransactionDialog } from "./dialog/DeleteTransactionDialog"
 
 export function TransactionsByBudget({
   budget,
@@ -75,9 +75,9 @@ export function TransactionsByBudget({
                         onSuccess={handleFormSuccess}
                       />
 
-                      <Trash2
-                        className='w-4 h-4 mr-2'
-                        // onClick={() => handleDelete(category.id)}
+                      <DeleteTransactionDialog
+                        idTransaction={transaction.id}
+                        onSuccess={handleFormSuccess}
                       />
                     </div>
                   </TableCell>
