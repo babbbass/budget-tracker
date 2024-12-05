@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react"
+import React, { useState } from "react"
 import {
   AlertDialog,
   AlertDialogTrigger,
@@ -9,7 +9,6 @@ import {
   AlertDialogCancel,
 } from "@/components/ui/alert-dialog"
 import { deleteTransaction } from "@/lib/actionsTransaction"
-// import { TransactionType } from "@/types"
 import { toast } from "sonner"
 import { Trash2 } from "lucide-react"
 
@@ -21,27 +20,10 @@ export function DeleteTransactionDialog({
   onSuccess: () => void
 }) {
   const [loading, setLoading] = useState(false)
-  //const [isOpen, setIsOpen] = useState(false)
-  // const [transaction, setTransaction] = useState<
-  //   (TransactionType & { budget: { name: string } }) | null
-  // >(null)
-  // async function findTransaction(id: string) {
-  //   const transaction = await findTransactionById(id)
-  //   setTransaction(transaction)
-  // }
 
-  // useEffect(() => {
-  //   findTransaction(idTransaction)
-  // }, [idTransaction])
-
-  // const handleFormSuccess = () => {
-  //   setIsOpen(false)
-  //   onSuccess()
-  // }
   const handleDelete = async () => {
     setLoading(true)
     const success = await deleteTransaction(idTransaction)
-    // const success = true
     if (success) {
       toast.success("transaction supprimée avec succès !")
     } else {

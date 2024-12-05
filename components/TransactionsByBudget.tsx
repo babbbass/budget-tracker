@@ -11,7 +11,6 @@ import {
 import { ScrollArea } from "@/components/ui/scroll-area"
 import {
   ChevronsUpDown,
-  Trash2,
   // ChevronRight,
   // ChevronLeft,
 } from "lucide-react"
