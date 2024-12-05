@@ -14,11 +14,11 @@ export default async function BudgetPage() {
   const budgets = await findAllBudgetByUser(email)
 
   return (
-    <>
+    <div className='flex flex-1 flex-col w-full md:w-1/2'>
       <AddBudgetDialog email={email} />
       {budgets && budgets.categories.length > 0 && (
         <BudgetsTable categoriesData={budgets.categories} />
       )}
-    </>
+    </div>
   )
 }

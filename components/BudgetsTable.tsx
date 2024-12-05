@@ -75,8 +75,8 @@ export const BudgetsTable = ({
   }
 
   return (
-    <Card className='p-6 bg-white rounded-lg shadow-md w-full md:w-1/2'>
-      <h1 className='text-2xl font-bold mb-4 text-center italic'>
+    <Card className='p-6 bg-white rounded-lg shadow-md'>
+      <h1 className='text-primary text-2xl font-bold mb-4 text-center italic'>
         Tous mes budgets
       </h1>
       <ScrollArea className='max-w-full overflow-x-auto'>
@@ -117,7 +117,7 @@ export const BudgetsTable = ({
                       (budget: { name: string; id: string }, index: number) => (
                         <div
                           key={index}
-                          className='flex justify-center flex-col mb-4 hover:bg-gray-600 cursor-pointer'
+                          className='flex justify-center items-center flex-col mb-4 hover:bg-primary/80 cursor-pointer'
                           onClick={() => router.push(`/budgets/${budget.id}`)}
                         >
                           <span className='font-semibold'>{budget.name}</span>

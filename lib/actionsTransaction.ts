@@ -145,7 +145,7 @@ export async function findTransactionById(id: string) {
         budget: true,
       },
     })
-    console.log(transaction)
+
     return transaction
   } catch (error) {
     console.log(error)

@@ -39,7 +39,7 @@ export function BudgetCard({ budget }: { budget: BudgetType }) {
         <span className='mt-4'>
           <Progress value={progressValue} indicatorColor='bg-emerald-600' />
         </span>
-        <Button className='mt-4 bg-emerald-600 font-semibold hover:bg-emerald-600/50 transition-all'>
+        <Button className='mt-4 bg-primary text-white  font-semibold hover:bg-primary/90 transition-all'>
           <Trash2 />
           Supprimer
         </Button>
