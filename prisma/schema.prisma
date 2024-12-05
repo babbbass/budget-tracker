@@ -41,7 +41,7 @@ model Subscription {
 model Category {
   id            String           @id @default(uuid())
   name          String
-  type          CategoryType
+  // type          CategoryType
   budgets       Budget[]
   userId        String
   user          User          @relation(fields: [userId], references: [id])
@@ -69,12 +69,12 @@ model Transaction {
   createdAt         DateTime   @default(now())
 }
 
-enum CategoryType {
-  REVENUS
-  DETTES
-  EPARGNES
-  INVESTISSEMENTS
-  DEPENSES_FIXES
-  DEPENSES_VARIABLES
-}
+// enum CategoryType {
+//   REVENUS
+//   DETTES
+//   EPARGNES
+//   INVESTISSEMENTS
+//   DEPENSES_FIXES
+//   DEPENSES_VARIABLES
+// }
 
