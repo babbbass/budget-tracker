@@ -5,6 +5,7 @@ import { useForm } from "react-hook-form"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
+import { useRouter } from "next/navigation"
 import {
   Select,
   SelectContent,
@@ -46,6 +47,7 @@ export function AddBudgetForm({
   emailUser: string
   isOpen: React.Dispatch<React.SetStateAction<boolean>>
 }) {
+  const router = useRouter()
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
   })
@@ -55,6 +57,7 @@ export function AddBudgetForm({
     const { category, budgetName, amount } = data
     const response = await addBudget(emailUser, category, budgetName, amount)
 
+    //const response = "ok"
     if (response) {
       toast.success("Budget ajouté avec succés", {
         duration: 1500,
@@ -63,6 +66,7 @@ export function AddBudgetForm({
       setTimeout(() => {
         isOpen(false)
       }, 2000)
+      router.push("/")
     } else {
       toast.error("Une erreur est survenue veuillez réessayer", {
         duration: 1500,
@@ -105,7 +109,11 @@ export function AddBudgetForm({
             <FormItem>
               <FormLabel>Budget</FormLabel>
               <FormControl>
-                <Input placeholder='Ex: Livret A, Fitness Park...' {...field} />
+                <Input
+                  className='hover:border-emerald-600'
+                  placeholder='Ex: Livret A, Fitness Park...'
+                  {...field}
+                />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -118,14 +126,19 @@ export function AddBudgetForm({
             <FormItem>
               <FormLabel>Montant</FormLabel>
               <FormControl>
-                <Input placeholder='Votre montant' {...field} type='number' />
+                <Input
+                  className='hover:border-emerald-600'
+                  placeholder='Votre montant'
+                  {...field}
+                  type='number'
+                />
               </FormControl>
               <FormMessage />
             </FormItem>
           )}
         />
 
-        <Button type='submit' className='w-full'>
+        <Button type='submit' className='w-full bg-emerald-600'>
           Soumettre
         </Button>
       </form>

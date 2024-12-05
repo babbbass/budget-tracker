@@ -1,5 +1,6 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { BudgetType, CategoryType } from "@/types"
+import Link from "next/link"
 
 export function BudgetCards({ budgets }: { budgets: CategoryType[] }) {
   return (
@@ -14,22 +15,24 @@ export function BudgetCards({ budgets }: { budgets: CategoryType[] }) {
       <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6'>
         {budgets.map((categorie: CategoryType) =>
           categorie.budgets.map((budget: BudgetType) => (
-            <Card
-              key={budget.id}
-              className='hover:scale-105 hover:shadow-lg hover:cursor-pointer transition-all duration-300 ease-in-out'
-            >
-              <CardHeader
-                className={`bg-[#118D70] text-white rounded-t-xl p-4 mb-4`}
+            <Link href={`/budgets/${budget.id}`} key={budget.id}>
+              <Card
+                // key={budget.id}
+                className='hover:scale-105 hover:shadow-lg hover:cursor-pointer transition-all duration-300 ease-in-out'
               >
-                <CardTitle className='italic'>{budget.name}</CardTitle>
-              </CardHeader>
-              <CardContent className='flex flex-col gap-3'>
-                <p className='text-3xl font-bold italic'>{budget.amount}€</p>
-                <p className='text-sm text-gray-500'>
-                  Categorie: {categorie.name}
-                </p>
-              </CardContent>
-            </Card>
+                <CardHeader
+                  className={`bg-[#118D70] text-white rounded-t-xl p-4 mb-4`}
+                >
+                  <CardTitle className='italic'>{budget.name}</CardTitle>
+                </CardHeader>
+                <CardContent className='flex flex-col gap-3'>
+                  <p className='text-3xl font-bold italic'>{budget.amount}€</p>
+                  <p className='text-sm text-gray-500'>
+                    Categorie: {categorie.name}
+                  </p>
+                </CardContent>
+              </Card>
+            </Link>
           ))
         )}
       </div>

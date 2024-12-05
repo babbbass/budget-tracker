@@ -29,14 +29,14 @@ export default async function Home() {
   }
   return (
     <section className='flex flex-1 gap-2 flex-col font-bold w-full px-4'>
-      <section className='flex justify-between items-center'>
+      <section className='flex flex-col gap-4 justify-between items-center md:flex-row'>
         <div>
-          <h3 className='font-medium'>Hello {email}</h3>
+          <h3 className='font-medium'>Bonjour {email}</h3>
           <p className='text-sm text-gray-500'>
             Bienvenue sur votre tableau de bord
           </p>
         </div>
-        <div className='flex gap-2 items-center'>
+        <div className='flex gap-10 md:gap-2 items-center justify-between'>
           <span className='text-sm italic font-normal'>
             {new Date().toLocaleDateString("fr-FR")}
           </span>

@@ -21,15 +21,15 @@ export function AddBudgetDialog({
 
   return (
     <Dialog open={isOpen} onOpenChange={setIsOpen}>
-      <DialogTrigger className=' cursor-pointer font-semibold rounded-xl text-white px-4 py-2 mb-6 bg-emerald-600'>
+      <DialogTrigger className='text-sm cursor-pointer font-semibold rounded-xl text-white px-4 py-2 bg-emerald-600'>
         {triggerSentence}
       </DialogTrigger>
       <DialogContent>
         <DialogHeader>
-          <DialogTitle className='text-center text-2xl'>
+          <DialogTitle className='text-center text-2xl text-emerald-600'>
             Nouveau budget
           </DialogTitle>
-          <DialogDescription className='text-center my-4'>
+          <DialogDescription className='text-center my-4 font-semibold'>
             Ajoutez ici votre nouveau budget
           </DialogDescription>
         </DialogHeader>
