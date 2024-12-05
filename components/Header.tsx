@@ -4,7 +4,7 @@ import { Logo } from "./Logo"
 
 export function Header() {
   return (
-    <div className='w-full'>
+    <div className='w-full font-sans text-gray-600'>
       <nav>
         <div className='w-full flex justify-between items-center'>
           <Logo />

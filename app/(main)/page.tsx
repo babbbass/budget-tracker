@@ -28,11 +28,13 @@ export default async function Home() {
     return null
   }
   return (
-    <section className='flex flex-1 gap-2 flex-col font-bold w-full px-4'>
+    <section className='bg-gray-50 flex flex-1 gap-2 flex-col font-bold w-full px-4'>
       <section className='flex flex-col gap-4 justify-between items-center md:flex-row'>
         <div>
-          <h3 className='font-medium'>Bonjour {email}</h3>
-          <p className='text-sm text-gray-500'>
+          <h3 className='text-primary font-title font-medium'>
+            Bonjour {email}
+          </h3>
+          <p className='font-sans text-gray-600 text-sm'>
             Bienvenue sur votre tableau de bord
           </p>
         </div>

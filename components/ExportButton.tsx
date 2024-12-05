@@ -17,7 +17,7 @@ export function ExportButton({ budgets }: ExportButtonProps) {
   return (
     <div className='relative inline-block'>
       <div className='group'>
-        <Button className='flex items-center gap-2 bg-emerald-600 text-white px-4 py-2 rounded-lg hover:bg-[#0d6b55] transition-colors duration-200 text-xs'>
+        <Button className='flex items-center gap-2 bg-primary text-white px-4 py-2 rounded-lg hover:bg-primary/80 transition-colors duration-200 text-xs'>
           <Upload size={16} />
           <span>Exporter</span>
         </Button>

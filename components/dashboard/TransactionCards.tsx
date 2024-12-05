@@ -11,8 +11,8 @@ export function TransactionCards({
   return (
     <div className='w-full py-4 mx-1 flex flex-col'>
       <div className='flex flex-col mb-6'>
-        <h2 className='text-3xl font-bold'>Transactions</h2>
-        <p className='text-sm text-gray-500'>Vos dernières transactions</p>
+        <h2 className='text-primary text-3xl font-bold'>Transactions</h2>
+        <p className='text-sm text-gray-600'>Vos dernières transactions</p>
       </div>
       <section className='flex flex-col gap-4'>
         {transactions.map((budget: BudgetType) =>
@@ -23,8 +23,10 @@ export function TransactionCards({
             >
               <CardContent className='p-4 w-full'>
                 <p className='flex flex-col sm:flex-row text-sm gap-2 sm:justify-between'>
-                  <span className='font-medium'>{transaction.description}</span>
-                  <span className='text-right sm:text-left text-green-600 font-semibold'>
+                  <span className='font-sans text-sm'>
+                    {transaction.description}
+                  </span>
+                  <span className='text-right sm:text-left text-emerald-600 font-sans'>
                     {transaction.amount}€
                   </span>
                 </p>

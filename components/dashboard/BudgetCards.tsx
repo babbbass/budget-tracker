@@ -6,8 +6,8 @@ export function BudgetCards({ budgets }: { budgets: CategoryType[] }) {
   return (
     <div className='container py-4 my-4'>
       <div className='flex flex-col mb-6'>
-        <h2 className='text-3xl font-bold'>Budgets</h2>
-        <p className='text-sm text-gray-500'>
+        <h2 className='text-primary text-3xl font-title'>Budgets</h2>
+        <p className='font-sans text-gray-600 text-sm'>
           Suivez vos finances et atteignez vos objectifs financier
         </p>
       </div>
@@ -21,13 +21,15 @@ export function BudgetCards({ budgets }: { budgets: CategoryType[] }) {
                 className='hover:scale-105 hover:shadow-lg hover:cursor-pointer transition-all duration-300 ease-in-out'
               >
                 <CardHeader
-                  className={`bg-[#118D70] text-white rounded-t-xl p-4 mb-4`}
+                  className={`bg-primary text-white rounded-t-xl p-4 mb-4`}
                 >
-                  <CardTitle className='italic'>{budget.name}</CardTitle>
+                  <CardTitle className='italic font-title'>
+                    {budget.name}
+                  </CardTitle>
                 </CardHeader>
                 <CardContent className='flex flex-col gap-3'>
-                  <p className='text-3xl font-bold italic'>{budget.amount}€</p>
-                  <p className='text-sm text-gray-500'>
+                  <p className='font-sans text-3xl'>{budget.amount}€</p>
+                  <p className='text-sm text-gray-600'>
                     Categorie: {categorie.name}
                   </p>
                 </CardContent>

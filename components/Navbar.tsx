@@ -7,7 +7,7 @@ import { Button } from "./ui/button"
 
 export function Navbar() {
   return (
-    <nav className='flex p-2 min-w-[320px] w-full justify-between items-center mb-10 h-[50px] border-b mr-0'>
+    <nav className='font-sans text-gray-600 flex p-2 min-w-[320px] w-full justify-between items-center mb-10 h-[50px] border-b mr-0'>
       <Logo />
       {/* <div className='flex justify-between items-center'> */}
       <SignedIn>

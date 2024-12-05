@@ -1,25 +1,22 @@
 import type { Metadata } from "next"
-import localFont from "next/font/local"
 import "./globals.css"
 import { ClerkProvider } from "@clerk/nextjs"
 import { frFR } from "@clerk/localizations"
 import { Navbar } from "@/components/Navbar"
+import { Footer } from "@/components/Footer"
 import { Toaster } from "sonner"
+import { Inter, DM_Sans } from "next/font/google"
 
-const geistSans = localFont({
-  src: "./fonts/GeistVF.woff",
-  variable: "--font-geist-sans",
-  weight: "100 900",
-})
-const geistMono = localFont({
-  src: "./fonts/GeistMonoVF.woff",
-  variable: "--font-geist-mono",
-  weight: "100 900",
+const inter = Inter({ subsets: ["latin"], variable: "--font-inter" })
+const dmSans = DM_Sans({
+  subsets: ["latin"],
+  variable: "--font-dm-sans",
+  weight: ["400", "700"],
 })
 
 export const metadata: Metadata = {
-  title: "Mon planificateur budgétaire",
-  description: "Transformez vos finances en un jeu d'enfant !",
+  title: "Mes enveloppes budgétaires",
+  description: "Gérez vos budgets facilement.",
 }
 
 export default function RootLayout({
@@ -30,13 +27,12 @@ export default function RootLayout({
   return (
     <ClerkProvider localization={frFR}>
       <html lang='fr'>
-        <body
-          className={`${geistSans.variable} ${geistMono.variable} antialiased `}
-        >
-          <main className='flex flex-col items-center min-h-screen p-2 py-4 max-w-[1440px] mx-auto'>
+        <body className={`${inter.variable} ${dmSans.variable} antialiased `}>
+          <main className='bg-gray-50 text-gray-800 flex flex-col items-center min-h-screen p-2 py-4 max-w-[1440px] mx-auto'>
             <Navbar />
             <Toaster />
             {children}
+            <Footer />
           </main>
         </body>
       </html>
