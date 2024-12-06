@@ -12,7 +12,7 @@ import { AddBudgetForm } from "@/components/form/addBudgetForm"
 
 export function AddBudgetDialog({
   email,
-  triggerSentence = "+ Ajoutez un nouveau budget",
+  triggerSentence = "+ Créez une nouvelle enveloppe",
 }: {
   email: string
   triggerSentence?: string
@@ -27,10 +27,10 @@ export function AddBudgetDialog({
       <DialogContent>
         <DialogHeader>
           <DialogTitle className='text-center text-2xl text-emerald-600'>
-            Nouveau budget
+            Nouvelle enveloppe
           </DialogTitle>
           <DialogDescription className='text-center my-4 font-semibold'>
-            Ajoutez ici votre nouveau budget
+            Créez et atteignez vos objectifs
           </DialogDescription>
         </DialogHeader>
         <AddBudgetForm emailUser={email} isOpen={setIsOpen} />

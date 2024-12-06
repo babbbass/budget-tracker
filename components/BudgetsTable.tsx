@@ -77,7 +77,7 @@ export const BudgetsTable = ({
   return (
     <Card className='p-6 bg-white rounded-lg shadow-md'>
       <h1 className='text-primary text-2xl font-bold mb-4 text-center italic'>
-        Tous mes budgets
+        Toutes mes enveloppes
       </h1>
       <ScrollArea className='max-w-full overflow-x-auto'>
         <Table>

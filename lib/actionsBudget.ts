@@ -5,8 +5,15 @@ export async function addBudget(
   email: string,
   categoryName: string,
   budgetName: string,
-  amount: number
+  amount: number,
+  startDate?: Date,
+  endDate?: Date
 ) {
+  console.log(startDate, endDate, typeof startDate, typeof endDate)
+  const formattedStartDate = startDate
+    ? startDate.toISOString().split("T")[0]
+    : null
+  const formattedEndDate = endDate ? endDate.toISOString().split("T")[0] : null
   try {
     let category = null
     const user = await prisma.user.findUnique({
@@ -38,6 +45,8 @@ export async function addBudget(
         name: budgetName,
         amount,
         categoryId: category.id,
+        startDate: formattedStartDate ? new Date(formattedStartDate) : "",
+        endDate: formattedEndDate ? new Date(formattedEndDate) : "",
       },
     })
 
