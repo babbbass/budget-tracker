@@ -20,10 +20,10 @@ export function Navbar() {
         {/* Menu desktop */}
         <div className='hidden md:flex space-x-4'>
           <Link href={"/budgets"} className='btn'>
-            Mes budgets
+            Mes enveloppes
           </Link>
           <Link href={"/dashboard"} className='btn'>
-            Tableau de bord
+            Récapitulatif
           </Link>
           <Link href={"/transactions"} className='btn'>
             Mes Transactions
@@ -63,14 +63,14 @@ export function Navbar() {
               className='btn btn-lg mb-4'
               onClick={toggleMobileMenu}
             >
-              Budgets
+              Mes enveloppes
             </Link>
             <Link
               href={"/dashboard"}
               className='btn btn-lg mb-4'
               onClick={toggleMobileMenu}
             >
-              Tableau de bord
+              Récapitulatif
             </Link>
             <Link
               href={"/transactions"}
