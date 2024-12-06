@@ -33,6 +33,7 @@ import { cn } from "@/lib/utils"
 import { CalendarIcon } from "lucide-react"
 import { format } from "date-fns"
 import { fr } from "date-fns/locale"
+import { Categories } from "@/types"
 
 const formSchema = z
   .object({
@@ -56,15 +57,7 @@ const formSchema = z
       path: ["endDate"],
     }
   )
-
-const categories = [
-  "Revenus",
-  "Dettes",
-  "Épargnes",
-  "Investissements",
-  "Dépenses fixes",
-  "Dépenses variables",
-]
+const categories = Object.values(Categories)
 export function AddBudgetForm({
   emailUser,
   isOpen,
@@ -79,7 +72,7 @@ export function AddBudgetForm({
   })
 
   const onSubmit = async (data: z.infer<typeof formSchema>) => {
-    console.log("Données soumises :", data)
+    // console.log("Données soumises :", data)
     const { category, budgetName, amount, startDate, endDate } = data
     const response = await addBudget(
       emailUser,
@@ -130,7 +123,7 @@ export function AddBudgetForm({
                   </SelectTrigger>
                 </FormControl>
                 <SelectContent>
-                  {categories.map((category) => (
+                  {categories.map((category: string) => (
                     <SelectItem key={category} value={category}>
                       {category}
                     </SelectItem>

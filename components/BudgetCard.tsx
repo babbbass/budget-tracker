@@ -30,7 +30,8 @@ export function BudgetCard({ budget }: { budget: BudgetType }) {
       <CardContent className='flex flex-col gap-2'>
         <div className='flex justify-between'>
           <span className='font-semibold text-sm'>
-            {totalTransactionAmount}€ dépensés
+            {totalTransactionAmount}€{" "}
+            {budget.category?.name === "Épargnes" ? "épargnés" : "dépensés"}
           </span>
           <span className='font-semibold text-sm'>
             {amountRemaining}€ restants
@@ -39,7 +40,7 @@ export function BudgetCard({ budget }: { budget: BudgetType }) {
         <span className='mt-4'>
           <Progress value={progressValue} indicatorColor='bg-emerald-600' />
         </span>
-        <Button className='mt-4 bg-primary text-white  font-semibold hover:bg-primary/90 transition-all'>
+        <Button className='mt-4 bg-primary text-white  font-sans hover:bg-primary/90 transition-all'>
           <Trash2 />
           Supprimer
         </Button>

@@ -38,7 +38,7 @@ export default function Page() {
     return <div>Chargement...</div>
   }
   return (
-    <div className='flex flex-col items-start w-full md:w-2/3'>
+    <div className='flex flex-col items-start w-full md:w-2/3 flex-1'>
       <BudgetCard budget={budget} />
 
       <AddTransactionDialog budget={budget} onSuccess={handleFormSuccess} />

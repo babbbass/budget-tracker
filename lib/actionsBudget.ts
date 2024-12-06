@@ -84,6 +84,7 @@ export async function getBudgetById(budgetId: string) {
       },
       include: {
         transactions: true,
+        category: true,
       },
     })
     return budget

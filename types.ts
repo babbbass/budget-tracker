@@ -3,6 +3,9 @@ export type BudgetType = {
   name: string
   amount: number
   categoryId: string
+  category?: {
+    name: string
+  }
   startDate?: Date
   endDate?: Date
   transactions?: TransactionType[]
@@ -23,4 +26,13 @@ export type TransactionType = {
   emoji?: string | null
   budgetName?: string
   name?: string
+}
+
+export enum Categories {
+  REVENUS = "Revenus",
+  DETTES = "Dettes",
+  EPARGNES = "Épargnes",
+  INVESTISSEMENTS = "Investissements",
+  DEPENSES_FIXES = "Dépenses fixes",
+  DEPENSES_VARIABLES = "Dépenses variables",
 }
