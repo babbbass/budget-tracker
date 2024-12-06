@@ -6,7 +6,7 @@ export function Logo() {
     <Link href={"/"}>
       <div className='flex items-center text-primary font-bold italic'>
         <NotebookPen className='mr-2' />
-        <span className='hidden md:flex'>Enveloppes budgétaires</span>
+        <span className='text-basemd:text-2xl'>Enveloppes budgets</span>
       </div>
     </Link>
   )
