@@ -22,7 +22,7 @@ model User {
   stripeCustomerId String? @unique
   subscriptionId String? @unique
   subscription Subscription[]
-  categories Category[]
+  categories Category[] 
 }
 
 model Subscription {
@@ -42,9 +42,9 @@ model Category {
   id            String           @id @default(uuid())
   name          String
   // type          CategoryType
-  budgets       Budget[]
+  budgets       Budget[] 
   userId        String
-  user          User          @relation(fields: [userId], references: [id])
+  user          User          @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@unique([name, userId]) // Chaque utilisateur a ses propres catégories uniques
 }
@@ -56,10 +56,11 @@ model Budget {
   startDate     DateTime
   endDate       DateTime
   categoryId    String
-  category      Category    @relation(fields: [categoryId], references: [id])
+  category      Category    @relation(fields: [categoryId], references: [id], onDelete: Cascade)
   transactions  Transaction[]
 
   @@unique([name, categoryId]) // Chaque catégorie a ses propres sous-catégories uniques
+  @@index([startDate]) 
 }
 
 model Transaction {
@@ -67,7 +68,7 @@ model Transaction {
   description       String
   amount            Float
   budgetId          String
-  budget            Budget    @relation(fields: [budgetId], references: [id])
+  budget            Budget    @relation(fields: [budgetId], references: [id], onDelete: Cascade)
   createdAt         DateTime   @default(now())
 }
 

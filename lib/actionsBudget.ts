@@ -94,13 +94,19 @@ export async function getBudgetById(budgetId: string) {
   }
 }
 
-export async function deleteBudget(budgetId: string) {
+export async function deleteBudgetById(budgetId: string): Promise<boolean> {
+  console.log("action", budgetId)
+  if (!budgetId) {
+    throw new Error("Budget ID manquant.")
+  }
   try {
-    await prisma.budget.delete({
+    const deletedBudget = await prisma.budget.delete({
       where: {
         id: budgetId,
       },
     })
+
+    return !!deletedBudget
   } catch (error) {
     console.error("Erreur lors de la suppression du budget:", error)
     throw error
