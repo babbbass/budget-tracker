@@ -3,7 +3,7 @@ import { currentUser } from "@clerk/nextjs/server"
 import { redirect } from "next/navigation"
 import { findAllBudgetByUser } from "@/lib/actionsBudget"
 import { BudgetsTable } from "@/components/BudgetsTable"
-import { AddBudgetDialog } from "@/components/addBudgetDialog"
+import { AddBudgetDialog } from "@/components/dialog/addBudgetDialog"
 
 export default async function BudgetPage() {
   const user = await currentUser()

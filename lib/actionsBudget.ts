@@ -9,7 +9,6 @@ export async function addBudget(
   startDate?: Date,
   endDate?: Date
 ) {
-  console.log(startDate, endDate, typeof startDate, typeof endDate)
   const formattedStartDate = startDate
     ? startDate.toISOString().split("T")[0]
     : null
@@ -45,8 +44,10 @@ export async function addBudget(
         name: budgetName,
         amount,
         categoryId: category.id,
-        startDate: formattedStartDate ? new Date(formattedStartDate) : "",
-        endDate: formattedEndDate ? new Date(formattedEndDate) : "",
+        startDate: formattedStartDate
+          ? new Date(formattedStartDate)
+          : undefined,
+        endDate: formattedEndDate ? new Date(formattedEndDate) : undefined,
       },
     })
 
@@ -70,6 +71,44 @@ export async function findAllBudgetByUser(email: string) {
       },
     })
     return userBudgets
+  } catch (error) {
+    console.error("Erreur lors de la recherche des budgets:", error)
+    throw error
+  }
+}
+
+export async function getBudgetsByCategory(
+  email: string,
+  categoryName: string
+) {
+  try {
+    const budgets = await prisma.user.findUnique({
+      where: { email },
+      include: {
+        categories: {
+          where: {
+            name: categoryName,
+          },
+          include: {
+            budgets: {
+              select: {
+                id: true,
+                name: true,
+                amount: true,
+                startDate: true,
+                endDate: true,
+                transactions: {
+                  select: {
+                    amount: true,
+                  },
+                },
+              },
+            },
+          },
+        },
+      },
+    })
+    return budgets
   } catch (error) {
     console.error("Erreur lors de la recherche des budgets:", error)
     throw error

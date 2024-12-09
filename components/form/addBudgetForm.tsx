@@ -83,7 +83,6 @@ export function AddBudgetForm({
       endDate
     )
 
-    // const response = "ok"
     if (response) {
       toast.success("Budget ajouté avec succés", {
         duration: 1500,

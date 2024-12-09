@@ -1,6 +1,6 @@
 import React from "react"
 import { Card } from "./ui/card"
-import { AddBudgetDialog } from "./addBudgetDialog"
+import { AddBudgetDialog } from "./dialog/addBudgetDialog"
 
 export function FirstBudget({ email }: { email: string }) {
   return (

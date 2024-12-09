@@ -4,7 +4,7 @@ import { Progress } from "@/components/ui/progress"
 import { BudgetType } from "@/types"
 import { Button } from "@/components/ui/button"
 import { Trash2 } from "lucide-react"
-import { costTotalTransactions } from "@/lib/calculations"
+import { totalAmount } from "@/lib/calculations"
 import { deleteBudgetById } from "@/lib/actionsBudget"
 import { toast } from "sonner"
 import { useRouter } from "next/navigation"
@@ -43,9 +43,7 @@ export function BudgetCard({ budget }: { budget: BudgetType }) {
       setIsDeleting(false) // Désactive le chargement
     }
   }
-  const totalTransactionAmount = costTotalTransactions(
-    budget?.transactions || []
-  )
+  const totalTransactionAmount = totalAmount(budget?.transactions || [])
   const progressValue =
     totalTransactionAmount > budget.amount
       ? 100
