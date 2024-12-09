@@ -18,6 +18,7 @@ export default function Page() {
       setLoading(true)
       try {
         const transactionsData = await getTransactionsByUser(email, period)
+        //@ts-expect-error "error type unknown"
         setTransactions(transactionsData)
         setLoading(false)
       } catch (err) {

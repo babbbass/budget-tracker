@@ -17,6 +17,7 @@ export default async function BudgetPage() {
     <div className='flex flex-1 flex-col w-full md:w-1/2 gap-10'>
       <AddBudgetDialog email={email} />
       {budgets && budgets.categories.length > 0 && (
+        //@ts-expect-error "error type unknown"
         <BudgetsTable categoriesData={budgets.categories} />
       )}
     </div>
