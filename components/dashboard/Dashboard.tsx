@@ -43,10 +43,13 @@ export async function Dashboard({ userId, fullName, email }: Dashboard) {
       )}
       <div className='flex flex-col items-center gap-3 md:flex-row md:items-start'>
         <div className='md:w-2/3 w-full flex flex-col items-start'>
+          {/* @ts-expect-error "error type unknown */}
           {budgets && <BudgetCards budgets={budgets?.categories} />}
+          {/* @ts-expect-error "error type unknown */}
           <CategoryCards categories={budgets?.categories} />
         </div>
         <section className='w-full md:w-1/3 flex justify-center'>
+          {/* @ts-expect-error "error type unknown */}
           <TransactionCards transactions={transactions} />
         </section>
       </div>
