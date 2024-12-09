@@ -14,6 +14,7 @@ export default function Page() {
   async function fetchBudgets(id: string) {
     try {
       const budget = await getBudgetById(id)
+      //@ts-expect-error "error type unknown"
       setBudget(budget)
     } catch (err: unknown) {
       //@ts-expect-error "error type unknown"
