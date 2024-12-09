@@ -7,14 +7,8 @@ import { totalAmount } from "@/lib/calculations"
 type SavingBudgetsProps = {
   budgets: BudgetType[]
 }
-function formatDate(date) {
+function formatDate(date: Date) {
   return new Date(date).toLocaleDateString("fr-FR")
-}
-
-function calculerEpargneMensuelle(item) {
-  const dureeEnMois =
-    (item.endDate - item.startDate) / (1000 * 60 * 60 * 24 * 30)
-  return (item.amount / dureeEnMois).toFixed(2)
 }
 
 export function SavingBudgets({ budgets }: SavingBudgetsProps) {
@@ -64,10 +58,10 @@ export function SavingBudgets({ budgets }: SavingBudgetsProps) {
                 {budget.amount} €
               </td>
               <td className='px-6 py-4 whitespace-nowrap text-center font-sans'>
-                {formatDate(budget.startDate)}
+                {budget.startDate ? formatDate(budget.startDate) : ""}
               </td>
               <td className='px-6 py-4 whitespace-nowrap text-center font-sans'>
-                {formatDate(budget.endDate)}
+                {budget.endDate ? formatDate(budget.endDate) : ""}
               </td>
               {/* <td className='px-6 py-4 whitespace-nowrap text-center font-sans'>
                 {calculerEpargneMensuelle(budget)} €
