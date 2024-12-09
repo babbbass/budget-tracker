@@ -23,6 +23,7 @@ export const useBudgetStore = create<BudgetStore>((set) => ({
     set({ loading: true, error: null })
     try {
       const budget = await getBudgetById(id)
+      //@ts-expect-error "error type unknown"
       set({ budget, loading: false })
     } catch (err: unknown) {
       //@ts-expect-error "error type unknown"
