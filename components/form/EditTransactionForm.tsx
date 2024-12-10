@@ -1,4 +1,4 @@
-import React from "react"
+import React, { useState } from "react"
 import { TransactionType } from "@/types"
 import {
   Form,
@@ -16,6 +16,7 @@ import { useForm } from "react-hook-form"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { Card, CardContent, CardHeader } from "../ui/card"
 import { updateTransaction } from "@/lib/actionsTransaction"
+import { LoadingSpinner } from "@/components/LoadingSpinner"
 
 const formSchema = z.object({
   budgetName: z.string().min(1, "Le nom du budget est obligatoire."),
@@ -36,6 +37,7 @@ export function EditTransactionForm({
   budget: string
   onSuccess: () => void
 }) {
+  const [loading, setLoading] = useState<boolean>(false)
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -47,6 +49,7 @@ export function EditTransactionForm({
 
   const onSubmit = async (data: z.infer<typeof formSchema>) => {
     try {
+      setLoading(true)
       const { nameTransaction, amount, budgetName } = data
       const response = await updateTransaction(
         transaction.id,
@@ -73,11 +76,13 @@ export function EditTransactionForm({
         className: "text-red-500",
       })
       console.error("Erreur lors de la modification de la transaction:", error)
+    } finally {
+      setLoading(false)
     }
   }
 
   return (
-    <Card className='w-full p-4 hover:bg-teal-100 hover:border-teal-600 hover:shadow-sm'>
+    <Card className='w-full p-4 hover:border-teal-600 hover:shadow-sm'>
       <CardHeader>
         <h3 className='text-2xl font-bold text-center'>
           {transaction.description}
@@ -130,8 +135,11 @@ export function EditTransactionForm({
               )}
             />
 
-            <Button type='submit' className='w-full bg-teal-600'>
-              Modifiez la transaction
+            <Button
+              type='submit'
+              className='w-full bg-primary font-sans text-white hover:bg-emerald-700'
+            >
+              {loading && <LoadingSpinner />} Modifiez la transaction
             </Button>
           </form>
         </Form>

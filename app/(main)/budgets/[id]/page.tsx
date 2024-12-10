@@ -7,6 +7,7 @@ import { TransactionsByBudget } from "@/components/TransactionsByBudget"
 import { Separator } from "@/components/ui/separator"
 import { getBudgetById } from "@/lib/actionsBudget"
 import { BudgetType } from "@/types"
+import { LoadingSpinner } from "@/components/LoadingSpinner"
 
 export default function Page() {
   const [budget, setBudget] = React.useState<BudgetType | null>(null)
@@ -36,7 +37,11 @@ export default function Page() {
   }, [])
 
   if (!budget) {
-    return <div>Chargement...</div>
+    return (
+      <div className='flex flex-1 justify-center items-center'>
+        <LoadingSpinner />
+      </div>
+    )
   }
   return (
     <div className='flex flex-col items-start w-full md:w-2/3 flex-1'>

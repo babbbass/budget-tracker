@@ -5,14 +5,16 @@ import { CategoryCards } from "@/components/dashboard/CategoryCards"
 import { TransactionCards } from "@/components/dashboard/TransactionCards"
 import { getTransactionsByUser } from "@/lib/actionsTransaction"
 import { findAllBudgetByUser } from "@/lib/actionsBudget"
-import { ExportButton } from "@/components/ExportButton"
+// import { ExportButton } from "@/components/ExportButton"
 import { FirstBudget } from "@/components/FirstBudget"
+import { AddBudgetDialog } from "@/components/dialog/addBudgetDialog"
 
 type Dashboard = {
   userId: string
   fullName: string
   email: string
 }
+
 export async function Dashboard({ userId, fullName, email }: Dashboard) {
   await addUserToDB(userId, fullName, email)
   const budgets = await findAllBudgetByUser(email)
@@ -35,7 +37,8 @@ export async function Dashboard({ userId, fullName, email }: Dashboard) {
           <span className='text-sm italic font-normal'>
             {new Date().toLocaleDateString("fr-FR")}
           </span>
-          <ExportButton budgets={budgets?.categories} />
+          {/* <ExportButton budgets={budgets?.categories} /> */}
+          <AddBudgetDialog email={email} />
         </div>
       </section>
       {budgets && budgets.categories.length === 0 && (

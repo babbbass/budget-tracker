@@ -34,6 +34,7 @@ import { CalendarIcon } from "lucide-react"
 import { format } from "date-fns"
 import { fr } from "date-fns/locale"
 import { Categories } from "@/types"
+import { LoadingSpinner } from "@/components/LoadingSpinner"
 
 const formSchema = z
   .object({
@@ -67,36 +68,48 @@ export function AddBudgetForm({
 }) {
   const router = useRouter()
   const [showDates, setShowDates] = useState(false)
+  const [loading, setLoading] = useState<boolean>(false)
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
   })
 
   const onSubmit = async (data: z.infer<typeof formSchema>) => {
     // console.log("Données soumises :", data)
-    const { category, budgetName, amount, startDate, endDate } = data
-    const response = await addBudget(
-      emailUser,
-      category,
-      budgetName,
-      amount,
-      startDate,
-      endDate
-    )
+    try {
+      setLoading(true)
+      const { category, budgetName, amount, startDate, endDate } = data
+      const response = await addBudget(
+        emailUser,
+        category,
+        budgetName,
+        amount,
+        startDate,
+        endDate
+      )
 
-    if (response) {
-      toast.success("Budget ajouté avec succés", {
-        duration: 1500,
-        className: "text-green-500",
-      })
-      setTimeout(() => {
-        isOpen(false)
-      }, 2000)
-      router.push("/")
-    } else {
+      if (response) {
+        toast.success("Budget ajouté avec succés", {
+          duration: 1500,
+          className: "text-green-500",
+        })
+        setTimeout(() => {
+          isOpen(false)
+        }, 2000)
+        router.push("/")
+      } else {
+        toast.error("Une erreur est survenue veuillez réessayer", {
+          duration: 1500,
+          className: "text-red-500",
+        })
+      }
+    } catch (error) {
       toast.error("Une erreur est survenue veuillez réessayer", {
         duration: 1500,
         className: "text-red-500",
       })
+      console.error("Erreur lors de l'ajout du budget:", error)
+    } finally {
+      setLoading(false)
     }
   }
 
@@ -123,7 +136,11 @@ export function AddBudgetForm({
                 </FormControl>
                 <SelectContent>
                   {categories.map((category: string) => (
-                    <SelectItem key={category} value={category}>
+                    <SelectItem
+                      key={category}
+                      value={category}
+                      className='cursor-pointer hover:bg-gray-200'
+                    >
                       {category}
                     </SelectItem>
                   ))}
@@ -260,6 +277,7 @@ export function AddBudgetForm({
           type='submit'
           className='w-full bg-emerald-600 text-white font-sans hover:bg-emerald-700'
         >
+          {loading && <LoadingSpinner />}
           Ma nouvelle enveloppe
         </Button>
       </form>

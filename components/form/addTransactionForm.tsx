@@ -1,5 +1,5 @@
 "use client"
-import React from "react"
+import React, { useState } from "react"
 import { z } from "zod"
 import { useForm } from "react-hook-form"
 import { zodResolver } from "@hookform/resolvers/zod"
@@ -14,9 +14,8 @@ import {
   FormMessage,
 } from "@/components/ui/form"
 import { toast } from "sonner"
-// import { useBudgetStore } from "@/stores/budget.store"
-// import { useRouter } from "next/navigation"
 import { addTransactionToBudget } from "@/lib/actionsTransaction"
+import { LoadingSpinner } from "@/components/LoadingSpinner"
 
 const formSchema = z.object({
   nameTransaction: z
@@ -36,37 +35,45 @@ export function AddTransactionForm({
   isOpen: React.Dispatch<React.SetStateAction<boolean>>
   onSuccess: () => void
 }) {
-  // const router = useRouter()
-  // const { fetchBudgets } = useBudgetStore()
+  const [loading, setLoading] = useState<boolean>(false)
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
   })
 
   const onSubmit = async (data: z.infer<typeof formSchema>) => {
-    console.log("Données soumises :", data)
-    const { nameTransaction, amount } = data
-    const response = await addTransactionToBudget(
-      budget.budgetId,
-      amount,
-      nameTransaction
-    )
-    // await fetchBudgets(budget.budgetId)
-    // const response = "ok"
-    if (response) {
-      // router.push(`/budgets/${budget.budgetId}`)
-      toast.success("Nouvelle Transaction ajouté !", {
-        duration: 1500,
-        className: "text-green-500",
-      })
-      setTimeout(() => {
-        isOpen(false)
-      }, 2000)
-      onSuccess()
-    } else {
+    // console.log("Données soumises :", data)
+    try {
+      setLoading(true)
+      const { nameTransaction, amount } = data
+      const response = await addTransactionToBudget(
+        budget.budgetId,
+        amount,
+        nameTransaction
+      )
+
+      if (response) {
+        toast.success("Nouvelle Transaction ajouté !", {
+          duration: 1500,
+          className: "text-green-500",
+        })
+        setTimeout(() => {
+          isOpen(false)
+        }, 2000)
+        onSuccess()
+      } else {
+        toast.error("Une erreur est survenue veuillez réessayer", {
+          duration: 1500,
+          className: "text-red-500",
+        })
+      }
+    } catch (error) {
       toast.error("Une erreur est survenue veuillez réessayer", {
         duration: 1500,
         className: "text-red-500",
       })
+      console.error("Erreur lors de la modification de la transaction:", error)
+    } finally {
+      setLoading(false)
     }
   }
 
@@ -106,8 +113,11 @@ export function AddTransactionForm({
             )}
           />
 
-          <Button type='submit' className='w-full bg-emerald-600'>
-            Ajoutez la transaction
+          <Button
+            type='submit'
+            className='w-full bg-emerald-600 font-sans text-white hover:bg-emerald-700'
+          >
+            {loading && <LoadingSpinner />} Ajoutez la transaction
           </Button>
         </form>
       </Form>
