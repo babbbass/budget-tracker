@@ -15,7 +15,6 @@ export default async function SavingsPage() {
   }
   const email = user.emailAddresses[0].emailAddress
   const budgets = await getBudgetsByCategory(email, Categories.EPARGNES)
-
   if (budgets?.categories.length === 0 || !budgets) {
     return (
       <div className='flex flex-1 flex-col w-full md:w-2/3 gap-10 items-center'>

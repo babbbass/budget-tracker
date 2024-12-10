@@ -15,7 +15,7 @@ export default function RootLayout({
   return (
     <ClerkProvider localization={frFR}>
       <html lang='fr'>
-        <body className='h-screen flex flex-col justify-center items-center gap-10'>
+        <body className='h-screen flex flex-col justify-center items-center gap-4 text-3xl'>
           <Logo />
           {children}
         </body>
