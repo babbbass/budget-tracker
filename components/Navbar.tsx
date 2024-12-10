@@ -14,7 +14,7 @@ export function Navbar() {
   }
 
   return (
-    <nav className='font-sans text-gray-600 flex p-2 min-w-[320px] w-full justify-between items-center mb-10 h-[50px] border-b'>
+    <nav className='sticky top-0 z-10 bg-white font-sans text-gray-600 flex p-2 min-w-[320px] w-full justify-between items-center mb-10 h-[50px] border-b'>
       <Logo />
       <SignedIn>
         {/* Menu desktop */}
