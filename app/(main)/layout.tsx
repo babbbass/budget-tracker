@@ -6,6 +6,7 @@ import { Navbar } from "@/components/Navbar"
 import { Footer } from "@/components/Footer"
 import { Toaster } from "sonner"
 import { Inter, DM_Sans } from "next/font/google"
+import { SpeedInsights } from "@vercel/speed-insights/next"
 
 const inter = Inter({ subsets: ["latin"], variable: "--font-inter" })
 const dmSans = DM_Sans({
@@ -33,6 +34,7 @@ export default function RootLayout({
             <Toaster />
             {children}
             <Footer />
+            <SpeedInsights />
           </main>
         </body>
       </html>
