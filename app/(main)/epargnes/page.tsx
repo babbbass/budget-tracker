@@ -15,7 +15,6 @@ export default async function SavingsPage() {
   }
   const email = user.emailAddresses[0].emailAddress
   const budgets = await getBudgetsByCategory(email, Categories.EPARGNES)
-  console.log(budgets?.categories[0].budgets)
 
   if (!budgets) {
     return (
@@ -32,7 +31,6 @@ export default async function SavingsPage() {
       </div>
     )
   }
-  console.log(budgets?.categories[0].budgets)
   //@ts-expect-error "error type unknown"
   const savingTotalAmount = totalAmount(budgets?.categories[0].budgets)
   const totalSaved = budgets?.categories[0].budgets.reduce((total, budget) => {
@@ -46,31 +44,33 @@ export default async function SavingsPage() {
   const remainingAmount = savingTotalAmount - totalSaved
   const progression = Number((totalSaved / savingTotalAmount) * 100).toFixed(2)
   return (
-    <div className='flex flex-1 flex-col w-full md:w-2/3 gap-10 items-center'>
-      <h1 className='text-3xl font-title  flex items-center gap-3'>
+    <div className='flex flex-1 flex-col w-full items-center'>
+      <h1 className='text-2xl md:text-3xl font-title flex items-center gap-3 mb-6'>
         {`Suivi de l'épargne`}{" "}
-        <PiggyBank className='inline h-10 w-10 text-primary' />
+        <PiggyBank className='inline h-8 w-8 md:h-10 md:w-10 text-primary' />
       </h1>
-      <div className='container py-4 my-4 border-t-2 border-b-2 flex h-20 gap-2'>
-        <div className='w-1/4 flex flex-col justify-center gap-2 items-center font-sans'>
+      <div className='container py-2 my-4 border-t-2 border-b-2 flex flex-wrap min-h-20 text-xs'>
+        <div className='w-full sm:w-1/2 md:w-1/4 flex flex-col justify-center gap-2 items-center font-sans  p-2'>
           <span>OBJECTIF GLOBAL</span>
-          <span className='font-sans text-2xl text-gray-800'>
+          <span className='font-sans text-xl md:text-2xl text-gray-800'>
             {savingTotalAmount}
           </span>
         </div>
-        <div className='w-1/4 flex flex-col justify-center gap-2 items-center font-sans'>
-          MONTANT ÉPARGNÉ
-          <span className='font-sans text-2xl text-gray-800'>{totalSaved}</span>
+        <div className='w-full sm:w-1/2 md:w-1/4 flex flex-col justify-center gap-2 items-center font-sans p-2'>
+          <span>MONTANT ÉPARGNÉ</span>
+          <span className='font-sans text-xl md:text-2xl text-gray-800'>
+            {totalSaved}
+          </span>
         </div>
-        <div className='w-1/4 flex flex-col justify-center gap-2 items-center font-sans'>
-          RESTE A FAIRE
-          <span className='font-sans text-2xl text-gray-800'>
+        <div className='w-full sm:w-1/2 md:w-1/4 flex flex-col justify-center gap-2 items-center font-sans p-2'>
+          <span>MONTANT RESTANT</span>
+          <span className='font-sans text-xl md:text-2xl text-gray-800'>
             {remainingAmount}
           </span>
         </div>
-        <div className='w-1/4 flex flex-col justify-center gap-2 items-center font-sans'>
-          PROGRESSION
-          <span className='font-sans text-2xl text-gray-800'>
+        <div className='w-full sm:w-1/2 md:w-1/4 flex flex-col justify-center gap-2 items-center font-sans p-2'>
+          <span>PROGRESSION</span>
+          <span className='font-sans text-xl md:text-2xl text-gray-800'>
             {progression}%
           </span>
         </div>

@@ -77,12 +77,16 @@ export function Navbar() {
             </Link>
             <Link
               href={"/transactions"}
-              className='btn btn-lg'
+              className='btn btn-lg mb-4'
               onClick={toggleMobileMenu}
             >
               Mes Transactions
             </Link>
-            <Link href={"/epargnes"} className='btn' onClick={toggleMobileMenu}>
+            <Link
+              href={"/epargnes"}
+              className='btn mb-4'
+              onClick={toggleMobileMenu}
+            >
               Mon Epargne
             </Link>
           </div>

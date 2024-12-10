@@ -30,9 +30,9 @@ export type TransactionType = {
 
 export enum Categories {
   REVENUS = "Revenus",
-  DETTES = "Dettes",
+  // DETTES = "Dettes",
   EPARGNES = "Épargnes",
-  INVESTISSEMENTS = "Investissements",
+  // INVESTISSEMENTS = "Investissements",
   DEPENSES_FIXES = "Dépenses fixes",
   DEPENSES_VARIABLES = "Dépenses variables",
 }
