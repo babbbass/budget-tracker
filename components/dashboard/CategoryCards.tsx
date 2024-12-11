@@ -1,3 +1,4 @@
+"use client"
 import {
   Table,
   TableBody,
@@ -9,8 +10,10 @@ import {
 import { CategoryType } from "@/types"
 import { Card, CardContent } from "../ui/card"
 import { ChartColumnStacked } from "lucide-react"
+import { useRouter } from "next/navigation"
 
 export function CategoryCards({ categories }: { categories: CategoryType[] }) {
+  const router = useRouter()
   return (
     <div className='py-4'>
       <div className='flex flex-col mb-6'>
@@ -47,6 +50,7 @@ export function CategoryCards({ categories }: { categories: CategoryType[] }) {
                   <TableRow
                     key={category.id}
                     className='hover:bg-gray-100 border-b cursor-pointer'
+                    onClick={() => router.push(`/categories/${category.id}`)}
                   >
                     <TableCell className='text-sm font-sans text-gray-900'>
                       {category.name || "N/A"}

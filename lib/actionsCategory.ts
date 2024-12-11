@@ -22,3 +22,32 @@ export async function getAllCategoriesByUser(email: string) {
     throw error
   }
 }
+
+export async function fetchCategoryById(categoryId: string) {
+  try {
+    const category = await prisma.category.findUnique({
+      where: {
+        id: categoryId,
+      },
+      select: {
+        name: true,
+        budgets: {
+          select: {
+            id: true,
+            name: true,
+            amount: true,
+            transactions: {
+              select: {
+                id: true,
+              },
+            },
+          },
+        },
+      },
+    })
+    return category
+  } catch (error) {
+    console.error("Erreur lors de la recherche de la catégorie:", error)
+    throw error
+  }
+}
