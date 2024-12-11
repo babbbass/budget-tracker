@@ -13,15 +13,16 @@ export async function addBudget(
     ? startDate.toISOString().split("T")[0]
     : null
   const formattedEndDate = endDate ? endDate.toISOString().split("T")[0] : null
+
   try {
     let category = null
     const user = await prisma.user.findUnique({
       where: { email },
     })
-
     if (!user) {
       throw new Error("Utilisateur non trouvé")
     }
+
     category = await prisma.category.findUnique({
       where: {
         name_userId: {
@@ -39,6 +40,7 @@ export async function addBudget(
       })
     }
 
+    console.log("add budget", user, category)
     const createdBudget = await prisma.budget.create({
       data: {
         name: budgetName,
@@ -50,7 +52,7 @@ export async function addBudget(
         endDate: formattedEndDate ? new Date(formattedEndDate) : undefined,
       },
     })
-
+    console.log("created budget", createdBudget)
     return createdBudget
   } catch (error) {
     console.error("Erreur lors de l'ajout du budget:", error)

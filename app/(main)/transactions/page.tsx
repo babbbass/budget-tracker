@@ -46,9 +46,9 @@ export default function Page() {
         </select>
       </div> */}
 
-      <div className='flex justify-center w-full bg-base-200/35 p-5 rounded-xl'>
+      <div className='flex justify-center items-start w-full bg-base-200/35 p-5 rounded-xl flex-1'>
         {loading ? (
-          <div className='flex justify-center items-center'>
+          <div className='flex justify-center items-center flex-1'>
             <span className='loading loading-spinner loading-md'></span>
           </div>
         ) : budget.length === 0 ? (

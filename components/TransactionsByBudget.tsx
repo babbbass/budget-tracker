@@ -9,11 +9,10 @@ import {
   TableHead,
 } from "@/components/ui/table"
 import { ScrollArea } from "@/components/ui/scroll-area"
-import {
-  ChevronsUpDown,
-  // ChevronRight,
-  // ChevronLeft,
-} from "lucide-react"
+import // ChevronsUpDown,
+// ChevronRight,
+// ChevronLeft,
+"lucide-react"
 import { TransactionType } from "@/types"
 import { EditTransactionDialog } from "@/components/dialog/EditTransactionDialog"
 import { BudgetType } from "@/types"
@@ -48,7 +47,7 @@ export function TransactionsByBudget({
                 // onClick={() => handleSort("amount")}
               >
                 Montant
-                <ChevronsUpDown className='w-4 h-4 inline-block ml-1' />
+                {/* <ChevronsUpDown className='w-4 h-4 inline-block ml-1' /> */}
               </TableHead>
               <TableHead></TableHead>
             </TableRow>

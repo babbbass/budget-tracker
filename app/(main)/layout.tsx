@@ -29,7 +29,7 @@ export default function RootLayout({
     <ClerkProvider localization={frFR}>
       <html lang='fr'>
         <body className={`${inter.variable} ${dmSans.variable} antialiased `}>
-          <main className='bg-gray-50 text-gray-800 flex flex-col items-center min-h-screen p-2 py-4 max-w-[1440px] mx-auto'>
+          <main className='relative bg-gray-50 text-gray-800 flex flex-col items-center min-h-screen p-2 py-4 max-w-[1440px] mx-auto'>
             <Navbar />
             <Toaster />
             {children}

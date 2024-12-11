@@ -74,7 +74,7 @@ export function AddBudgetForm({
   })
 
   const onSubmit = async (data: z.infer<typeof formSchema>) => {
-    // console.log("Données soumises :", data)
+    console.log("Données soumises :", data)
     try {
       setLoading(true)
       const { category, budgetName, amount, startDate, endDate } = data
