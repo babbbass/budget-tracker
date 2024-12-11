@@ -16,9 +16,11 @@ type Dashboard = {
 }
 
 export async function Dashboard({ userId, fullName, email }: Dashboard) {
-  await addUserToDB(userId, fullName, email)
-  const budgets = await findAllBudgetByUser(email)
-  const transactions = await getTransactionsByUser(email, "last365")
+  const [, budgets, transactions] = await Promise.all([
+    addUserToDB(userId, fullName, email),
+    findAllBudgetByUser(email),
+    getTransactionsByUser(email, "last365"),
+  ])
   if (!budgets) {
     return null
   }

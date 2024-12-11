@@ -1,5 +1,7 @@
 "use server"
 import { prisma } from "./db"
+import { cache } from "react"
+// import { unstable_noStore as noStore } from "next/cache"
 
 export async function addBudget(
   email: string,
@@ -60,7 +62,7 @@ export async function addBudget(
   }
 }
 
-export async function findAllBudgetByUser(email: string) {
+export const findAllBudgetByUser = cache(async (email: string) => {
   try {
     const userBudgets = await prisma.user.findUnique({
       where: { email },
@@ -77,7 +79,7 @@ export async function findAllBudgetByUser(email: string) {
     console.error("Erreur lors de la recherche des budgets:", error)
     throw error
   }
-}
+})
 
 export async function getBudgetsByCategory(
   email: string,
