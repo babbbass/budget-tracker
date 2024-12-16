@@ -3,14 +3,23 @@ import { prisma } from "./db"
 import { cache } from "react"
 // import { unstable_noStore as noStore } from "next/cache"
 
-export async function addBudget(
-  email: string,
-  categoryName: string,
-  budgetName: string,
-  amount: number,
-  startDate?: Date,
+type addBudget = {
+  email: string
+  categoryName: string
+  budgetName: string
+  amount: number
+  startDate?: Date
   endDate?: Date
-) {
+}
+
+export async function addBudget({
+  email,
+  categoryName,
+  budgetName,
+  amount,
+  startDate,
+  endDate,
+}: addBudget) {
   const formattedStartDate = startDate
     ? startDate.toISOString().split("T")[0]
     : null
