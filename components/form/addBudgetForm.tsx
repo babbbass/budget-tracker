@@ -78,14 +78,14 @@ export function AddBudgetForm({
     try {
       setLoading(true)
       const { category, budgetName, amount, startDate, endDate } = data
-      const response = await addBudget(
-        emailUser,
-        category,
+      const response = await addBudget({
+        email: emailUser,
+        categoryName: category,
         budgetName,
         amount,
         startDate,
-        endDate
-      )
+        endDate,
+      })
 
       if (response) {
         toast.success("Budget ajouté avec succés", {
