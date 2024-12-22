@@ -33,8 +33,10 @@ import { cn } from "@/lib/utils"
 import { CalendarIcon } from "lucide-react"
 import { format } from "date-fns"
 import { fr } from "date-fns/locale"
-import { Categories } from "@/types"
+import { CategoriesEnum as Categories } from "@/types"
 import { LoadingSpinner } from "@/components/LoadingSpinner"
+import { useQueryClient } from "@tanstack/react-query"
+import { ArrowRightCircle } from "lucide-react"
 
 const formSchema = z
   .object({
@@ -62,19 +64,29 @@ const categories = Object.values(Categories)
 export function AddBudgetForm({
   emailUser,
   isOpen,
+  category,
 }: {
   emailUser: string
   isOpen: React.Dispatch<React.SetStateAction<boolean>>
+  category?: {
+    id: string
+    name: string
+  }
 }) {
+  const queryClient = useQueryClient()
   const router = useRouter()
   const [showDates, setShowDates] = useState(false)
   const [loading, setLoading] = useState<boolean>(false)
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
+    defaultValues: {
+      category: category ? category.name : "",
+    },
   })
 
   const onSubmit = async (data: z.infer<typeof formSchema>) => {
-    console.log("Données soumises :", data)
+    //console.log("Données soumises :", data)
+    //return
     try {
       setLoading(true)
       const { category, budgetName, amount, startDate, endDate } = data
@@ -88,14 +100,15 @@ export function AddBudgetForm({
       })
 
       if (response) {
+        queryClient.invalidateQueries({ queryKey: ["categories"] })
         toast.success("Budget ajouté avec succés", {
           duration: 1500,
           className: "text-green-500",
         })
+        router.refresh()
         setTimeout(() => {
           isOpen(false)
         }, 2000)
-        router.push("/")
       } else {
         toast.error("Une erreur est survenue veuillez réessayer", {
           duration: 1500,
@@ -127,11 +140,13 @@ export function AddBudgetForm({
                   field.onChange(value)
                   setShowDates(value === "Épargnes" || value === "Dettes")
                 }}
-                defaultValue={field.value}
+                value={field.value || category?.name || ""}
               >
                 <FormControl>
                   <SelectTrigger>
-                    <SelectValue placeholder='choisisez une catégorie' />
+                    <SelectValue
+                      placeholder={category?.name || "choisisez une catégorie"}
+                    />
                   </SelectTrigger>
                 </FormControl>
                 <SelectContent>
@@ -273,13 +288,15 @@ export function AddBudgetForm({
             />
           </>
         )}
-        <Button
-          type='submit'
-          className='w-full bg-emerald-600 text-white font-sans hover:bg-emerald-700'
-        >
-          {loading && <LoadingSpinner />}
-          Ma nouvelle enveloppe
-        </Button>
+        <div className='flex justify-end w-full'>
+          <Button
+            type='submit'
+            className='bg-emerald-600 text-white font-sans hover:bg-emerald-700 px-2 py-4 rounded-lg'
+          >
+            {loading && <LoadingSpinner />}
+            Validez <ArrowRightCircle className='w-4 h-4' />
+          </Button>
+        </div>
       </form>
     </Form>
   )

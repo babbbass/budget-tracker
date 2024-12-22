@@ -7,6 +7,7 @@ import { Footer } from "@/components/Footer"
 import { Toaster } from "sonner"
 import { Inter, DM_Sans } from "next/font/google"
 import { SpeedInsights } from "@vercel/speed-insights/next"
+import { ReactQueryProvider } from "@/providers/ReactQueryProvider"
 
 const inter = Inter({ subsets: ["latin"], variable: "--font-inter" })
 const dmSans = DM_Sans({
@@ -32,7 +33,7 @@ export default function RootLayout({
           <main className='relative bg-gray-50 text-gray-800 flex flex-col items-center min-h-screen p-2 py-4 max-w-[1440px] mx-auto'>
             <Navbar />
             <Toaster />
-            {children}
+            <ReactQueryProvider>{children}</ReactQueryProvider>
             <Footer />
             <SpeedInsights />
           </main>

@@ -2,12 +2,14 @@ import React from "react"
 import { addUserToDB } from "@/lib/actionsUser"
 import { BudgetCards } from "@/components/dashboard/BudgetCards"
 import { CategoryCards } from "@/components/dashboard/CategoryCards"
-import { TransactionCards } from "@/components/dashboard/TransactionCards"
-import { getTransactionsByUser } from "@/lib/actionsTransaction"
+// import { TransactionCards } from "@/components/dashboard/TransactionCards"
+// import { getTransactionsByUser } from "@/lib/actionsTransaction"
 import { findAllBudgetByUser } from "@/lib/actionsBudget"
 // import { ExportButton } from "@/components/ExportButton"
 import { FirstBudget } from "@/components/FirstBudget"
 import { AddBudgetDialog } from "@/components/dialog/addBudgetDialog"
+import { MonthSelector } from "@/components/MonthSelector"
+import Link from "next/link"
 
 type Dashboard = {
   userId: string
@@ -16,10 +18,10 @@ type Dashboard = {
 }
 
 export async function Dashboard({ userId, fullName, email }: Dashboard) {
-  const [, budgets, transactions] = await Promise.all([
+  const [, budgets] = await Promise.all([
     addUserToDB(userId, fullName, email),
     findAllBudgetByUser(email),
-    getTransactionsByUser(email, "last365"),
+    //getTransactionsByUser(email, "last365"),
   ])
   if (!budgets) {
     return null
@@ -41,6 +43,12 @@ export async function Dashboard({ userId, fullName, email }: Dashboard) {
           </span>
           {/* <ExportButton budgets={budgets?.categories} /> */}
           <AddBudgetDialog email={email} />
+
+          <Link href='/dashboard/settings'>
+            <p className='mx-auto text-sm cursor-pointer font-semibold rounded-xl text-white px-4 py-3 bg-primary hover:bg-primary/90 transition-all duration-300 ease-in-out flex justify-center'>
+              Paramètres
+            </p>
+          </Link>
         </div>
       </section>
       {budgets && budgets.categories.length === 0 && (
@@ -54,8 +62,8 @@ export async function Dashboard({ userId, fullName, email }: Dashboard) {
           <CategoryCards categories={budgets?.categories} />
         </div>
         <section className='w-full md:w-1/3 flex justify-center'>
-          {/* @ts-expect-error "error type unknown */}
-          <TransactionCards transactions={transactions} />
+          {/* <TransactionCards transactions={transactions} /> */}
+          <MonthSelector />
         </section>
       </div>
     </section>

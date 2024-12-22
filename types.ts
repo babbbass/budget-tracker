@@ -28,11 +28,26 @@ export type TransactionType = {
   name?: string
 }
 
-export enum Categories {
+export enum CategoriesEnum {
   REVENUS = "Revenus",
   // DETTES = "Dettes",
   EPARGNES = "Épargnes",
   // INVESTISSEMENTS = "Investissements",
   DEPENSES_FIXES = "Dépenses fixes",
   DEPENSES_VARIABLES = "Dépenses variables",
+}
+
+export enum MonthsEnum {
+  JANVIER,
+  FEVRIER,
+  MARS,
+  AVRIL,
+  MAI,
+  JUIN,
+  JUILLET,
+  AOUT,
+  SEPTEMBRE,
+  OCTOBRE,
+  NOVEMBRE,
+  DECEMBRE,
 }

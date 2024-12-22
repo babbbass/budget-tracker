@@ -1,15 +1,40 @@
 "use server"
 import { prisma } from "./db"
 import { cache } from "react"
-// import { unstable_noStore as noStore } from "next/cache"
+import { MonthsEnum } from "@/types"
+import { revalidatePath } from "next/cache"
 
-type addBudget = {
+type AddBudgetType = {
   email: string
   categoryName: string
   budgetName: string
   amount: number
   startDate?: Date
   endDate?: Date
+  monthlyPlanId?: string
+}
+
+type AddBudgetForMonthType = {
+  email: string
+  categoryName: string
+  budget: {
+    id: string
+    name: string
+    amount: number
+  }
+  amount: number
+  month: string
+}
+
+async function getUserEmail(email: string) {
+  const user = await prisma.user.findUnique({
+    where: { email },
+  })
+  if (!user) {
+    throw new Error("Utilisateur non trouvé")
+  }
+
+  return user
 }
 
 export async function addBudget({
@@ -19,7 +44,8 @@ export async function addBudget({
   amount,
   startDate,
   endDate,
-}: addBudget) {
+  monthlyPlanId,
+}: AddBudgetType) {
   const formattedStartDate = startDate
     ? startDate.toISOString().split("T")[0]
     : null
@@ -27,12 +53,8 @@ export async function addBudget({
 
   try {
     let category = null
-    const user = await prisma.user.findUnique({
-      where: { email },
-    })
-    if (!user) {
-      throw new Error("Utilisateur non trouvé")
-    }
+
+    const user = await getUserEmail(email)
 
     category = await prisma.category.findUnique({
       where: {
@@ -46,6 +68,7 @@ export async function addBudget({
       category = await prisma.category.create({
         data: {
           name: categoryName,
+          type: "DEPENSES_VARIABLES",
           userId: user.id,
         },
       })
@@ -61,9 +84,11 @@ export async function addBudget({
           ? new Date(formattedStartDate)
           : undefined,
         endDate: formattedEndDate ? new Date(formattedEndDate) : undefined,
+        monthlyPlanId,
       },
     })
     console.log("created budget", createdBudget)
+
     return createdBudget
   } catch (error) {
     console.error("Erreur lors de l'ajout du budget:", error)
@@ -78,7 +103,11 @@ export const findAllBudgetByUser = cache(async (email: string) => {
       include: {
         categories: {
           include: {
-            budgets: true,
+            budgets: {
+              include: {
+                monthlyPlan: true,
+              },
+            },
           },
         },
       },
@@ -89,6 +118,41 @@ export const findAllBudgetByUser = cache(async (email: string) => {
     throw error
   }
 })
+
+export async function findBudgetsForMonth(
+  email: string,
+  month: string,
+  year: number
+) {
+  try {
+    const userBudgets = await prisma.user.findUnique({
+      where: { email },
+      include: {
+        categories: {
+          include: {
+            budgets: {
+              include: {
+                monthlyPlan: {
+                  where: {
+                    //month,
+                    year,
+                  },
+                  select: {
+                    month: true,
+                    year: true,
+                  },
+                },
+              },
+            },
+          },
+        },
+      },
+    })
+    return userBudgets
+  } catch (error) {
+    console.error("Erreur lors de la recherche des budgets:", error)
+  }
+}
 
 export async function getBudgetsByCategory(
   email: string,
@@ -162,5 +226,94 @@ export async function deleteBudgetById(budgetId: string): Promise<boolean> {
   } catch (error) {
     console.error("Erreur lors de la suppression du budget:", error)
     throw error
+  }
+}
+
+export async function addBudgetForMonth({
+  email,
+  categoryName,
+  budget,
+  amount,
+  month,
+}: AddBudgetForMonthType) {
+  try {
+    const monthNumber =
+      MonthsEnum[month.toUpperCase() as keyof typeof MonthsEnum]
+    //console.log("month", monthNumber)
+    //return
+    let budgetForMonth = null
+    const user = await getUserEmail(email)
+
+    budgetForMonth = await prisma.monthlyPlan.findFirst({
+      where: {
+        month: monthNumber,
+        year: 2025,
+        userId: user.id,
+      },
+    })
+    if (!budgetForMonth) {
+      budgetForMonth = await prisma.monthlyPlan.create({
+        data: {
+          month: monthNumber,
+          year: 2025,
+          userId: user.id,
+        },
+      })
+    }
+    let updateOrCreateBudget = await findBudgetById(budget.id)
+    if (updateOrCreateBudget) {
+      updateOrCreateBudget = await prisma.budget.update({
+        where: {
+          id: budget.id,
+        },
+        data: {
+          amount,
+          monthlyPlanId: budgetForMonth.id,
+        },
+      })
+    } else {
+      updateOrCreateBudget = await addBudget({
+        email,
+        categoryName,
+        budgetName: budget.name,
+        amount,
+        //startDate,
+        //endDate,
+        monthlyPlanId: budgetForMonth.id,
+      })
+    }
+
+    return budget
+  } catch (error) {
+    console.error("Erreur lors de l'ajout du budget:", error)
+    throw error
+  }
+}
+
+async function findBudgetById(budgetId: string) {
+  try {
+    const budget = await prisma.budget.findFirst({
+      where: {
+        id: budgetId,
+      },
+    })
+    return budget
+  } catch (error) {
+    console.error("Erreur lors de la recherche des budgets:", error)
+    throw error
+  }
+}
+
+export async function deleteBudgetAction(
+  budgetId: string,
+  pathToRevalidate: string
+) {
+  try {
+    await deleteBudgetById(budgetId)
+    revalidatePath(pathToRevalidate)
+    return { success: true }
+  } catch (error) {
+    console.error("Erreur dans deleteBudgetAction :", error)
+    throw new Error("Échec de la suppression du budget.")
   }
 }
