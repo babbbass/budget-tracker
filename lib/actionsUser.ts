@@ -42,3 +42,14 @@ export async function getUserFromDB() {
     throw error
   }
 }
+
+export async function getUserByEmail(email: string) {
+  const user = await prisma.user.findUnique({
+    where: { email },
+  })
+  if (!user) {
+    throw new Error("Utilisateur non trouvé")
+  }
+
+  return user
+}

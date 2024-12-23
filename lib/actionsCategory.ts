@@ -15,6 +15,9 @@ export async function getAllCategoriesByUser(email: string) {
       where: {
         userId: user.id,
       },
+      include: {
+        budgets: true,
+      },
     })
     return category
   } catch (error) {
