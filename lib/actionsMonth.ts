@@ -3,7 +3,7 @@ import { prisma } from "./db"
 import { MonthsEnum } from "@/types"
 import { getUserByEmail } from "@/lib/actionsUser"
 
-export async function findMonthPlanById(email: string, month: string) {
+export async function findMonthPlanByEmail(email: string, month: string) {
   try {
     const user = await getUserByEmail(email)
     const monthPlan = await prisma.monthlyPlan.findFirst({

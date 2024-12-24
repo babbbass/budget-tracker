@@ -51,3 +51,10 @@ export enum MonthsEnum {
   NOVEMBRE,
   DECEMBRE,
 }
+
+export type MonthlyPlanType = {
+  id: string
+  month: number
+  year: number
+  userId: string
+}

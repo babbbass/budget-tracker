@@ -6,7 +6,7 @@ import { revalidatePath } from "next/cache"
 import { getUserByEmail } from "@/lib/actionsUser"
 
 type AddBudgetType = {
-  id: string
+  id?: string
   email: string
   categoryName: string
   budgetName: string
@@ -245,6 +245,24 @@ export async function addBudgetForMonth({
       })
     }
 
+    const budgetDb = await prisma.budget.findFirst({
+      where: {
+        id: budget.id,
+      },
+    })
+
+    if (!budgetDb) {
+      throw new Error("Budget non trouvé.")
+    }
+
+    await prisma.budget.create({
+      data: {
+        ...budgetDb,
+        id: undefined,
+        monthlyPlanId: monthlyPlan.id,
+      },
+    })
+
     const budgetForMonth = await prisma.monthlyPlanBudget.create({
       data: {
         monthlyPlanId: monthlyPlan.id,
@@ -267,14 +285,42 @@ export async function removeBudgetForMonth({
   monthId: string
 }) {
   try {
-    const deletedBudgetMonthly = await prisma.monthlyPlanBudget.deleteMany({
+    await prisma.monthlyPlanBudget.deleteMany({
       where: {
         budgetId: budgetId,
         monthlyPlanId: monthId,
       },
     })
 
-    return deletedBudgetMonthly
+    const budgetsToDelete = await prisma.budget.findMany({
+      where: {
+        monthlyPlans: {
+          some: {
+            monthlyPlanId: monthId,
+          },
+        },
+      },
+    })
+
+    console.log("delete monthly budget", budgetsToDelete)
+
+    await prisma.monthlyPlanBudget.deleteMany({
+      where: {
+        AND: budgetsToDelete.map((budget) => ({
+          budgetId: budget.id,
+          monthlyPlanId: monthId as string,
+        })),
+      },
+    })
+
+    await prisma.budget.deleteMany({
+      where: {
+        id: budgetId,
+      },
+    })
+
+    return true
+    // return deletedBudgetMonthly
   } catch (error) {
     console.error("Erreur lors de suppression budget du mois:", error)
     throw error

@@ -19,18 +19,11 @@ export function Navbar() {
       <SignedIn>
         {/* Menu desktop */}
         <div className='hidden md:flex space-x-4'>
-          <Link href={"/budgets"} className='btn'>
-            Mes enveloppes
-          </Link>
-          <Link href={"/dashboard"} className='btn'>
-            Récapitulatif
-          </Link>
-          <Link href={"/transactions"} className='btn'>
-            Mes Transactions
-          </Link>
-          <Link href={"/epargnes"} className='btn'>
-            Mon Epargne
-          </Link>
+          <Link href={"/budgets"}>Mes enveloppes</Link>
+          <Link href={"/dashboard"}>Récapitulatif</Link>
+          <Link href={"/transactions"}>Mes Transactions</Link>
+          <Link href={"/epargnes"}>Mon Epargne</Link>
+          <Link href={"/dashboard/settings"}>Reglages & Aide</Link>
         </div>
 
         {/* Menu mobile */}
@@ -48,7 +41,10 @@ export function Navbar() {
               isMobileMenuOpen ? "translate-x-0" : "-translate-x-full"
             }`}
           >
-            <div className='flex justify-between mb-6'>
+            <div
+              className='flex justify-between mb-6 '
+              onClick={toggleMobileMenu}
+            >
               <Logo />
               <button
                 onClick={toggleMobileMenu}
@@ -61,33 +57,36 @@ export function Navbar() {
             <div className='mb-2'>
               <UserButton />
             </div>
-            <Link
-              href={"/budgets"}
-              className='btn btn-lg mb-4'
-              onClick={toggleMobileMenu}
-            >
+            <Link href={"/budgets"} className='mb-4' onClick={toggleMobileMenu}>
               Mes enveloppes
             </Link>
             <Link
               href={"/dashboard"}
-              className='btn btn-lg mb-4'
+              className='mb-4'
               onClick={toggleMobileMenu}
             >
               Récapitulatif
             </Link>
             <Link
               href={"/transactions"}
-              className='btn btn-lg mb-4'
+              className='mb-4'
               onClick={toggleMobileMenu}
             >
               Mes Transactions
             </Link>
             <Link
               href={"/epargnes"}
-              className='btn mb-4'
+              className='mb-4'
               onClick={toggleMobileMenu}
             >
               Mon Epargne
+            </Link>
+            <Link
+              href={"/dashboard/settings"}
+              className='mb-4'
+              onClick={toggleMobileMenu}
+            >
+              Reglages & Aide
             </Link>
           </div>
         </div>
