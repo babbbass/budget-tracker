@@ -16,6 +16,7 @@ import {
 import { toast } from "sonner"
 import { addTransactionToBudget } from "@/lib/actionsTransaction"
 import { LoadingSpinner } from "@/components/LoadingSpinner"
+import { useQueryClient } from "@tanstack/react-query"
 
 const formSchema = z.object({
   nameTransaction: z
@@ -29,13 +30,13 @@ const formSchema = z.object({
 export function AddTransactionForm({
   budget,
   isOpen,
-  onSuccess,
 }: {
   budget: { budgetId: string; budgetName: string }
   isOpen: React.Dispatch<React.SetStateAction<boolean>>
-  onSuccess: () => void
+  monthPlanId?: string
 }) {
   const [loading, setLoading] = useState<boolean>(false)
+  const queryClient = useQueryClient()
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
   })
@@ -45,13 +46,14 @@ export function AddTransactionForm({
     try {
       setLoading(true)
       const { nameTransaction, amount } = data
-      const response = await addTransactionToBudget(
-        budget.budgetId,
+      const response = await addTransactionToBudget({
+        budgetId: budget.budgetId,
         amount,
-        nameTransaction
-      )
+        name: nameTransaction,
+      })
 
       if (response) {
+        queryClient.invalidateQueries({ queryKey: ["budget_by_id"] })
         toast.success("Nouvelle Transaction ajouté !", {
           duration: 1500,
           className: "text-green-500",
@@ -59,7 +61,6 @@ export function AddTransactionForm({
         setTimeout(() => {
           isOpen(false)
         }, 2000)
-        onSuccess()
       } else {
         toast.error("Une erreur est survenue veuillez réessayer", {
           duration: 1500,

@@ -12,18 +12,23 @@ import {
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { toast } from "sonner"
-import { addBudget, deleteBudgetAction } from "@/lib/actionsBudget"
+import { addBudgetForSetting, deleteBudgetAction } from "@/lib/actionsBudget"
 import { useUser } from "@clerk/nextjs"
 import { LoadingSpinner } from "@/components/LoadingSpinner"
 import { AddBudgetDialog } from "@/components/dialog/addBudgetDialog"
 import { FilePenLine, Trash } from "lucide-react"
-import { useRouter, usePathname } from "next/navigation"
+import { useRouter } from "next/navigation"
 import { useQueryClient } from "@tanstack/react-query"
 
 type BudgetItem = {
   id: string
   name: string
   amount: number
+  monthlyPlans: {
+    id: string
+    budgetId: string
+    monthlyPlanId: string
+  }[]
 }
 
 type CategoryWithBudgets = {
@@ -36,7 +41,6 @@ export default function BudgetConfiguration() {
   const router = useRouter()
   const { user } = useUser()
   const queryClient = useQueryClient()
-  const pathname = usePathname()
 
   const email = user?.emailAddresses[0].emailAddress || ""
   const { data: categories, isLoading } = useCategories(email)
@@ -63,7 +67,7 @@ export default function BudgetConfiguration() {
         if (validBudgets.length === 0) continue
 
         for (const budget of validBudgets) {
-          await addBudget({
+          await addBudgetForSetting({
             email: email,
             budgetName: budget.name,
             categoryName: category.name,
@@ -79,10 +83,10 @@ export default function BudgetConfiguration() {
     }
   }
 
-  async function deleteBudget(budgetId: string) {
+  async function deleteBudget(budget: BudgetItem) {
     try {
-      await deleteBudgetAction(budgetId, pathname)
-      queryClient.invalidateQueries({ queryKey: ["categories"] })
+      await deleteBudgetAction(budget)
+      queryClient.invalidateQueries({ queryKey: ["categories", "budgets"] })
       toast.success("Enveloppe supprimée !", {
         duration: 1500,
         className: "text-primary",
@@ -98,16 +102,16 @@ export default function BudgetConfiguration() {
   }
 
   const renderCategoryCard = (category: CategoryWithBudgets) => (
-    <Card key={category.name} className='w-full mb-4'>
-      <CardHeader>
-        <CardTitle className='flex justify-between items-center'>
-          {category.name}
-          <span>
-            Total: {calculateTotal(category.budgets).toLocaleString()}€
+    <Card key={category.name} className='w-full mb-4 p-2 bg-slate-50'>
+      <CardHeader className='p-2'>
+        <CardTitle className='flex justify-between items-center font-title text-lg md:text-2xl w-full'>
+          <span>{category.name}</span>
+          <span className='font-sans text-base'>
+            {calculateTotal(category.budgets).toLocaleString()}€
           </span>
         </CardTitle>
       </CardHeader>
-      <CardContent>
+      <CardContent className='p-2'>
         <Table>
           <TableHeader>
             {/* <TableRow>
@@ -117,14 +121,14 @@ export default function BudgetConfiguration() {
           </TableHeader>
           <TableBody>
             {category.budgets.map((budget) => (
-              <TableRow key={budget.id}>
-                <TableCell>{budget.name}</TableCell>
-                <TableCell className='flex justify-end gap-2'>
-                  <span>{budget.amount || ""}€</span>{" "}
+              <TableRow key={budget.id} className='font-sans'>
+                <TableCell>{budget.name.toUpperCase()}</TableCell>
+                <TableCell className='flex justify-end items-center gap-2'>
+                  <span className=' mr-4'>{budget.amount || ""}€</span>{" "}
                   <FilePenLine className='w-4 h-4 text-primary cursor-pointer' />
                   <Trash
                     className='w-4 h-4 text-red-600 cursor-pointer'
-                    onClick={() => deleteBudget(budget.id)}
+                    onClick={() => deleteBudget(budget)}
                   />
                 </TableCell>
               </TableRow>
@@ -148,19 +152,21 @@ export default function BudgetConfiguration() {
 
   return (
     <div className='w-full max-w-4xl mx-auto p-4 space-y-4 flex flex-1 flex-col gap-4'>
-      <h1 className='text-2xl text-primary mb-10 text-center font-title'>
+      <h1 className='text-3xl text-slate-50 mb-6 text-center font-title'>
         Configurez vos enveloppes
       </h1>
 
       {categories?.map((category) => renderCategoryCard(category))}
 
-      <Button
-        className='w-3/4 text-white bg-primary hover:bg-primary/80 font-sans my-8 mx-auto'
-        onClick={handleSubmit}
-        disabled={isLoading}
-      >
-        {isLoading ? "Enregistrement..." : "Enregistrer votre configuration"}
-      </Button>
+      <div className='w-full flex justify-end mt-10'>
+        <Button
+          className='text-emerald-800 bg-slate-50 hover:bg-primary/80 hover:text-slate-50 font-sans mr-2'
+          onClick={handleSubmit}
+          disabled={isLoading}
+        >
+          {isLoading ? "Enregistrement..." : "Enregistrer votre configuration"}
+        </Button>
+      </div>
     </div>
   )
 }

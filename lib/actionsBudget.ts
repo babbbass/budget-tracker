@@ -2,8 +2,8 @@
 import { prisma } from "./db"
 import { cache } from "react"
 import { MonthsEnum } from "@/types"
-import { revalidatePath } from "next/cache"
 import { getUserByEmail } from "@/lib/actionsUser"
+import { revalidatePath } from "next/cache"
 
 type AddBudgetType = {
   id?: string
@@ -23,9 +23,10 @@ type AddBudgetForMonthType = {
     amount: number
   }
   month: string
+  pathToRevalidate: string
 }
 
-export async function addBudget({
+export async function addBudgetForSetting({
   email,
   categoryName,
   budgetName,
@@ -62,6 +63,16 @@ export async function addBudget({
     }
 
     console.log("add budget", user, category)
+    const budget = await prisma.budget.findFirst({
+      where: {
+        name: budgetName,
+        categoryId: category.id,
+        monthlyPlanId: null,
+      },
+    })
+    if (budget) {
+      return budget
+    }
     const createdBudget = await prisma.budget.create({
       data: {
         name: budgetName,
@@ -71,7 +82,6 @@ export async function addBudget({
           ? new Date(formattedStartDate)
           : undefined,
         endDate: formattedEndDate ? new Date(formattedEndDate) : undefined,
-        //monthlyPlanId,
       },
     })
     console.log("created budget", createdBudget)
@@ -220,6 +230,7 @@ export async function addBudgetForMonth({
   email,
   budget,
   month,
+  pathToRevalidate,
 }: AddBudgetForMonthType) {
   try {
     const monthNumber =
@@ -269,7 +280,7 @@ export async function addBudgetForMonth({
         budgetId: budget.id,
       },
     })
-
+    revalidatePath(pathToRevalidate)
     return budgetForMonth
   } catch (error) {
     console.error("Erreur lors de l'ajout du budget du mois:", error)
@@ -327,30 +338,52 @@ export async function removeBudgetForMonth({
   }
 }
 
-// async function findBudgetById(budgetId: string) {
-//   try {
-//     const budget = await prisma.budget.findFirst({
-//       where: {
-//         id: budgetId,
-//       },
-//     })
-//     return budget
-//   } catch (error) {
-//     console.error("Erreur lors de la recherche des budgets:", error)
-//     throw error
-//   }
-// }
-
-export async function deleteBudgetAction(
-  budgetId: string,
-  pathToRevalidate: string
-) {
+export async function deleteBudgetAction(budget: {
+  id: string
+  name: string
+  amount: number
+  monthlyPlans: {
+    id: string
+    budgetId: string
+    monthlyPlanId: string
+  }[]
+}) {
   try {
-    await deleteBudgetById(budgetId)
-    revalidatePath(pathToRevalidate)
+    await deleteBudgetSettings(budget)
     return { success: true }
   } catch (error) {
     console.error("Erreur dans deleteBudgetAction :", error)
     throw new Error("Échec de la suppression du budget.")
   }
+}
+
+async function deleteBudgetSettings(budget: {
+  id: string
+  name: string
+  amount: number
+  monthlyPlans: {
+    id: string
+    budgetId: string
+    monthlyPlanId: string
+  }[]
+}) {
+  const deletedBudget = await prisma.$transaction(async (prisma) => {
+    // Delete the main budget
+    await prisma.budget.delete({
+      where: { id: budget.id },
+    })
+
+    // Delete associated monthly plans
+    await prisma.monthlyPlan.deleteMany({
+      where: {
+        id: {
+          in: budget.monthlyPlans.map((plan) => plan.monthlyPlanId),
+        },
+      },
+    })
+  })
+
+  console.log("deletedBudget", deletedBudget)
+
+  return { success: true }
 }

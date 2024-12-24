@@ -104,6 +104,7 @@ export default function MonthlyBudgetPage() {
         email: email,
         budget,
         month: month as string,
+        pathToRevalidate: `/envelopes/${month}`,
       })
       queryClient.invalidateQueries({ queryKey: ["budgets"] })
       toast.success("Enveloppe ajouté au mois", {
@@ -145,7 +146,7 @@ export default function MonthlyBudgetPage() {
   const renderMonthlyBudgets = (category: Category) => (
     <Card
       key={category.id}
-      className='w-full mb-4 bg-green-800 text-white font-sans p-0'
+      className='w-full mb-4 bg-primary text-slate-50 font-sans p-0'
     >
       <CardHeader>
         <CardTitle className='text-xl text-center'>{category.name}</CardTitle>
@@ -196,7 +197,7 @@ export default function MonthlyBudgetPage() {
                 <TableCell className='text-right'>{budget.amount}€</TableCell>
                 <TableCell className='text-right'>
                   <Button
-                    className='text-white bg-primary hover:bg-primary/90 hover:scale-110 transition-all duration-300 ease-in-out font-sans'
+                    className='text-slate-50 bg-primary hover:bg-primary/90 hover:scale-110 transition-all duration-300 ease-in-out font-sans'
                     onClick={() => handleAddToMonthly(budget)}
                   >
                     Ajouter
@@ -222,29 +223,32 @@ export default function MonthlyBudgetPage() {
     <div className='flex flex-1 flex-col w-full max-w-4xl mx-auto p-4'>
       <div className='flex justify-around items-center mb-20'>
         <Button
-          className='text-white bg-primary hover:bg-primary/90 hover:scale-110 transition-all duration-300 ease-in-out'
+          className='text-slate-50 bg-primary hover:bg-primary/90 hover:scale-110 transition-all duration-300 ease-in-out'
           onClick={() => router.push(`/envelopes/${prevMonth}`)}
         >
           <CircleChevronLeft />
         </Button>
-        <Button className='text-white bg-primary' onClick={handleCalendarClick}>
+        <Button
+          className='text-slate-50 bg-primary'
+          onClick={handleCalendarClick}
+        >
           📅 Choisir un mois
         </Button>
         <Button
-          className='text-white bg-primary hover:bg-primary/90 hover:scale-110 transition-all duration-300 ease-in-out'
+          className='text-slate-50 bg-primary hover:bg-primary/90 hover:scale-110 transition-all duration-300 ease-in-out'
           onClick={() => router.push(`/envelopes/${nextMonth}`)}
         >
           <CircleChevronRight />
         </Button>
       </div>
-      <h1 className='text-3xl w-full text-center font-title text-primary mb-10'>{`Mes enveloppes de ${month
+      <h1 className='text-3xl w-full text-center font-title text-slate-50 mb-10'>{`Mes enveloppes de ${month
         ?.toString()
         .toUpperCase()}`}</h1>
       {budgetsForMonth?.map((category) =>
         renderMonthlyBudgets(category as Category)
       )}
 
-      <h2 className='text-2xl mt-10 mb-4 w-full text-center font-title text-primary'>
+      <h2 className='text-2xl mt-10 mb-8 w-full text-center font-title text-slate-50'>
         Mes enveloppes génériques
       </h2>
       {genericBudgets?.map((category) =>

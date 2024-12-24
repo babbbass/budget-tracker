@@ -27,13 +27,13 @@ export function MonthSelector() {
 
   return (
     <div className='container py-4 my-4'>
-      <div className='flex flex-row mb-6 items-center justify-start gap-3'>
-        <CalendarDays className='inline h-8 w-8 text-gray-800' />
+      <div className='flex flex-row mb-6 items-center justify-center gap-3'>
+        <CalendarDays className='inline h-8 w-8 text-slate-200' />
         <div className='flex items-start justify-center flex-col'>
-          <h2 className='text-primary text-2xl font-title flex items-center gap-3'>
+          <h2 className='text-slate-50 text-2xl font-title flex items-center gap-3'>
             Faire mon budget du mois de
           </h2>
-          <p className='font-sans text-gray-600 text-sm text-center w-full'>
+          <p className='font-sans text-slate-50 text-sm text-center w-full'>
             <ArrowDown className='inline h-4 w-4' /> Cliquez sur le mois que
             vous souhaitez
             <ArrowDown className='inline h-4 w-4' />

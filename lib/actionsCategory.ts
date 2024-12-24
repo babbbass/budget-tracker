@@ -16,7 +16,17 @@ export async function getAllCategoriesByUser(email: string) {
         userId: user.id,
       },
       include: {
-        budgets: true,
+        budgets: {
+          where: {
+            monthlyPlanId: null,
+          },
+          select: {
+            id: true,
+            name: true,
+            amount: true,
+            monthlyPlans: true,
+          },
+        },
       },
     })
     return category

@@ -3,10 +3,10 @@ import { getAllCategoriesByUser } from "@/lib/actionsCategory"
 
 export function useCategories(email: string) {
   return useQuery(["categories", email], () => getAllCategoriesByUser(email), {
-    staleTime: 0, // Les données sont immédiatement considérées comme obsolètes
+    staleTime: 0,
     cacheTime: 1000 * 60 * 5,
-    refetchOnMount: true, // Refetch quand le composant est monté
-    refetchOnWindowFocus: true, // Refetch quand la fenêtre reprend le focus
-    enabled: !!email, // N'exécute la requête que si l'email est défini
+    refetchOnMount: true,
+    refetchOnWindowFocus: true,
+    enabled: !!email,
   })
 }
