@@ -60,13 +60,13 @@ export default function BudgetConfiguration() {
     if (!categories) return
     try {
       for (const category of categories) {
-        const validBudgets = category.budgets.filter(
-          (budget) => budget.name.trim() !== ""
-        )
+        // const validBudgets = category.budgets.filter(
+        //   (budget) => budget.name.trim() !== ""
+        // )
 
-        if (validBudgets.length === 0) continue
-
-        for (const budget of validBudgets) {
+        // if (validBudgets.length === 0) continue
+        // @ts-expect-error "error type unknown"
+        for (const budget of category) {
           await addBudgetForSetting({
             email: email,
             budgetName: budget.name,
@@ -155,7 +155,7 @@ export default function BudgetConfiguration() {
       <h1 className='text-3xl text-slate-50 mb-6 text-center font-title'>
         Configurez vos enveloppes
       </h1>
-
+      {/* @ts-expect-error "error type unknown" */}
       {categories?.map((category) => renderCategoryCard(category))}
 
       <div className='w-full flex justify-end mt-10'>

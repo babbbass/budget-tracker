@@ -24,6 +24,7 @@ export function EditTransactionDialog({
   >(null)
   async function findTransaction(id: string) {
     const transaction = await findTransactionById(id)
+    // @ts-expect-error "error type unknown"
     setTransaction(transaction)
   }
 

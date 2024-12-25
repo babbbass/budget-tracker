@@ -19,7 +19,7 @@ export default function Page() {
   return (
     <div className='flex flex-1 justify-center items-center w-2/3'>
       {monthPlan && (
-        // {/* @ts-expect-error "error type unknown" */}
+        // @ts-expect-error "error type unknown"
         <AddTransactionDialog budget={budget} monthPlan={monthPlan} />
       )}
       {/* @ts-expect-error "error type unknown" */}
