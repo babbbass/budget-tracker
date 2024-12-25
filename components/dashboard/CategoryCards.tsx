@@ -16,32 +16,27 @@ export function CategoryCards({ categories }: { categories: CategoryType[] }) {
   const router = useRouter()
   return (
     <div className='py-4'>
-      <div className='flex flex-col mb-6'>
-        <h2 className='text-primary text-3xl font-title flex items-center gap-3'>
-          <ChartColumnStacked className='inline h-6 w-6 text-gray-800' />
+      <div className='flex flex-col mb-5 font-sans'>
+        <h2 className='text-slate-50 text-3xl font-title flex items-center gap-3'>
+          <ChartColumnStacked className='inline h-6 w-6 text-slate-200' />
           Catégories
         </h2>
-        <p className='text-sm text-gray-600 font-sans'>
-          catégories principales
-        </p>
+        <p className='text-sm text-slate-200 '>catégories principales</p>
       </div>
       {categories.length > 0 && (
-        <Card className='p-4'>
+        <Card className='p-2 bg-primary border-0 shadow-2xl text-slate-50 font-sans'>
           <CardContent className='overflow-x-auto px-0'>
             <Table className='table-auto w-full'>
-              <TableHeader className='bg-gray-100'>
+              <TableHeader className='border-slate-200 border-b'>
                 <TableRow>
-                  <TableHead className='text-gray-600 font-title text-left'>
+                  <TableHead className='font-title text-left text-slate-50'>
                     Catégorie
                   </TableHead>
-                  <TableHead className='text-gray-600 font-title text-left'>
+                  <TableHead className='font-title text-left text-slate-50'>
                     Montant total
                   </TableHead>
-                  <TableHead className='text-gray-600 font-title text-left'>
+                  <TableHead className='font-title text-left text-slate-50'>
                     Budgets
-                  </TableHead>
-                  <TableHead className='text-gray-600 font-title text-left hidden md:table-cell'>
-                    {`Dépensés aujourd'hui`}
                   </TableHead>
                 </TableRow>
               </TableHeader>
@@ -49,28 +44,25 @@ export function CategoryCards({ categories }: { categories: CategoryType[] }) {
                 {categories.map((category: CategoryType) => (
                   <TableRow
                     key={category.id}
-                    className='hover:bg-gray-100 border-b cursor-pointer'
+                    className='cursor-pointer border-0'
                     onClick={() => router.push(`/categories/${category.id}`)}
                   >
-                    <TableCell className='text-sm font-sans text-gray-900'>
+                    <TableCell className='text-sm'>
                       {category.name || "N/A"}
                     </TableCell>
-                    <TableCell className='text-sm font-sans text-gray-900'>
+                    <TableCell className='text-sm'>
                       {category.budgets.reduce(
                         (total, budget) => total + budget.amount,
                         0
                       )}{" "}
                       €
                     </TableCell>
-                    <TableCell className='text-sm font-sans text-gray-900'>
+                    <TableCell className='text-sm'>
                       {category.budgets.map((budget) => (
                         <div key={budget.id} className='mb-1'>
                           {budget.name}
                         </div>
                       ))}
-                    </TableCell>
-                    <TableCell className='text-sm hidden md:table-cell'>
-                      {/* Contenu pour "dépensés aujourd'hui" */}
                     </TableCell>
                   </TableRow>
                 ))}

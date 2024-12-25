@@ -93,6 +93,29 @@ export async function addBudgetForSetting({
   }
 }
 
+export const findMainBudgetByUserEmail = cache(async (email: string) => {
+  try {
+    const userBudgets = await prisma.user.findUnique({
+      where: { email },
+      include: {
+        categories: {
+          include: {
+            budgets: {
+              where: {
+                monthlyPlanId: null,
+              },
+            },
+          },
+        },
+      },
+    })
+    return userBudgets
+  } catch (error) {
+    console.error("Erreur lors de la recherche des budgets:", error)
+    throw error
+  }
+})
+
 export const findAllBudgetByUser = cache(async (email: string) => {
   try {
     const userBudgets = await prisma.user.findUnique({

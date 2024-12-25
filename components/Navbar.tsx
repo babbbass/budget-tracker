@@ -14,7 +14,7 @@ export function Navbar() {
   }
 
   return (
-    <nav className='sticky top-0 z-10 bg-white font-sans text-gray-600 flex p-2 min-w-[320px] w-full justify-between items-center mb-10 h-[50px] border-b'>
+    <nav className='sticky top-0 z-10 font-sans text-slate-50 flex p-2 min-w-[320px] w-full justify-between items-center mb-10 h-[50px] border-b border-slate-200'>
       <Logo />
       <SignedIn>
         {/* Menu desktop */}
@@ -37,7 +37,7 @@ export function Navbar() {
           </button>
 
           <div
-            className={`fixed top-0 left-0 w-full h-full bg-white shadow-lg z-50 flex flex-col p-5 transform transition-transform duration-800 ease-in-out ${
+            className={`fixed top-0 left-0 w-full h-full bg-emerald-900 shadow-lg z-50 flex flex-col p-5 transform transition-transform duration-800 ease-in-out ${
               isMobileMenuOpen ? "translate-x-0" : "-translate-x-full"
             }`}
           >

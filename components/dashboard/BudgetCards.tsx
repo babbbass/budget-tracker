@@ -6,11 +6,11 @@ import { Mail } from "lucide-react"
 export function BudgetCards({ budgets }: { budgets: CategoryType[] }) {
   return (
     <div className='container py-4 my-4'>
-      <div className='flex flex-col mb-6'>
-        <h2 className='text-primary text-3xl font-title flex items-center gap-3'>
-          <Mail className='inline h-6 w-6 text-gray-800' /> Mes enveloppes
+      <div className='flex flex-col mb-5 font-sans'>
+        <h2 className='text-slate-50 text-3xl font-title flex items-center gap-3'>
+          <Mail className='inline h-6 w-6 text-slate-200' /> Mes enveloppes
         </h2>
-        <p className='font-sans text-gray-600 text-sm'>
+        <p className='text-sm text-slate-50'>
           Suivez vos finances et atteignez vos objectifs financier
         </p>
       </div>
@@ -19,21 +19,15 @@ export function BudgetCards({ budgets }: { budgets: CategoryType[] }) {
         {budgets.map((categorie: CategoryType) =>
           categorie.budgets.map((budget: BudgetType) => (
             <Link href={`/budgets/${budget.id}`} key={budget.id}>
-              <Card className='hover:scale-105 hover:shadow-lg hover:cursor-pointer transition-all duration-300 ease-in-out'>
+              <Card className='bg-primary border-0 shadow-2xl font-sans p-0 hover:scale-105 hover:shadow-lg hover:cursor-pointer transition-all duration-300 ease-in-out text-slate-50'>
                 <CardHeader
-                  className={`bg-primary text-white rounded-t-xl p-4 mb-4`}
+                  className={`border-b border-slate-50 text-slate-50 rounded-t-xl p-4 `}
                 >
-                  <CardTitle className='italic font-title'>
-                    {budget.name}
-                  </CardTitle>
+                  <CardTitle className='font-title'>{budget.name}</CardTitle>
                 </CardHeader>
-                <CardContent className='flex flex-col gap-3'>
-                  <p className='font-sans text-3xl text-gray-900'>
-                    {budget.amount}€
-                  </p>
-                  <p className='text-sm text-gray-600'>
-                    Categorie: {categorie.name}
-                  </p>
+                <CardContent className='flex flex-col gap-3 p-4'>
+                  <p className='text-base'>{budget.amount}€</p>
+                  <p className='text-sm'>Categorie: {categorie.name}</p>
                 </CardContent>
               </Card>
             </Link>
