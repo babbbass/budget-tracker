@@ -1,5 +1,6 @@
 "use server"
 import { prisma } from "./db"
+import { CategoriesEnum } from "@/types"
 
 export async function getAllCategoriesByUser(email: string) {
   try {
@@ -29,6 +30,10 @@ export async function getAllCategoriesByUser(email: string) {
         },
       },
     })
+
+    if (category.length === 0) {
+      category = await createInitialCategory(email)
+    }
     return category
   } catch (error) {
     console.error("Erreur lors de l'ajout du budget:", error)
@@ -61,6 +66,39 @@ export async function fetchCategoryById(categoryId: string) {
     return category
   } catch (error) {
     console.error("Erreur lors de la recherche de la catégorie:", error)
+    throw error
+  }
+}
+
+export async function createInitialCategory(email: string) {
+  try {
+    const user = await prisma.user.findUnique({
+      where: { email },
+    })
+    if (!user) {
+      throw new Error("Utilisateur non trouvé")
+    }
+    const categories = await Promise.all(
+      ["Revenus", "Depenses fixes", "Depenses variables"].map((name) =>
+        prisma.category.create({
+          data: {
+            name,
+            type: name
+              .toUpperCase()
+              .replace(/\s/g, "_") as keyof typeof CategoriesEnum,
+            user: {
+              connect: {
+                id: user.id,
+              },
+            },
+          },
+        })
+      )
+    )
+
+    return categories
+  } catch (error) {
+    console.error("Erreur lors de la creation des catégories initiales:", error)
     throw error
   }
 }

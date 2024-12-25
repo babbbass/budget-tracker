@@ -4,6 +4,7 @@ import { cache } from "react"
 import { MonthsEnum } from "@/types"
 import { getUserByEmail } from "@/lib/actionsUser"
 import { revalidatePath } from "next/cache"
+import { CategoriesEnum } from "@/types"
 
 type AddBudgetType = {
   id?: string
@@ -42,6 +43,7 @@ export async function addBudgetForSetting({
   try {
     let category = null
 
+    const typeOfCategory = categoryName.toUpperCase().replace(/\s/g, "_")
     const user = await getUserByEmail(email)
 
     category = await prisma.category.findUnique({
@@ -56,13 +58,12 @@ export async function addBudgetForSetting({
       category = await prisma.category.create({
         data: {
           name: categoryName,
-          type: "DEPENSES_VARIABLES",
+          type: typeOfCategory as keyof typeof CategoriesEnum,
           userId: user.id,
         },
       })
     }
 
-    console.log("add budget", user, category)
     const budget = await prisma.budget.findFirst({
       where: {
         name: budgetName,

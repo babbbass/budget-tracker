@@ -138,7 +138,7 @@ export function AddBudgetForm({
               <Select
                 onValueChange={(value) => {
                   field.onChange(value)
-                  setShowDates(value === "Épargnes" || value === "Dettes")
+                  setShowDates(value === "Epargnes" || value === "Dettes")
                 }}
                 value={field.value || category?.name || ""}
               >

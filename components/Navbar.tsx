@@ -22,7 +22,7 @@ export function Navbar() {
           <Link href={"/budgets"}>Mes enveloppes</Link>
           <Link href={"/dashboard"}>Récapitulatif</Link>
           <Link href={"/transactions"}>Mes Transactions</Link>
-          <Link href={"/epargnes"}>Mon Epargne</Link>
+          {/* <Link href={"/epargnes"}>Mon Epargne</Link> */}
           <Link href={"/dashboard/settings"}>Reglages & Aide</Link>
         </div>
 
@@ -74,13 +74,13 @@ export function Navbar() {
             >
               Mes Transactions
             </Link>
-            <Link
+            {/* <Link
               href={"/epargnes"}
               className='mb-4'
               onClick={toggleMobileMenu}
             >
               Mon Epargne
-            </Link>
+            </Link> */}
             <Link
               href={"/dashboard/settings"}
               className='mb-4'
