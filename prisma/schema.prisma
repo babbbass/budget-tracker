@@ -63,8 +63,9 @@ model Budget {
   category      Category           @relation(fields: [categoryId], references: [id], onDelete: Cascade)
   transactions  Transaction[]
   monthlyPlans  MonthlyPlanBudget[]
-  
-  @@unique([name, categoryId]) 
+  monthlyPlanId String?
+    
+  @@unique([name, categoryId, monthlyPlanId]) 
   @@index([startDate]) 
 }
 

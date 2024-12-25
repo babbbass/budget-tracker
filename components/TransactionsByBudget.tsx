@@ -9,10 +9,6 @@ import {
   TableHead,
 } from "@/components/ui/table"
 import { ScrollArea } from "@/components/ui/scroll-area"
-import // ChevronsUpDown,
-// ChevronRight,
-// ChevronLeft,
-"lucide-react"
 import { TransactionType } from "@/types"
 import { EditTransactionDialog } from "@/components/dialog/EditTransactionDialog"
 import { BudgetType } from "@/types"
@@ -32,22 +28,28 @@ export function TransactionsByBudget({
   if (!budget) {
     return <div>Chargement...</div>
   }
+
+  if (budget.transactions?.length === 0) {
+    return (
+      <p className='text-slate-50 text-center w-full font-sans'>
+        Aucune transaction enregistré
+      </p>
+    )
+  }
+
   return (
     <>
-      <h3 className='font-semibold text-xl text-center w-full mb-8'>
+      <h3 className='font-title text-xl text-center w-full mb-8'>
         Toutes mes Transactions
       </h3>
+
       <ScrollArea className='max-w-full overflow-x-auto w-full'>
-        <Table className='w-full'>
+        <Table className='w-full font-sans'>
           <TableHeader>
             <TableRow>
-              <TableHead>Nom</TableHead>
-              <TableHead
-                className='cursor-pointer text-center'
-                // onClick={() => handleSort("amount")}
-              >
+              <TableHead className='text-slate-50'>Nom</TableHead>
+              <TableHead className='cursor-pointer text-center text-slate-50'>
                 Montant
-                {/* <ChevronsUpDown className='w-4 h-4 inline-block ml-1' /> */}
               </TableHead>
               <TableHead></TableHead>
             </TableRow>

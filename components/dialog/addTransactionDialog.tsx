@@ -17,7 +17,6 @@ export function AddTransactionDialog({
   monthPlan?: MonthlyPlanType
 }) {
   const [isOpen, setIsOpen] = useState(false)
-  console.log(budget, monthPlan)
 
   return (
     <Dialog open={isOpen} onOpenChange={setIsOpen}>

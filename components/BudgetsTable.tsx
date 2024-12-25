@@ -1,26 +1,14 @@
 "use client"
 import React, { useState } from "react"
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHeader,
-  TableRow,
-  // TableHead,
-} from "@/components/ui/table"
+import { Table, TableBody, TableCell, TableRow } from "@/components/ui/table"
 import { Button } from "@/components/ui/button"
 import { ScrollArea } from "@/components/ui/scroll-area"
-import {
-  // ChevronsUpDown,
-  Trash2,
-  Pencil,
-  ChevronRight,
-  ChevronLeft,
-} from "lucide-react"
+import { Pencil, ChevronRight, ChevronLeft } from "lucide-react"
 import { Card } from "./ui/card"
 import { CategoryType } from "@/types"
 // import { Progress } from "@/components/ui/progress"
 import { useRouter } from "next/navigation"
+import { TrashComponent } from "./TrashComponent"
 
 const ITEMS_PER_PAGE = 2
 
@@ -32,35 +20,11 @@ export const BudgetsTable = ({
   const router = useRouter()
   const [categories, setCategories] = useState(categoriesData)
   const [currentPage, setCurrentPage] = useState(1)
-  // const [sortColumn, setSortColumn] = useState(null)
-  // const [sortOrder, setSortOrder] = useState("asc")
   const startIndex = (currentPage - 1) * ITEMS_PER_PAGE
   const endIndex = startIndex + ITEMS_PER_PAGE
   const paginatedCategories = categoriesData.slice(startIndex, endIndex)
 
   const totalPages = Math.ceil(categories.length / ITEMS_PER_PAGE)
-
-  // const handleSort = (column) => {
-  //   const order = sortColumn === column && sortOrder === "asc" ? "desc" : "asc"
-  //   setSortColumn(column)
-  //   setSortOrder(order)
-
-  //   const sortedCategories = [...categories].sort((a, b) => {
-  //     if (column === "name") {
-  //       return order === "asc"
-  //         ? a.name.localeCompare(b.name)
-  //         : b.name.localeCompare(a.name)
-  //     }
-  //     if (column === "amount") {
-  //       const totalA = a.budgets.reduce((acc, sub) => acc + sub.amount, 0)
-  //       const totalB = b.budgets.reduce((acc, sub) => acc + sub.amount, 0)
-  //       return order === "asc" ? totalA - totalB : totalB - totalA
-  //     }
-  //     return 0
-  //   })
-
-  //   setCategories(sortedCategories)
-  // }
 
   const handleEdit = (id: string) => {
     alert(`Modifier la catégorie avec l'ID : ${id}`)
@@ -81,26 +45,6 @@ export const BudgetsTable = ({
       </h1>
       <ScrollArea className='max-w-full overflow-x-auto'>
         <Table>
-          <TableHeader>
-            {/* <TableRow>
-              <TableHead
-                className='cursor-pointer'
-                onClick={() => handleSort("name")}
-              >
-                Catégorie
-                <ChevronsUpDown className='w-4 h-4 inline-block ml-1' />
-              </TableHead>
-              <TableHead>Sous-catégories</TableHead>
-              <TableHead
-                className='cursor-pointer'
-                onClick={() => handleSort("amount")}
-              >
-                Montants
-                <ChevronsUpDown className='w-4 h-4 inline-block ml-1' />
-              </TableHead>
-              <TableHead></TableHead>
-            </TableRow> */}
-          </TableHeader>
           <TableBody>
             {paginatedCategories.map(
               (category: {
@@ -138,12 +82,12 @@ export const BudgetsTable = ({
                   <TableCell>
                     <div className='flex gap-2'>
                       <Pencil
-                        className='w-4 h-4 mr-2'
+                        className='w-4 h-4 mr-2 text-primary cursor-pointer hover:scale-125 transition-all duration-300 ease-in-out'
                         onClick={() => handleEdit(category.id)}
                       />
-                      <Trash2
-                        className='w-4 h-4 mr-2'
-                        onClick={() => handleDelete(category.id)}
+                      <TrashComponent
+                        category={category}
+                        handleDelete={handleDelete}
                       />
                     </div>
                   </TableCell>
@@ -158,7 +102,7 @@ export const BudgetsTable = ({
         <Button
           onClick={() => setCurrentPage((prev) => Math.max(prev - 1, 1))}
           className={
-            currentPage === 1 ? "opacity-0" : "bg-sky-800 hover:bg-sky-900"
+            currentPage === 1 ? "opacity-0" : "bg-primary hover:bg-primary/90"
           }
         >
           <ChevronLeft className='w-10 h-10' />
@@ -173,7 +117,7 @@ export const BudgetsTable = ({
           className={
             currentPage === totalPages
               ? "opacity-0"
-              : "bg-sky-800 hover:bg-sky-900"
+              : "bg-primary hover:bg-primary/90"
           }
         >
           <ChevronRight className='w-10 h-10' />

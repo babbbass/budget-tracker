@@ -21,7 +21,7 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form"
-import { addBudget } from "@/lib/actionsBudget"
+import { addBudgetForSetting } from "@/lib/actionsBudget"
 import { toast } from "sonner"
 import { Calendar } from "@/components/ui/calendar"
 import {
@@ -90,7 +90,7 @@ export function AddBudgetForm({
     try {
       setLoading(true)
       const { category, budgetName, amount, startDate, endDate } = data
-      const response = await addBudget({
+      const response = await addBudgetForSetting({
         email: emailUser,
         categoryName: category,
         budgetName,
@@ -102,13 +102,13 @@ export function AddBudgetForm({
       if (response) {
         queryClient.invalidateQueries({ queryKey: ["categories"] })
         toast.success("Budget ajouté avec succés", {
-          duration: 1500,
+          duration: 1000,
           className: "text-green-500",
         })
         router.refresh()
         setTimeout(() => {
           isOpen(false)
-        }, 2000)
+        }, 1000)
       } else {
         toast.error("Une erreur est survenue veuillez réessayer", {
           duration: 1500,

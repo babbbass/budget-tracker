@@ -85,18 +85,24 @@ export async function deleteTransaction(id: string) {
   }
 }
 
-export async function addTransactionToBudget(
-  budgetId: string,
-  amount: number,
-  description: string
-) {
+export async function addTransactionToBudget({
+  budgetId,
+  amount,
+  name,
+}: {
+  budgetId: string
+  amount: number
+  name: string
+}) {
   try {
-    const budget = await prisma.budget.findUnique({
+    const budget = await prisma.budget.update({
       where: {
         id: budgetId,
       },
-      include: {
-        transactions: true,
+      data: {
+        amount: {
+          decrement: amount,
+        },
       },
     })
 
@@ -104,30 +110,17 @@ export async function addTransactionToBudget(
       throw new Error("Budget non trouvé.")
     }
 
-    // const totalTransactions = budget.transactions.reduce((sum, transaction) => {
-    //   return sum + transaction.amount
-    // }, 0)
-
-    // const totalWithNewTransaction = totalTransactions + amount
-
-    // if (totalWithNewTransaction > budget.amount) {
-    //   throw new Error(
-    //     "Le montant total des transactions dépasse le montant du budget."
-    //   )
-    // }
-
     const newTransaction = await prisma.transaction.create({
       data: {
         amount,
-        description,
+        name,
         budget: {
           connect: {
-            id: budget.id,
+            id: budgetId,
           },
         },
       },
     })
-    //console.log(budget)
     return newTransaction
   } catch (error) {
     console.error("Erreur lors de l'ajout de la transaction:", error)
@@ -165,7 +158,7 @@ export async function updateTransaction(
         id,
       },
       data: {
-        description: nameTransaction,
+        name: nameTransaction,
         amount,
         // budget: {
         //   connect: {

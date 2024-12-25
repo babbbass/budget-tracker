@@ -20,6 +20,7 @@ import { useMonth } from "@/hooks/useMonths"
 import { useQueryClient } from "@tanstack/react-query"
 import { Trash, CircleChevronRight, CircleChevronLeft } from "lucide-react"
 import { useRouter } from "next/navigation"
+import Link from "next/link"
 
 type Budget = {
   id: string
@@ -146,7 +147,7 @@ export default function MonthlyBudgetPage() {
   const renderMonthlyBudgets = (category: Category) => (
     <Card
       key={category.id}
-      className='w-full mb-4 bg-primary text-slate-50 font-sans p-0'
+      className='w-full md:w-2/3 mb-4 bg-primary text-slate-50 font-sans p-0 mx-auto'
     >
       <CardHeader>
         <CardTitle className='text-xl text-center'>{category.name}</CardTitle>
@@ -157,14 +158,16 @@ export default function MonthlyBudgetPage() {
             <Card
               key={budget.id}
               className='flex justify-around items-center mx-auto w-2/3 sm:w-full p-2 py-4 h-20 cursor-pointer transition-all duration-300 ease-in-out shadow-xl  hover:scale-105 hover:text-green-800'
-              // onClick={() =>
-              //   router.push(`/envelopes/${month}/budget/${budget.id}`)
-              // }
             >
-              <div className='flex justify-around  w-3/4 text-sm md:text-base flex-col md:flex-row'>
-                <span>{budget.name}</span>
-                <span>{budget.amount}€</span>
-              </div>
+              <Link
+                href={`/envelopes/${month}/budget/${budget.id}`}
+                className='w-3/4 h-full items-center flex justify-around'
+              >
+                <div className='flex justify-around  w-3/4 text-sm md:text-base flex-col md:flex-row'>
+                  <span>{budget.name}</span>
+                  <span>{budget.amount}€</span>
+                </div>
+              </Link>
               <Trash
                 className='w-4 h-4 text-red-600 cursor-pointer hover:text-red-800 transition-all duration-300 ease-in-out hover:scale-110'
                 onClick={() => removeToMonthly(budget)}
@@ -177,17 +180,24 @@ export default function MonthlyBudgetPage() {
   )
 
   const renderGenericBudgets = (category: Category) => (
-    <Card key={category.id} className='w-full mb-4'>
+    <Card
+      key={category.id}
+      className='w-full md:w-2/3 mb-4 bg-primary text-slate-50 font-sans p-0 mx-auto'
+    >
       <CardHeader>
-        <CardTitle>{category.name}</CardTitle>
+        <CardTitle className='text-xl text-center font-title'>
+          {category.name}
+        </CardTitle>
       </CardHeader>
       <CardContent>
         <Table>
           <TableHeader>
             <TableRow>
-              <TableHead>Budget</TableHead>
-              <TableHead className='text-right'>Montant</TableHead>
-              <TableHead className='text-right'>Action</TableHead>
+              <TableHead className='text-slate-50'>Budget</TableHead>
+              <TableHead className='text-right text-slate-50'>
+                Montant
+              </TableHead>
+              <TableHead className='text-right text-slate-50'>Action</TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>
@@ -197,7 +207,7 @@ export default function MonthlyBudgetPage() {
                 <TableCell className='text-right'>{budget.amount}€</TableCell>
                 <TableCell className='text-right'>
                   <Button
-                    className='text-slate-50 bg-primary hover:bg-primary/90 hover:scale-110 transition-all duration-300 ease-in-out font-sans'
+                    className='text-primary bg-slate-50 hover:bg-slate-50/90 hover:scale-110 transition-all duration-300 ease-in-out font-sans'
                     onClick={() => handleAddToMonthly(budget)}
                   >
                     Ajouter
@@ -244,15 +254,27 @@ export default function MonthlyBudgetPage() {
       <h1 className='text-3xl w-full text-center font-title text-slate-50 mb-10'>{`Mes enveloppes de ${month
         ?.toString()
         .toUpperCase()}`}</h1>
-      {budgetsForMonth?.map((category) =>
-        renderMonthlyBudgets(category as Category)
+      {budgetsForMonth?.length === 0 ? (
+        <p className='text-center text-slate-50 font-sans'>
+          Aucune enveloppe pour ce mois-ci
+        </p>
+      ) : (
+        budgetsForMonth?.map((category) =>
+          renderMonthlyBudgets(category as Category)
+        )
       )}
 
-      <h2 className='text-2xl mt-10 mb-8 w-full text-center font-title text-slate-50'>
+      <h2 className='text-2xl my-10 mb-8 w-full text-center font-title text-slate-50'>
         Mes enveloppes génériques
       </h2>
-      {genericBudgets?.map((category) =>
-        renderGenericBudgets(category as Category)
+      {genericBudgets?.length === 0 ? (
+        <p className='text-center text-slate-50 font-sans'>
+          Aucune enveloppe générique pour ce mois-ci
+        </p>
+      ) : (
+        genericBudgets?.map((category) =>
+          renderGenericBudgets(category as Category)
+        )
       )}
     </div>
   )
