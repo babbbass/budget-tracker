@@ -4,7 +4,6 @@ import { useParams } from "next/navigation"
 import { BudgetCard } from "@/components/BudgetCard"
 import { AddTransactionDialog } from "@/components/dialog/addTransactionDialog"
 import { TransactionsByBudget } from "@/components/TransactionsByBudget"
-import { Separator } from "@/components/ui/separator"
 import { getBudgetById } from "@/lib/actionsBudget"
 import { BudgetType } from "@/types"
 import { LoadingSpinner } from "@/components/LoadingSpinner"
@@ -26,7 +25,7 @@ export default function Page() {
     console.log("success page")
     fetchBudgets(idBudget)
   }
-  // const { fetchBudgets, budget } = useBudgetStore()
+
   const { id } = useParams()
   const idBudget = String(id)
 
@@ -44,12 +43,10 @@ export default function Page() {
     )
   }
   return (
-    <div className='flex flex-col items-start w-full md:w-2/3 flex-1'>
+    <div className='flex flex-col items-start w-full md:w-2/3 flex-1 gap-14 px-4'>
       <BudgetCard budget={budget} />
 
-      <AddTransactionDialog budget={budget} onSuccess={handleFormSuccess} />
-      <Separator className='mb-10' />
-
+      <AddTransactionDialog budget={budget} />
       <TransactionsByBudget budget={budget} onSuccess={handleFormSuccess} />
     </div>
   )

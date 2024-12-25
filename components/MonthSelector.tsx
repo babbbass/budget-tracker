@@ -45,7 +45,7 @@ export function MonthSelector() {
           <div key={month} className={`flex justify-center`}>
             <Button
               onClick={() => navigateToMonth(month)}
-              className='w-full md:w-1/2 text-center font-sans text-white'
+              className='w-full md:w-1/2 text-center font-sans text-slate-50 bg-primary hover:bg-primary/90 transition-all duration-300 ease-in-out'
             >
               {month.toUpperCase()}
             </Button>

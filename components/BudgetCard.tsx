@@ -40,7 +40,7 @@ export function BudgetCard({ budget }: { budget: BudgetType }) {
         className: "text-red-500",
       })
     } finally {
-      setIsDeleting(false) // Désactive le chargement
+      setIsDeleting(false)
     }
   }
   const totalTransactionAmount = totalAmount(budget?.transactions || [])
@@ -51,19 +51,19 @@ export function BudgetCard({ budget }: { budget: BudgetType }) {
 
   const amountRemaining = budget?.amount - totalTransactionAmount
   return (
-    <Card className='w-full'>
+    <Card className='w-full md:w-2/3 md:mx-auto bg-primary text-slate-50 font-sans'>
       <CardHeader className='flex flex-row justify-between items-center border-b py-1 mb-4'>
         <div>
           <h2 className='italic font-title text-2xl '>{budget?.name}</h2>
-          <span className='font-sans text-sm'>
+          <span className='text-sm'>
             {budget?.transactions?.length} transaction(s)
           </span>
         </div>
-        <span className='font-sans text-emerald-600'>{budget?.amount}€</span>
+        <span className=''>{budget?.amount}€</span>
       </CardHeader>
       <CardContent className='flex flex-col gap-2'>
         <div className='flex justify-between'>
-          <span className='font-sans text-sm '>
+          <span className='text-sm'>
             {totalTransactionAmount}€{" "}
             {budget.category?.name === "Épargnes" ? "épargnés" : "dépensés"}
           </span>
@@ -73,7 +73,7 @@ export function BudgetCard({ budget }: { budget: BudgetType }) {
           <Progress value={progressValue} indicatorColor='bg-emerald-600' />
         </span>
         <Button
-          className='mt-4 bg-primary text-white font-sans hover:bg-primary/90 transition-all'
+          className='mt-4 bg-slate-50 text-primary font-sans hover:bg-slate-50/90 transition-all w-2/3 mx-auto duration-300 ease-in-out'
           onClick={async () => {
             await deleteMyBudget(budget.id)
           }}

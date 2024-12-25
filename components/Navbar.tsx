@@ -14,7 +14,7 @@ export function Navbar() {
   }
 
   return (
-    <nav className='sticky top-0 z-10 font-sans text-slate-50 flex p-2 min-w-[320px] w-full justify-between items-center mb-10 h-[50px] border-b border-slate-200'>
+    <nav className='bg-emerald-900 py-4 sticky top-0 z-10 font-sans text-slate-50 flex px-2 min-w-[320px] w-full justify-between items-center mb-10 h-[50px] border-b border-slate-200'>
       <Logo />
       <SignedIn>
         {/* Menu desktop */}
@@ -27,7 +27,7 @@ export function Navbar() {
         </div>
 
         {/* Menu mobile */}
-        <div className='md:hidden'>
+        <div className='md:hidden bg-emerald-900 '>
           <button
             onClick={toggleMobileMenu}
             aria-label='Toggle menu'
