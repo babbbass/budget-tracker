@@ -14,7 +14,7 @@ export function Navbar() {
   }
 
   return (
-    <nav className='bg-emerald-900 py-4 sticky top-0 z-10 font-sans text-slate-50 flex px-2 min-w-[320px] w-full justify-between items-center mb-10 h-[50px] border-b border-slate-200'>
+    <nav className='bg-emerald-900 p-4 md:p-8 sticky top-0 z-10 font-sans text-slate-50 flex min-w-[320px] w-full justify-between items-center mb-10 h-[50px] border-b border-slate-200'>
       <Logo />
       <SignedIn>
         {/* Menu desktop */}
@@ -31,7 +31,7 @@ export function Navbar() {
           <button
             onClick={toggleMobileMenu}
             aria-label='Toggle menu'
-            className='btn p-2'
+            className='py-2'
           >
             {isMobileMenuOpen ? <Logs size={24} /> : <Menu size={24} />}
           </button>

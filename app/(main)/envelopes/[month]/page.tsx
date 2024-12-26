@@ -19,7 +19,7 @@ import { useBudgets } from "@/hooks/useBudgets"
 import { useMonth } from "@/hooks/useMonths"
 import { useQueryClient } from "@tanstack/react-query"
 import { Trash, CircleChevronRight, CircleChevronLeft } from "lucide-react"
-import { useRouter } from "next/navigation"
+import { useRouter, usePathname } from "next/navigation"
 import Link from "next/link"
 
 type Budget = {
@@ -58,6 +58,7 @@ const months = [
 export default function MonthlyBudgetPage() {
   const { user } = useUser()
   const { month } = useParams()
+  const pathname = usePathname()
   const queryClient = useQueryClient()
   const router = useRouter()
   const email = user?.emailAddresses[0].emailAddress || ""
@@ -105,18 +106,18 @@ export default function MonthlyBudgetPage() {
         email: email,
         budget,
         month: month as string,
-        pathToRevalidate: `/envelopes/${month}`,
+        pathToRevalidate: pathname,
       })
       queryClient.invalidateQueries({ queryKey: ["budgets"] })
       toast.success("Enveloppe ajouté au mois", {
-        duration: 1500,
+        duration: 1200,
         className: "text-primary",
       })
       router.refresh()
     } catch (error) {
       console.error("Erreur d'ajout:", error)
       toast.error("Impossible d'ajouter l'enveloppe", {
-        duration: 1500,
+        duration: 1200,
         className: "text-red-500",
       })
     }
@@ -128,17 +129,18 @@ export default function MonthlyBudgetPage() {
       await removeBudgetForMonth({
         budgetId: budget.id,
         monthId: monthPlan.id,
+        pathToRevalidate: pathname,
       })
       queryClient.invalidateQueries({ queryKey: ["budgets"] })
       toast.success("Enveloppe retiré du mois", {
-        duration: 1500,
+        duration: 1200,
         className: "text-primary",
       })
       router.refresh()
     } catch (error) {
       console.error("Erreur d'ajout:", error)
-      toast.error("Impossible d'ajouter ce budget", {
-        duration: 1500,
+      toast.error("Impossible de retirer cette budget", {
+        duration: 1200,
         className: "text-red-500",
       })
     }

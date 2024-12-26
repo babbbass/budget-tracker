@@ -290,7 +290,7 @@ export async function addBudgetForMonth({
       throw new Error("Budget non trouvé.")
     }
 
-    await prisma.budget.create({
+    const budgetForMonth = await prisma.budget.create({
       data: {
         ...budgetDb,
         id: undefined,
@@ -298,14 +298,21 @@ export async function addBudgetForMonth({
       },
     })
 
-    const budgetForMonth = await prisma.monthlyPlanBudget.create({
+    await prisma.monthlyPlanBudget.create({
+      data: {
+        monthlyPlanId: monthlyPlan.id,
+        budgetId: budgetForMonth.id,
+      },
+    })
+
+    await prisma.monthlyPlanBudget.create({
       data: {
         monthlyPlanId: monthlyPlan.id,
         budgetId: budget.id,
       },
     })
     revalidatePath(pathToRevalidate)
-    return budgetForMonth
+    return true
   } catch (error) {
     console.error("Erreur lors de l'ajout du budget du mois:", error)
     throw error
@@ -315,9 +322,11 @@ export async function addBudgetForMonth({
 export async function removeBudgetForMonth({
   budgetId,
   monthId,
+  pathToRevalidate,
 }: {
   budgetId: string
   monthId: string
+  pathToRevalidate: string
 }) {
   try {
     await prisma.monthlyPlanBudget.deleteMany({
@@ -337,8 +346,6 @@ export async function removeBudgetForMonth({
       },
     })
 
-    console.log("delete monthly budget", budgetsToDelete)
-
     await prisma.monthlyPlanBudget.deleteMany({
       where: {
         AND: budgetsToDelete.map((budget) => ({
@@ -353,9 +360,8 @@ export async function removeBudgetForMonth({
         id: budgetId,
       },
     })
-
+    revalidatePath(pathToRevalidate)
     return true
-    // return deletedBudgetMonthly
   } catch (error) {
     console.error("Erreur lors de suppression budget du mois:", error)
     throw error
