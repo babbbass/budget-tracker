@@ -23,8 +23,6 @@ export function BudgetCard({ budget }: { budget: BudgetType }) {
     }
     setIsDeleting(true)
     try {
-      console.log(budgetId)
-
       const response = await deleteBudgetById(budgetId)
       if (response) {
         toast.success("Enveloppe supprimée !", {
@@ -49,31 +47,30 @@ export function BudgetCard({ budget }: { budget: BudgetType }) {
       ? 100
       : (totalTransactionAmount / budget.amount) * 100
 
-  const amountRemaining = budget?.amount - totalTransactionAmount
+  const startAmount = budget?.amount + totalTransactionAmount
   return (
-    <Card className='w-full md:w-2/3 md:mx-auto bg-primary text-slate-50 font-sans'>
-      <CardHeader className='flex flex-row justify-between items-center border-b py-1 mb-4'>
+    <Card className='w-full md:w-2/3 md:mx-auto bg-primary text-slate-50 font-sans p-0'>
+      <CardHeader className='flex flex-row justify-between items-center border-b py-1 mb-4 p-2'>
         <div>
           <h2 className='italic font-title text-2xl '>{budget?.name}</h2>
           <span className='text-sm'>
             {budget?.transactions?.length} transaction(s)
           </span>
         </div>
-        <span className=''>{budget?.amount}€</span>
-      </CardHeader>
-      <CardContent className='flex flex-col gap-2'>
-        <div className='flex justify-between'>
-          <span className='text-sm'>
-            {totalTransactionAmount}€{" "}
-            {budget.category?.name === "Épargnes" ? "épargnés" : "dépensés"}
-          </span>
-          <span className='font-sans text-sm'>{amountRemaining}€ restants</span>
+        <div className='flex flex-col text-sm'>
+          <span>{budget?.amount}€</span>
+          <span>restants</span>
         </div>
+      </CardHeader>
+      <CardContent className='flex flex-col gap-2 p-2 font-sans'>
+        <p className='flex justify-center'>
+          {`${totalTransactionAmount}€ sur ${startAmount}€`}
+        </p>
         <span className='mt-4'>
-          <Progress value={progressValue} indicatorColor='bg-emerald-600' />
+          <Progress value={progressValue} indicatorColor='bg-black-600' />
         </span>
         <Button
-          className='mt-4 bg-slate-50 text-primary font-sans hover:bg-slate-50/90 transition-all w-2/3 mx-auto duration-300 ease-in-out'
+          className='bg-slate-50 text-primary font-sans hover:bg-slate-50/90 transition-all w-2/3 mx-auto duration-300 ease-in-out'
           onClick={async () => {
             await deleteMyBudget(budget.id)
           }}

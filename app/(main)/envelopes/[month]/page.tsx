@@ -157,7 +157,7 @@ export default function MonthlyBudgetPage() {
           {category.budgets.map((budget) => (
             <Card
               key={budget.id}
-              className='flex justify-around items-center mx-auto w-2/3 sm:w-full p-2 py-4 h-20 cursor-pointer transition-all duration-300 ease-in-out shadow-xl  hover:scale-105 hover:text-green-800'
+              className='flex justify-around items-center mx-auto w-full md-w-2/3 sm:w-full p-2 py-4 h-20 cursor-pointer transition-all duration-300 ease-in-out shadow-xl  hover:scale-105 hover:text-green-800'
             >
               <Link
                 href={`/envelopes/${month}/budget/${budget.id}`}
@@ -251,7 +251,7 @@ export default function MonthlyBudgetPage() {
           <CircleChevronRight />
         </Button>
       </div>
-      <h1 className='text-3xl w-full text-center font-title text-slate-50 mb-10'>{`Mes enveloppes de ${month
+      <h1 className='text-2xl w-full text-center font-title text-slate-50 mb-10'>{`Enveloppes ${month
         ?.toString()
         .toUpperCase()}`}</h1>
       {budgetsForMonth?.length === 0 ? (
@@ -264,8 +264,8 @@ export default function MonthlyBudgetPage() {
         )
       )}
 
-      <h2 className='text-2xl my-10 mb-8 w-full text-center font-title text-slate-50'>
-        Mes enveloppes génériques
+      <h2 className='text-xl my-10 mb-8 w-full text-center font-title text-slate-50'>
+        Enveloppes génériques
       </h2>
       {genericBudgets?.length === 0 ? (
         <p className='text-center text-slate-50 font-sans'>

@@ -17,8 +17,8 @@ const dmSans = DM_Sans({
 })
 
 export const metadata: Metadata = {
-  title: "Mes enveloppes budgétaires",
-  description: "Gérez vos budgets facilement.",
+  title: "Enveloppes budgets",
+  description: "Vos finances, simplifiées et organisées",
 }
 
 export default function RootLayout({

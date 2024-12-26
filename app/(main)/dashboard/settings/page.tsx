@@ -19,6 +19,7 @@ import { AddBudgetDialog } from "@/components/dialog/addBudgetDialog"
 import { FilePenLine, Trash } from "lucide-react"
 import { useRouter } from "next/navigation"
 import { useQueryClient } from "@tanstack/react-query"
+import { Mail } from "lucide-react"
 
 type BudgetItem = {
   id: string
@@ -60,11 +61,6 @@ export default function BudgetConfiguration() {
     if (!categories) return
     try {
       for (const category of categories) {
-        // const validBudgets = category.budgets.filter(
-        //   (budget) => budget.name.trim() !== ""
-        // )
-
-        // if (validBudgets.length === 0) continue
         // @ts-expect-error "error type unknown"
         for (const budget of category) {
           await addBudgetForSetting({
@@ -152,9 +148,12 @@ export default function BudgetConfiguration() {
 
   return (
     <div className='w-full max-w-4xl mx-auto p-4 space-y-4 flex flex-1 flex-col gap-4'>
-      <h1 className='text-3xl text-slate-50 mb-6 text-center font-title'>
-        Configurez vos enveloppes
-      </h1>
+      <div className='flex items-center justify-center mb-6'>
+        <Mail className='inline h-6 w-6 text-slate-200 mr-2' />
+        <h1 className='text-lg md:text-3xl text-slate-50  text-center font-title'>
+          Créez vos enveloppes
+        </h1>
+      </div>
       {/* @ts-expect-error "error type unknown" */}
       {categories?.map((category) => renderCategoryCard(category))}
 

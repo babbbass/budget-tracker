@@ -14,7 +14,7 @@ export default async function BudgetPage() {
   const budgets = await findAllBudgetByUser(email)
 
   return (
-    <div className='flex flex-1 flex-col w-full md:w-1/2 gap-10'>
+    <div className='flex flex-1 flex-col w-full md:w-1/2 gap-10 px-2'>
       {budgets && budgets.categories.length > 0 && <MonthSelector />}
       <AddBudgetDialog email={email} />
     </div>

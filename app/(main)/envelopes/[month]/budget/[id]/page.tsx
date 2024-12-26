@@ -17,7 +17,7 @@ export default function Page() {
   console.log(monthPlan, budget)
 
   return (
-    <div className='flex flex-1 justify-center items-center w-2/3'>
+    <div className='flex flex-1 justify-center items-center w-full md:w-2/3 p-2'>
       {monthPlan && (
         // @ts-expect-error "error type unknown"
         <AddTransactionDialog budget={budget} monthPlan={monthPlan} />
