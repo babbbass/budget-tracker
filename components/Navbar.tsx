@@ -14,7 +14,7 @@ export function Navbar() {
   }
 
   return (
-    <nav className='bg-emerald-900 p-4 md:p-8 sticky top-0 z-10 font-sans text-slate-50 flex min-w-[320px] w-full justify-between items-center mb-10 h-[50px] border-b border-slate-200'>
+    <nav className='bg-emerald-900 px-4 py-2 md:px-8 sticky top-0 z-10 font-sans text-slate-50 flex min-w-[320px] w-full justify-between items-center mb-10 min-h-[50px] border-b border-slate-200'>
       <Logo />
       <SignedIn>
         {/* Menu desktop */}
