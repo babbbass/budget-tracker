@@ -21,10 +21,6 @@ export default function Page() {
       console.log({ error: err.message })
     }
   }
-  const handleFormSuccess = () => {
-    console.log("success page")
-    fetchBudgets(idBudget)
-  }
 
   const { id } = useParams()
   const idBudget = String(id)
@@ -47,7 +43,7 @@ export default function Page() {
       <BudgetCard budget={budget} />
 
       <AddTransactionDialog budget={budget} />
-      <TransactionsByBudget budget={budget} onSuccess={handleFormSuccess} />
+      <TransactionsByBudget budget={budget} />
     </div>
   )
 }
