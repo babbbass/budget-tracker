@@ -18,7 +18,7 @@ export function Navbar() {
       <Logo />
       <SignedIn>
         {/* Menu desktop */}
-        <div className='hidden md:flex space-x-4'>
+        <div className='hidden lg:flex space-x-4'>
           <Link href={"/budgets"}>Mes enveloppes</Link>
           <Link href={"/dashboard"}>Récapitulatif</Link>
           <Link href={"/transactions"}>Mes Transactions</Link>
@@ -27,7 +27,7 @@ export function Navbar() {
         </div>
 
         {/* Menu mobile */}
-        <div className='md:hidden bg-emerald-900 '>
+        <div className='lg:hidden bg-emerald-900 '>
           <button
             onClick={toggleMobileMenu}
             aria-label='Toggle menu'
@@ -90,7 +90,7 @@ export function Navbar() {
             </Link>
           </div>
         </div>
-        <div className='hidden md:flex'>
+        <div className='hidden lg:flex'>
           <UserButton />
         </div>
       </SignedIn>

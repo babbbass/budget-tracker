@@ -74,9 +74,9 @@ export default function MonthlyBudgetPage() {
   const nextMonth = months[(currentMonthIndex + 1) % 12]
   const prevMonth = months[(currentMonthIndex - 1 + 12) % 12]
 
-  const handleCalendarClick = () => {
-    toast.info("Fonctionnalité du mini-calendrier à implémenter")
-  }
+  // const handleCalendarClick = () => {
+  //   toast.info("Fonctionnalité du mini-calendrier à implémenter")
+  // }
   const budgetsForMonth = budgets?.categories
     .map((category) => {
       const filteredBudgets = category.budgets.filter(
@@ -237,25 +237,25 @@ export default function MonthlyBudgetPage() {
   }
 
   return (
-    <div className='flex flex-1 flex-col w-full max-w-4xl mx-auto p-4'>
+    <div className='flex flex-1 flex-col w-full max-w-4xl mx-auto p-4 font-sans'>
       <div className='flex justify-around items-center mb-20'>
         <Button
           className='text-slate-50 bg-primary hover:bg-primary/90 hover:scale-110 transition-all duration-300 ease-in-out'
           onClick={() => router.push(`/envelopes/${prevMonth}`)}
         >
-          <CircleChevronLeft />
+          <CircleChevronLeft /> {prevMonth}
         </Button>
-        <Button
+        {/* <Button
           className='text-slate-50 bg-primary'
           onClick={handleCalendarClick}
         >
           📅 Choisir un mois
-        </Button>
+        </Button> */}
         <Button
           className='text-slate-50 bg-primary hover:bg-primary/90 hover:scale-110 transition-all duration-300 ease-in-out'
           onClick={() => router.push(`/envelopes/${nextMonth}`)}
         >
-          <CircleChevronRight />
+          {nextMonth} <CircleChevronRight />
         </Button>
       </div>
       <div className='flex items-center justify-center gap-3 mb-10'>

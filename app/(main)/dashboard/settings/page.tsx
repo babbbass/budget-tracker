@@ -151,7 +151,9 @@ export default function BudgetConfiguration() {
             Créez vos enveloppes
           </h1>
         </div>
-        <h2>Et gérez vos enveloppes mois par mois en toute simplicité</h2>
+        <h2 className='text-xs md:text-lg'>
+          Et gérez votre budget par mois en toute simplicité
+        </h2>
       </div>
       {/* @ts-expect-error "error type unknown" */}
       {categories?.map((category) => renderCategoryCard(category))}
