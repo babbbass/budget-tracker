@@ -17,7 +17,7 @@ const dmSans = DM_Sans({
 })
 
 export const metadata: Metadata = {
-  title: "Enveloppes budgets",
+  title: "BUDG’UP",
   description: "Vos finances, simplifiées et organisées",
 }
 

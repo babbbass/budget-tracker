@@ -18,7 +18,12 @@ import { useUser } from "@clerk/nextjs"
 import { useBudgets } from "@/hooks/useBudgets"
 import { useMonth } from "@/hooks/useMonths"
 import { useQueryClient } from "@tanstack/react-query"
-import { Trash, CircleChevronRight, CircleChevronLeft } from "lucide-react"
+import {
+  Trash,
+  CircleChevronRight,
+  CircleChevronLeft,
+  Mails,
+} from "lucide-react"
 import { useRouter, usePathname } from "next/navigation"
 import Link from "next/link"
 
@@ -253,9 +258,12 @@ export default function MonthlyBudgetPage() {
           <CircleChevronRight />
         </Button>
       </div>
-      <h1 className='text-2xl w-full text-center font-title text-slate-50 mb-10'>{`Enveloppes ${month
-        ?.toString()
-        .toUpperCase()}`}</h1>
+      <div className='flex items-center justify-center gap-3 mb-10'>
+        <Mails className='inline h-8 w-8 text-primary' />
+        <h1 className='text-2xl font-title text-slate-50'>{`Enveloppes ${month
+          ?.toString()
+          .toUpperCase()}`}</h1>
+      </div>
       {budgetsForMonth?.length === 0 ? (
         <p className='text-center text-slate-50 font-sans'>
           Aucune enveloppe pour ce mois-ci

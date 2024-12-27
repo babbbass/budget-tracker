@@ -28,7 +28,7 @@ export async function Dashboard({ userId, fullName, email }: Dashboard) {
         <div>
           <h3 className='text-slate-50 text-lg font-title'>Bonjour {email}</h3>
           <p className='font-sans text-slate-200 text-sm'>
-            vous êtes sur votre tableau de bord
+            Voici votre tableau de bord
           </p>
         </div>
         <div className='flex gap-10 md:gap-2 items-center justify-between text-slate-50 font-sans'>

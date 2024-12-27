@@ -8,7 +8,7 @@ export function BudgetCards({ budgets }: { budgets: CategoryType[] }) {
     <div className='container py-4 my-4'>
       <div className='flex flex-col mb-5 font-sans'>
         <h2 className='text-slate-50 text-3xl font-title flex items-center gap-3'>
-          <Mail className='inline h-6 w-6 text-slate-200' /> Mes enveloppes
+          <Mail className='inline h-6 w-6 text-primary' /> Mes enveloppes
         </h2>
         <p className='text-sm text-slate-50'>
           Suivez vos finances et atteignez vos objectifs financier

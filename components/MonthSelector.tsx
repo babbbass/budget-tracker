@@ -29,7 +29,7 @@ export function MonthSelector() {
     <div className='container py-4 my-4'>
       <div className='flex flex-col mb-6 items-center justify-center gap-3'>
         <div className='flex items-center gap-2 justify-center'>
-          <CalendarDays className='h-6 w-6 text-slate-200' />
+          <CalendarDays className='h-6 w-6 text-primary' />
           <h2 className='text-slate-50 text-xl md:text-2xl font-title'>
             Mon budget par mois
           </h2>
@@ -45,7 +45,7 @@ export function MonthSelector() {
           <div key={month} className={`flex justify-center`}>
             <Button
               onClick={() => navigateToMonth(month)}
-              className='w-full md:w-1/2 text-center font-sans text-slate-50 bg-primary hover:bg-primary/90 transition-all duration-300 ease-in-out'
+              className='w-full md:w-1/2 text-center font-sans text-slate-50 bg-primary hover:bg-primary/90 transition-all duration-300 ease-in-out hover:scale-105'
             >
               {month.toUpperCase()}
             </Button>

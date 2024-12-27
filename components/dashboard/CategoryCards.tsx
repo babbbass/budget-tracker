@@ -18,7 +18,7 @@ export function CategoryCards({ categories }: { categories: CategoryType[] }) {
     <div className='py-4'>
       <div className='flex flex-col mb-5 font-sans'>
         <h2 className='text-slate-50 text-3xl font-title flex items-center gap-3'>
-          <ChartColumnStacked className='inline h-6 w-6 text-slate-200' />
+          <ChartColumnStacked className='inline h-6 w-6 text-primary' />
           Catégories
         </h2>
         <p className='text-sm text-slate-200 '>catégories principales</p>

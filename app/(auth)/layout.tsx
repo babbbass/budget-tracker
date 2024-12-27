@@ -5,7 +5,7 @@ import { AuthLogo } from "@/components/AuthLogo"
 import "../(main)/globals.css"
 
 export const metadata = {
-  title: "Enveloppes budgets",
+  title: "BUDG’UP",
   description: "Vos finances, simplifiées et organisées",
 }
 export default function RootLayout({
