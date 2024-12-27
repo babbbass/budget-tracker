@@ -25,10 +25,8 @@ export default function Page() {
       )}
       {/* @ts-expect-error "error type unknown" */}
       {budget && <BudgetCard budget={budget} />}
-      {budget?.transactions && (
-        // {/* @ts-expect-error "error type unknown" */}
-        <TransactionsByBudget budget={budget} />
-      )}
+      {/* @ts-expect-error "error type unknown" */}
+      {budget?.transactions && <TransactionsByBudget budget={budget} />}
     </div>
   )
 }
