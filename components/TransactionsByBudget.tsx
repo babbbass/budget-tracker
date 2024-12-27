@@ -16,14 +16,14 @@ import { DeleteTransactionDialog } from "./dialog/DeleteTransactionDialog"
 
 export function TransactionsByBudget({
   budget,
-  onSuccess,
-}: {
+}: // onSuccess,
+{
   budget: BudgetType
-  onSuccess: () => void
+  // onSuccess: () => void
 }) {
   const handleFormSuccess = () => {
     console.log("success")
-    onSuccess()
+    // onSuccess()
   }
   if (!budget) {
     return <div>Chargement...</div>
@@ -39,19 +39,18 @@ export function TransactionsByBudget({
 
   return (
     <>
-      <h3 className='font-title text-xl text-center w-full mb-8'>
-        Toutes mes Transactions
+      <h3 className='font-title text-xl text-center w-full my-8'>
+        Transactions de {budget.name}
       </h3>
 
-      <ScrollArea className='max-w-full overflow-x-auto w-full'>
+      <ScrollArea className='max-w-full overflow-x-auto w-full md:w-2/3'>
         <Table className='w-full font-sans'>
           <TableHeader>
             <TableRow>
-              <TableHead className='text-slate-50'>Nom</TableHead>
-              <TableHead className='cursor-pointer text-center text-slate-50'>
+              <TableHead className='font-title text-slate-50'>Nom</TableHead>
+              <TableHead className='text-center text-slate-50'>
                 Montant
               </TableHead>
-              <TableHead></TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>
@@ -59,17 +58,22 @@ export function TransactionsByBudget({
               budget.transactions?.map((transaction: TransactionType) => (
                 <TableRow
                   key={transaction.id}
-                  className='hover:bg-gray-100 border-0 cursor-pointer h-16'
+                  className='border-0 cursor-pointer h-16 hover:bg-none'
                   // onClick={() => router.push(`/transactions/${transaction.id}`)}
                 >
-                  <TableCell className='font-bold'>
-                    {transaction.description}
+                  <TableCell className='font-title text-slate-50'>
+                    {transaction.name}
                   </TableCell>
-                  <TableCell className='text-center'>
+                  <TableCell className='text-center font-sans text-slate-50'>
                     {transaction.amount} €
                   </TableCell>
-                  <TableCell>
-                    <div className='flex gap-2'>
+                  <TableCell className='text-center font-sans text-slate-50'>
+                    le {transaction.createdAt.getDate()}/
+                    {transaction.createdAt.getMonth()}/
+                    {transaction.createdAt.getFullYear()}
+                  </TableCell>
+                  <TableCell className='p-0 font-sans '>
+                    <div className='flex gap-1 text-right'>
                       <EditTransactionDialog
                         idTransaction={transaction.id}
                         onSuccess={handleFormSuccess}

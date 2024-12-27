@@ -42,7 +42,7 @@ export function EditTransactionForm({
     resolver: zodResolver(formSchema),
     defaultValues: {
       budgetName: budget,
-      nameTransaction: transaction.description,
+      nameTransaction: transaction.name,
       amount: transaction.amount,
     },
   })
@@ -82,11 +82,9 @@ export function EditTransactionForm({
   }
 
   return (
-    <Card className='w-full p-4 hover:border-teal-600 hover:shadow-sm'>
+    <Card className='w-full p-4 hover:shadow-2xl bg-primary text-slate-50 font-sans'>
       <CardHeader>
-        <h3 className='text-2xl font-bold text-center'>
-          {transaction.description}
-        </h3>
+        <h3 className='text-2xl font-title text-center'>{transaction.name}</h3>
       </CardHeader>
       <CardContent>
         <Form {...form}>
@@ -135,12 +133,14 @@ export function EditTransactionForm({
               )}
             />
 
-            <Button
-              type='submit'
-              className='w-full bg-primary font-sans text-white hover:bg-emerald-700'
-            >
-              {loading && <LoadingSpinner />} Modifiez la transaction
-            </Button>
+            <div className='flex justify-end'>
+              <Button
+                type='submit'
+                className='w-2/3 bg-slate-200 font-sans text-primary hover:bg-slate-200/90 transition-all duration-300 ease-in-out hover:scale-105'
+              >
+                {loading && <LoadingSpinner />} Modifier
+              </Button>
+            </div>
           </form>
         </Form>
       </CardContent>

@@ -9,7 +9,7 @@ export function AuthLogo() {
           <Mails className='mr-2 text-primary' />
           <span className='text-2xl md:text-3xl'>BUDG’UP</span>
         </div>
-        <p className='text-base md:text-lg text-center text-slate-200'>
+        <p className='text-base md:text-lg text-center text-slate-50 font-sans'>
           Vos finances, simplifiées et organisées
         </p>
       </div>

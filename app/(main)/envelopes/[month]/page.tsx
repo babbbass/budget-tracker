@@ -164,7 +164,7 @@ export default function MonthlyBudgetPage() {
           {category.budgets.map((budget) => (
             <Card
               key={budget.id}
-              className='flex justify-around items-center mx-auto w-full md-w-2/3 sm:w-full p-2 py-4 h-20 cursor-pointer transition-all duration-300 ease-in-out shadow-xl  hover:scale-105 hover:text-green-800'
+              className='flex bg-primary text-slate-50 font-sans justify-around items-center mx-auto w-full md-w-2/3 sm:w-full p-2 py-4 h-20 cursor-pointer transition-all duration-300 ease-in-out shadow-xl  hover:scale-105 hover:text-slate-100'
             >
               <Link
                 href={`/envelopes/${month}/budget/${budget.id}`}
@@ -176,7 +176,7 @@ export default function MonthlyBudgetPage() {
                 </div>
               </Link>
               <Trash
-                className='w-4 h-4 text-red-600 cursor-pointer hover:text-red-800 transition-all duration-300 ease-in-out hover:scale-110'
+                className='w-4 h-4 text-red-600 cursor-pointer hover:text-red-800 transition-all duration-300 ease-in-out hover:scale-110 font-bold'
                 onClick={() => removeToMonthly(budget)}
               />
             </Card>
@@ -209,7 +209,10 @@ export default function MonthlyBudgetPage() {
           </TableHeader>
           <TableBody>
             {category.budgets.map((budget) => (
-              <TableRow key={budget.id}>
+              <TableRow
+                key={budget.id}
+                className='font-sans hover:bg-transparent hover:text-slate-100 transition-all duration-300 ease-in-out'
+              >
                 <TableCell>{budget.name}</TableCell>
                 <TableCell className='text-right'>{budget.amount}€</TableCell>
                 <TableCell className='text-right'>

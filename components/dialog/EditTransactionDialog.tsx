@@ -40,11 +40,11 @@ export function EditTransactionDialog({
   return (
     <Dialog open={isOpen} onOpenChange={setIsOpen}>
       <DialogTrigger>
-        <Pencil className='w-4 h-4 mr-2 cursor-pointer hover:scale-125 transition-all duration-300 ease-in-out hover:text-teal-700' />
+        <Pencil className='w-4 h-4 cursor-pointer hover:scale-125 transition-all duration-300 ease-in-out hover:text-teal-700' />
       </DialogTrigger>
-      <DialogContent>
+      <DialogContent className='bg-emerald-900 text-slate-50 border-0 shadow-2xl'>
         <DialogHeader>
-          <DialogTitle className='text-2xl font-bold text-center text-teal-700 mb-8'>
+          <DialogTitle className='text-xl md:text-2xl font-title text-center  mb-8'>
             Modifier la transaction
           </DialogTitle>
         </DialogHeader>

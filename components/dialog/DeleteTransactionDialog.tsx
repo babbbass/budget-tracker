@@ -35,16 +35,14 @@ export function DeleteTransactionDialog({
 
   return (
     <AlertDialog>
-      <AlertDialogTrigger className='text-red-600 px-4 py-2 rounded-md hover:text-red-800 hover:scale-125 transition-all duration-200 ease-in-out '>
-        <Trash2 className='w-4 h-4 mr-2' />
+      <AlertDialogTrigger className='text-red-600 px-1 py-2 rounded-md hover:text-red-800 hover:scale-125 transition-all duration-200 ease-in-out '>
+        <Trash2 className='w-4 h-4' />
       </AlertDialogTrigger>
 
-      <AlertDialogContent className='w-full max-w-md p-4 rounded-lg'>
+      <AlertDialogContent className='w-full max-w-md p-4 rounded-lg bg-emerald-900 text-slate-50 font-sans'>
         <AlertDialogHeader>
-          <h2 className='text-xl font-semibold text-gray-900'>
-            Confirmer la suppression
-          </h2>
-          <p className='text-gray-500'>
+          <h2 className='text-xl font-title'>Confirmer la suppression</h2>
+          <p>
             Êtes-vous sûr de vouloir supprimer cette entrée ? Cette action est
             irréversible.
           </p>
@@ -57,7 +55,7 @@ export function DeleteTransactionDialog({
           <AlertDialogAction
             onClick={handleDelete}
             disabled={loading}
-            className={`px-4 py-2 rounded-md bg-emerald-600 text-white hover:bg-emerald-700 ${
+            className={`px-4 py-2 rounded-md bg-primary text-slate-50 hover:bg-primary/90 ${
               loading ? "opacity-50 cursor-not-allowed" : ""
             }`}
           >
