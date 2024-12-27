@@ -417,3 +417,25 @@ async function deleteBudgetSettings(budget: {
 
   return { success: true }
 }
+
+export async function updateBudgetAction(budget: {
+  id: string
+  name: string
+  amount: number
+}) {
+  try {
+    await prisma.budget.update({
+      where: {
+        id: budget.id,
+      },
+      data: {
+        name: budget.name,
+        amount: budget.amount,
+      },
+    })
+    return { success: true }
+  } catch (error) {
+    console.error("Erreur dans updateBudgetAction :", error)
+    throw new Error("Échec de la modification du budget.")
+  }
+}

@@ -16,10 +16,11 @@ import { addBudgetForSetting, deleteBudgetAction } from "@/lib/actionsBudget"
 import { useUser } from "@clerk/nextjs"
 import { LoadingSpinner } from "@/components/LoadingSpinner"
 import { AddBudgetDialog } from "@/components/dialog/addBudgetDialog"
-import { FilePenLine, Trash } from "lucide-react"
+import { Trash } from "lucide-react"
 import { useRouter } from "next/navigation"
 import { useQueryClient } from "@tanstack/react-query"
-import { Mail } from "lucide-react"
+import { Mails } from "lucide-react"
+import { EditBudgetDialog } from "@/components/dialog/EditBudgetDialog"
 
 type BudgetItem = {
   id: string
@@ -98,7 +99,7 @@ export default function BudgetConfiguration() {
   }
 
   const renderCategoryCard = (category: CategoryWithBudgets) => (
-    <Card key={category.name} className='w-full mb-4 p-2 bg-slate-50'>
+    <Card key={category.name} className='w-full mb-4 p-2 bg-slate-50 font-sans'>
       <CardHeader className='p-2'>
         <CardTitle className='flex justify-between items-center font-title text-lg md:text-2xl w-full'>
           <span>{category.name}</span>
@@ -109,19 +110,14 @@ export default function BudgetConfiguration() {
       </CardHeader>
       <CardContent className='p-2'>
         <Table>
-          <TableHeader>
-            {/* <TableRow>
-              <TableHead className='w-[200px]'>Libellé</TableHead>
-              <TableHead className='text-right'>Montant</TableHead>
-            </TableRow> */}
-          </TableHeader>
+          <TableHeader></TableHeader>
           <TableBody>
             {category.budgets.map((budget) => (
               <TableRow key={budget.id} className='font-sans'>
                 <TableCell>{budget.name.toUpperCase()}</TableCell>
                 <TableCell className='flex justify-end items-center gap-2'>
                   <span className=' mr-4'>{budget.amount || ""}€</span>{" "}
-                  <FilePenLine className='w-4 h-4 text-primary cursor-pointer' />
+                  <EditBudgetDialog budget={budget} />
                   <Trash
                     className='w-4 h-4 text-red-600 cursor-pointer'
                     onClick={() => deleteBudget(budget)}
@@ -147,12 +143,15 @@ export default function BudgetConfiguration() {
   )
 
   return (
-    <div className='w-full max-w-4xl mx-auto p-4 space-y-4 flex flex-1 flex-col gap-4'>
-      <div className='flex items-center justify-center mb-6'>
-        <Mail className='inline h-6 w-6 text-slate-200 mr-2' />
-        <h1 className='text-lg md:text-3xl text-slate-50  text-center font-title'>
-          Créez vos enveloppes
-        </h1>
+    <div className='w-full max-w-4xl mx-auto p-4 space-y-4 flex flex-1 flex-col gap-4 font-sans'>
+      <div className='flex items-center justify-center flex-col mb-6 gap-3'>
+        <div className='flex items-center'>
+          <Mails className='inline h-6 w-6 md:h-8 md:w-8 text-primary mr-2' />
+          <h1 className='text-lg md:text-3xl text-slate-50 text-center font-title'>
+            Créez vos enveloppes
+          </h1>
+        </div>
+        <h2>Et gérez vos enveloppes mois par mois en toute simplicité</h2>
       </div>
       {/* @ts-expect-error "error type unknown" */}
       {categories?.map((category) => renderCategoryCard(category))}

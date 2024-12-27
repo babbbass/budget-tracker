@@ -55,15 +55,15 @@ export function AddTransactionForm({
       if (response) {
         queryClient.invalidateQueries({ queryKey: ["budget_by_id"] })
         toast.success("Nouvelle Transaction ajouté !", {
-          duration: 1500,
+          duration: 1200,
           className: "text-green-500",
         })
         setTimeout(() => {
           isOpen(false)
-        }, 2000)
+        }, 1500)
       } else {
         toast.error("Une erreur est survenue veuillez réessayer", {
-          duration: 1500,
+          duration: 1200,
           className: "text-red-500",
         })
       }
