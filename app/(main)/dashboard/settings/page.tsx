@@ -83,23 +83,26 @@ export default function BudgetConfiguration() {
   async function deleteBudget(budget: BudgetItem) {
     try {
       await deleteBudgetAction(budget)
-      queryClient.invalidateQueries({ queryKey: ["categories", "budgets"] })
+      queryClient.invalidateQueries({ queryKey: ["categories"] })
       toast.success("Enveloppe supprimée !", {
-        duration: 1500,
+        duration: 1200,
         className: "text-primary",
       })
       router.refresh()
     } catch (error) {
-      console.error("Erreur lors de la suppression du budget:", error)
+      console.error("Erreur lors de la suppression de l'enveloppe:", error)
       toast.error("Une erreur est survenue", {
-        duration: 1500,
+        duration: 1200,
         className: "text-red-500",
       })
     }
   }
 
   const renderCategoryCard = (category: CategoryWithBudgets) => (
-    <Card key={category.name} className='w-full mb-4 p-2 bg-slate-50 font-sans'>
+    <Card
+      key={category.name}
+      className='w-4/5 mb-4 p-2 bg-slate-50 font-sans mx-auto'
+    >
       <CardHeader className='p-2'>
         <CardTitle className='flex justify-between items-center font-title text-lg md:text-2xl w-full'>
           <span>{category.name}</span>
@@ -151,7 +154,7 @@ export default function BudgetConfiguration() {
             Créez vos enveloppes
           </h1>
         </div>
-        <h2 className='text-xs md:text-lg'>
+        <h2 className='text-xs md:text-lg font-sans'>
           Et gérez votre budget par mois en toute simplicité
         </h2>
       </div>
@@ -160,7 +163,7 @@ export default function BudgetConfiguration() {
 
       <div className='w-full flex justify-end mt-10'>
         <Button
-          className='text-emerald-800 bg-slate-50 hover:bg-primary/80 hover:text-slate-50 font-sans mr-2'
+          className='text-emerald-800 bg-slate-50 hover:bg-primary/80 hover:text-slate-50 font-sans mt-10 w-4/5 mx-auto transition-all duration-300 ease-in-out'
           onClick={handleSubmit}
           disabled={isLoading}
         >
