@@ -241,31 +241,39 @@ export default function MonthlyBudgetPage() {
 
   return (
     <div className='flex flex-1 flex-col w-full max-w-4xl mx-auto p-4 font-sans'>
-      <div className='flex justify-center items-center mb-12 gap-10'>
-        <Button
-          className='text-slate-50 bg-primary hover:bg-primary/90 hover:scale-110 transition-all duration-300 ease-in-out'
-          onClick={() => router.push(`/envelopes/${prevMonth}`)}
-        >
-          <CircleChevronLeft /> {prevMonth}
-        </Button>
-        <div className='flex items-center justify-center gap-3 mb-2'>
+      <div className='flex md:flex-row flex-col justify-center items-center mb-12 gap-4'>
+        <div className='md:hidden flex items-center justify-center gap-3'>
           <Mails className='inline h-8 w-8 text-primary' />
-          <h1 className='text-2xl font-title text-slate-50'>{`Enveloppes ${month
+          <h1 className='text-2xl font-title text-slate-50'>{`Enveloppe ${month
             ?.toString()
             .toUpperCase()}`}</h1>
         </div>
-        {/* <Button
+        <div className='flex flex-row justify-between md:justify-around w-full'>
+          <Button
+            className='text-sm md:text-basetext-slate-50 bg-primary hover:bg-primary/90 hover:scale-110 transition-all duration-300 ease-in-out'
+            onClick={() => router.push(`/envelopes/${prevMonth}`)}
+          >
+            <CircleChevronLeft /> {prevMonth}
+          </Button>
+          <div className='hidden md:flex items-center justify-center gap-3 mb-6'>
+            <Mails className='inline h-8 w-8 text-primary' />
+            <h1 className='text-2xl font-title text-slate-50'>{`Enveloppe ${month
+              ?.toString()
+              .toUpperCase()}`}</h1>
+          </div>
+          {/* <Button
           className='text-slate-50 bg-primary'
           onClick={handleCalendarClick}
         >
           📅 Choisir un mois
         </Button> */}
-        <Button
-          className='text-slate-50 bg-primary hover:bg-primary/90 hover:scale-110 transition-all duration-300 ease-in-out'
-          onClick={() => router.push(`/envelopes/${nextMonth}`)}
-        >
-          {nextMonth} <CircleChevronRight />
-        </Button>
+          <Button
+            className='text-sm md:text-base text-slate-50 bg-primary hover:bg-primary/90 hover:scale-110 transition-all duration-300 ease-in-out'
+            onClick={() => router.push(`/envelopes/${nextMonth}`)}
+          >
+            {nextMonth} <CircleChevronRight />
+          </Button>
+        </div>
       </div>
 
       {budgetsForMonth?.length === 0 ? (
