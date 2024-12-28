@@ -154,7 +154,7 @@ export default function MonthlyBudgetPage() {
   const renderMonthlyBudgets = (category: Category) => (
     <Card
       key={category.id}
-      className='w-full md:w-2/3 mb-4 bg-primary text-slate-50 font-sans p-0 mx-auto'
+      className='w-4/5 md:w-2/3 mb-4 bg-primary text-slate-50 font-sans p-0 mx-auto'
     >
       <CardHeader>
         <CardTitle className='text-xl text-center'>{category.name}</CardTitle>
@@ -189,7 +189,7 @@ export default function MonthlyBudgetPage() {
   const renderGenericBudgets = (category: Category) => (
     <Card
       key={category.id}
-      className='w-full md:w-2/3 mb-4 bg-primary text-slate-50 font-sans p-0 mx-auto'
+      className='w-4/5 md:w-2/3 mb-4 bg-primary text-slate-50 font-sans p-0 mx-auto'
     >
       <CardHeader>
         <CardTitle className='text-xl text-center font-title'>
@@ -241,13 +241,19 @@ export default function MonthlyBudgetPage() {
 
   return (
     <div className='flex flex-1 flex-col w-full max-w-4xl mx-auto p-4 font-sans'>
-      <div className='flex justify-around items-center mb-20'>
+      <div className='flex justify-center items-center mb-12 gap-10'>
         <Button
           className='text-slate-50 bg-primary hover:bg-primary/90 hover:scale-110 transition-all duration-300 ease-in-out'
           onClick={() => router.push(`/envelopes/${prevMonth}`)}
         >
           <CircleChevronLeft /> {prevMonth}
         </Button>
+        <div className='flex items-center justify-center gap-3 mb-2'>
+          <Mails className='inline h-8 w-8 text-primary' />
+          <h1 className='text-2xl font-title text-slate-50'>{`Enveloppes ${month
+            ?.toString()
+            .toUpperCase()}`}</h1>
+        </div>
         {/* <Button
           className='text-slate-50 bg-primary'
           onClick={handleCalendarClick}
@@ -261,12 +267,7 @@ export default function MonthlyBudgetPage() {
           {nextMonth} <CircleChevronRight />
         </Button>
       </div>
-      <div className='flex items-center justify-center gap-3 mb-10'>
-        <Mails className='inline h-8 w-8 text-primary' />
-        <h1 className='text-2xl font-title text-slate-50'>{`Enveloppes ${month
-          ?.toString()
-          .toUpperCase()}`}</h1>
-      </div>
+
       {budgetsForMonth?.length === 0 ? (
         <p className='text-center text-slate-50 font-sans'>
           Aucune enveloppe pour ce mois-ci

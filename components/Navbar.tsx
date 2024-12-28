@@ -20,10 +20,10 @@ export function Navbar() {
         {/* Menu desktop */}
         <div className='hidden lg:flex space-x-4'>
           <Link href={"/budgets"}>Mes enveloppes</Link>
-          <Link href={"/dashboard"}>Récapitulatif</Link>
+          <Link href={"/dashboard"}>Tableau de bord</Link>
           <Link href={"/transactions"}>Mes Transactions</Link>
           {/* <Link href={"/epargnes"}>Mon Epargne</Link> */}
-          <Link href={"/dashboard/settings"}>Reglages & Aide</Link>
+          <Link href={"/dashboard/settings"}>Reglages - configuration</Link>
         </div>
 
         {/* Menu mobile */}
@@ -65,7 +65,7 @@ export function Navbar() {
               className='mb-4'
               onClick={toggleMobileMenu}
             >
-              Récapitulatif
+              Tableau de bord
             </Link>
             <Link
               href={"/transactions"}
@@ -86,7 +86,7 @@ export function Navbar() {
               className='mb-4'
               onClick={toggleMobileMenu}
             >
-              Reglages & Aide
+              Reglages & configuration
             </Link>
           </div>
         </div>

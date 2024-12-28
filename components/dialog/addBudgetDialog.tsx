@@ -29,7 +29,7 @@ export function AddBudgetDialog({
   return (
     <Dialog open={isOpen} onOpenChange={setIsOpen}>
       <DialogTrigger
-        className={`text-sm cursor-pointer font-semibold rounded-lg text-white p-2 bg-primary hover:bg-primary/90 transition-all duration-300 ease-in-out flex justify-center ${className}`}
+        className={`text-sm cursor-pointer font-semibold rounded-lg  p-2 bg-primary hover:bg-primary/90 transition-all duration-300 ease-in-out flex justify-center ${className}`}
       >
         {triggerSentence}
       </DialogTrigger>

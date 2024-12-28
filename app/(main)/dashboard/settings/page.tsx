@@ -101,7 +101,7 @@ export default function BudgetConfiguration() {
   const renderCategoryCard = (category: CategoryWithBudgets) => (
     <Card
       key={category.name}
-      className='w-4/5 mb-4 p-2 bg-slate-50 font-sans mx-auto'
+      className='w-4/5 mb-4 p-2 font-sans mx-auto bg-primary text-slate-50'
     >
       <CardHeader className='p-2'>
         <CardTitle className='flex justify-between items-center font-title text-lg md:text-2xl w-full'>
@@ -132,7 +132,7 @@ export default function BudgetConfiguration() {
         </Table>
         <div className='w-full flex justify-end mt-8'>
           <AddBudgetDialog
-            className='shadow-lg'
+            className='shadow-lg bg-slate-200 text-primary hover:bg-slate-200/90 font-sans transition-all duration-300 ease-in-out'
             email={email}
             triggerSentence='Nouvelle enveloppe'
             category={{
