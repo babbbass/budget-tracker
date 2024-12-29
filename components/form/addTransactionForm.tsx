@@ -15,8 +15,8 @@ import {
 } from "@/components/ui/form"
 import { toast } from "sonner"
 import { addTransactionToBudget } from "@/lib/actionsTransaction"
-import { LoadingSpinner } from "@/components/LoadingSpinner"
 import { useQueryClient } from "@tanstack/react-query"
+import { SpinnerForm } from "@/components/SpinnerForm"
 
 const formSchema = z.object({
   nameTransaction: z
@@ -56,11 +56,11 @@ export function AddTransactionForm({
         queryClient.invalidateQueries({ queryKey: ["budget_by_id"] })
         toast.success("Nouvelle Transaction ajouté !", {
           duration: 1200,
-          className: "text-green-500",
+          className: "text-primary",
         })
         setTimeout(() => {
           isOpen(false)
-        }, 1500)
+        }, 1200)
       } else {
         toast.error("Une erreur est survenue veuillez réessayer", {
           duration: 1200,
@@ -69,7 +69,7 @@ export function AddTransactionForm({
       }
     } catch (error) {
       toast.error("Une erreur est survenue veuillez réessayer", {
-        duration: 1500,
+        duration: 1200,
         className: "text-red-500",
       })
       console.error("Erreur lors de la modification de la transaction:", error)
@@ -80,11 +80,9 @@ export function AddTransactionForm({
 
   return (
     <>
-      <h3 className='text-center'>
+      <h3 className='text-center font-sans'>
         Ajoutez une transaction pour le budget{" "}
-        <span className='text-lg font-semibold'>
-          {budget.budgetName.toUpperCase()}
-        </span>
+        <span className='font-sans'>{budget.budgetName.toUpperCase()}</span>
       </h3>
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)} className='space-y-6'>
@@ -118,7 +116,7 @@ export function AddTransactionForm({
             type='submit'
             className='w-full bg-emerald-600 font-sans text-white hover:bg-emerald-700'
           >
-            {loading && <LoadingSpinner />} Ajoutez la transaction
+            {loading && <SpinnerForm />} Ajoutez la transaction
           </Button>
         </form>
       </Form>

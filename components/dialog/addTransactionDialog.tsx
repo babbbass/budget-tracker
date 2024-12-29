@@ -25,7 +25,7 @@ export function AddTransactionDialog({
       </DialogTrigger>
       <DialogContent>
         <DialogHeader>
-          <DialogTitle className='text-center text-2xl text-emerald-600'>
+          <DialogTitle className='text-center text-2xl text-primary'>
             Nouvelle transaction
           </DialogTitle>
         </DialogHeader>

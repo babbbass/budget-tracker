@@ -15,7 +15,6 @@ export default function Page() {
 
   const { data: monthPlan } = useMonth(email, month as string)
   const { data: budget } = useBudgetById(id as string)
-  console.log(budget)
 
   return (
     <div className='flex flex-1 justify-center items-center w-full md:w-2/3 p-2 flex-col gap-4'>

@@ -21,7 +21,7 @@ export type TransactionType = {
   id: string
   amount: number
   description: string
-  budgetId: string | null
+  budgetId: string
   createdAt: Date
   emoji?: string | null
   budgetName?: string

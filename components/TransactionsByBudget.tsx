@@ -9,22 +9,28 @@ import {
   TableHead,
 } from "@/components/ui/table"
 import { ScrollArea } from "@/components/ui/scroll-area"
-import { TransactionType } from "@/types"
 import { EditTransactionDialog } from "@/components/dialog/EditTransactionDialog"
-import { BudgetType } from "@/types"
 import { DeleteTransactionDialog } from "./dialog/DeleteTransactionDialog"
 
 export function TransactionsByBudget({
   budget,
-}: // onSuccess,
-{
-  budget: BudgetType
-  // onSuccess: () => void
-}) {
-  const handleFormSuccess = () => {
-    console.log("success")
-    // onSuccess()
+}: {
+  budget: {
+    name: string
+    transactions: {
+      id: string
+      budgetId: string
+      amount: number
+      name: string
+      budget: { name: string; id: string }
+      createdAt: Date
+      updatedAt: Date
+    }[]
   }
+}) {
+  // const handleFormSuccess = () => {
+  //   console.log("success")
+  // }
   if (!budget) {
     return <div>Chargement...</div>
   }
@@ -46,7 +52,7 @@ export function TransactionsByBudget({
       <ScrollArea className='max-w-full overflow-x-auto w-full md:w-2/3'>
         <Table className='w-full font-sans'>
           <TableHeader>
-            <TableRow>
+            <TableRow className='hover:bg-transparent'>
               <TableHead className='font-title text-slate-50'>Nom</TableHead>
               <TableHead className='text-center text-slate-50'>
                 Montant
@@ -55,10 +61,10 @@ export function TransactionsByBudget({
           </TableHeader>
           <TableBody>
             {budget &&
-              budget.transactions?.map((transaction: TransactionType) => (
+              budget.transactions?.map((transaction) => (
                 <TableRow
                   key={transaction.id}
-                  className='border-0 cursor-pointer h-16 hover:bg-none'
+                  className='border-0 cursor-pointer h-16 hover:bg-transparent'
                   // onClick={() => router.push(`/transactions/${transaction.id}`)}
                 >
                   <TableCell className='font-title text-slate-50'>
@@ -75,14 +81,10 @@ export function TransactionsByBudget({
                   <TableCell className='p-0 font-sans '>
                     <div className='flex gap-1 text-right'>
                       <EditTransactionDialog
-                        idTransaction={transaction.id}
-                        onSuccess={handleFormSuccess}
+                        transaction={transaction}
+                        budgetName={budget.name}
                       />
-
-                      <DeleteTransactionDialog
-                        idTransaction={transaction.id}
-                        onSuccess={handleFormSuccess}
-                      />
+                      <DeleteTransactionDialog transaction={transaction} />
                     </div>
                   </TableCell>
                 </TableRow>

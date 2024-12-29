@@ -6,30 +6,31 @@ import {
   AlertDialogHeader,
   AlertDialogFooter,
   AlertDialogAction,
+  AlertDialogTitle,
   AlertDialogCancel,
 } from "@/components/ui/alert-dialog"
 import { deleteTransaction } from "@/lib/actionsTransaction"
 import { toast } from "sonner"
 import { Trash2 } from "lucide-react"
+import { useQueryClient } from "@tanstack/react-query"
 
 export function DeleteTransactionDialog({
-  idTransaction,
-  onSuccess,
+  transaction,
 }: {
-  idTransaction: string
-  onSuccess: () => void
+  transaction: { id: string; amount: number; budgetId: string }
 }) {
   const [loading, setLoading] = useState(false)
+  const queryClient = useQueryClient()
 
   const handleDelete = async () => {
     setLoading(true)
-    const success = await deleteTransaction(idTransaction)
+    const success = await deleteTransaction(transaction)
     if (success) {
+      queryClient.invalidateQueries({ queryKey: ["budget_by_id"] })
       toast.success("transaction supprimée avec succès !")
     } else {
       toast.error("Erreur lors de la suppression.")
     }
-    onSuccess()
     setLoading(false)
   }
 
@@ -41,7 +42,9 @@ export function DeleteTransactionDialog({
 
       <AlertDialogContent className='w-full max-w-md p-4 rounded-lg bg-emerald-900 text-slate-50 font-sans'>
         <AlertDialogHeader>
-          <h2 className='text-xl font-title'>Confirmer la suppression</h2>
+          <AlertDialogTitle className='text-xl font-title'>
+            Confirmer la suppression
+          </AlertDialogTitle>
           <p>
             Êtes-vous sûr de vouloir supprimer cette entrée ? Cette action est
             irréversible.
