@@ -43,6 +43,7 @@ export default function Page() {
       <BudgetCard budget={budget} />
 
       <AddTransactionDialog budget={budget} />
+      {/* @ts-expect-error "error type unknown" */}
       <TransactionsByBudget budget={budget} />
     </div>
   )
