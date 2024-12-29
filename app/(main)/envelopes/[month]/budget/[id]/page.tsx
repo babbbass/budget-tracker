@@ -29,7 +29,7 @@ export default function Page() {
 
   return (
     <>
-      <div className='flex items-start flex-col mb-8 w-full md:w-2/3'>
+      <div className='px-2 flex items-start flex-col mb-8 w-full md:w-2/3'>
         <CircleChevronLeft
           className='ml-3 h-10 mb-1 w-10 text-slate-50 cursor-pointer text-left hover:scale-110 transition-all duration-300 ease-in-out'
           onClick={() => router.back()}
