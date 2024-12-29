@@ -15,8 +15,8 @@ import { useForm } from "react-hook-form"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { Card, CardContent, CardHeader } from "../ui/card"
 import { updateBudgetAction } from "@/lib/actionsBudget"
-import { LoadingSpinner } from "@/components/LoadingSpinner"
 import { useQueryClient } from "@tanstack/react-query"
+import { SpinnerForm } from "../SpinnerForm"
 
 const formSchema = z.object({
   budgetName: z.string().min(1, "Le nom de l'enveloppe est obligatoire."),
@@ -133,7 +133,7 @@ export function EditBudgetForm({
                 type='submit'
                 className='bg-slate-200 font-sans  text-primary hover:bg-slate-200/90 hover:scale-110 transition-all duration-300 ease-in-out'
               >
-                {loading && <LoadingSpinner />} {`Modifiez l'enveloppe`}
+                {loading && <SpinnerForm />} {`Modifiez l'enveloppe`}
               </Button>
             </div>
           </form>
