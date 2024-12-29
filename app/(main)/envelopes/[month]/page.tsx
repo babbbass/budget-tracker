@@ -23,6 +23,7 @@ import {
   CircleChevronRight,
   CircleChevronLeft,
   Mails,
+  Pencil,
 } from "lucide-react"
 import { useRouter, usePathname } from "next/navigation"
 import Link from "next/link"
@@ -160,28 +161,40 @@ export default function MonthlyBudgetPage() {
         <CardTitle className='text-xl text-center'>{category.name}</CardTitle>
       </CardHeader>
       <CardContent>
-        <div className='grid grid-cols-1 gap-4 sm:grid-cols-2'>
-          {category.budgets.map((budget) => (
-            <Card
-              key={budget.id}
-              className='flex bg-primary text-slate-50 font-sans justify-around items-center mx-auto w-full md-w-2/3 sm:w-full p-2 py-4 h-20 cursor-pointer transition-all duration-300 ease-in-out shadow-xl  hover:scale-105 hover:text-slate-100'
-            >
-              <Link
-                href={`/envelopes/${month}/budget/${budget.id}`}
-                className='w-3/4 h-full items-center flex justify-around'
+        <Table>
+          <TableHeader>
+            <TableRow>
+              <TableHead className='text-slate-50'>Budget</TableHead>
+              <TableHead className='text-right text-slate-50'>
+                Montant
+              </TableHead>
+              <TableHead className='text-right text-slate-50'>Action</TableHead>
+            </TableRow>
+          </TableHeader>
+          <TableBody>
+            {category.budgets.map((budget) => (
+              <TableRow
+                key={budget.id}
+                className='font-sans hover:bg-transparent hover:text-slate-100 transition-all duration-300 ease-in-out'
               >
-                <div className='flex justify-around  w-3/4 text-sm md:text-base flex-col md:flex-row'>
-                  <span>{budget.name}</span>
-                  <span>{budget.amount}€</span>
-                </div>
-              </Link>
-              <Trash
-                className='w-4 h-4 text-red-600 cursor-pointer hover:text-red-800 transition-all duration-300 ease-in-out hover:scale-110 font-bold'
-                onClick={() => removeToMonthly(budget)}
-              />
-            </Card>
-          ))}
-        </div>
+                <TableCell>{budget.name}</TableCell>
+                <TableCell className='text-right'>{budget.amount}€</TableCell>
+                <TableCell className='flex justify-end gap-3'>
+                  <Link
+                    href={`/envelopes/${month}/budget/${budget.id}`}
+                    className='cursor-pointer hover:scale-125 transition-all duration-300 ease-in-out'
+                  >
+                    <Pencil className='w-5 h-5' />
+                  </Link>
+                  <Trash
+                    className='w-5 h-5 text-red-600 cursor-pointer hover:text-red-800 transition-all duration-300 ease-in-out hover:scale-125 font-bold'
+                    onClick={() => removeToMonthly(budget)}
+                  />
+                </TableCell>
+              </TableRow>
+            ))}
+          </TableBody>
+        </Table>
       </CardContent>
     </Card>
   )
@@ -244,7 +257,7 @@ export default function MonthlyBudgetPage() {
       <div className='flex md:flex-row flex-col justify-center items-center mb-12 gap-4'>
         <div className='md:hidden flex items-center justify-center gap-3'>
           <Mails className='inline h-8 w-8 text-primary' />
-          <h1 className='text-2xl font-title text-slate-50'>{`Enveloppe ${month
+          <h1 className='text-2xl font-title text-slate-50'>{`Enveloppes ${month
             ?.toString()
             .toUpperCase()}`}</h1>
         </div>

@@ -26,7 +26,7 @@ export function EditTransactionDialog({
   return (
     <Dialog open={isOpen} onOpenChange={setIsOpen}>
       <DialogTrigger>
-        <Pencil className='w-4 h-4 cursor-pointer hover:scale-125 transition-all duration-300 ease-in-out hover:text-teal-700' />
+        <Pencil className='w-4 h-4 cursor-pointer hover:scale-125 transition-all duration-300 ease-in-out hover:text-primary' />
       </DialogTrigger>
       <DialogContent className='text-sans'>
         <DialogHeader>

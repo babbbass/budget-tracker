@@ -2,21 +2,7 @@
 import { Button } from "@/components/ui/button"
 import { useRouter } from "next/navigation"
 import { CalendarDays, ArrowDown } from "lucide-react"
-
-const months = [
-  "Janvier",
-  "Fevrier",
-  "Mars",
-  "Avril",
-  "Mai",
-  "Juin",
-  "Juillet",
-  "Aout",
-  "Septembre",
-  "Octobre",
-  "Novembre",
-  "Decembre",
-]
+import { months } from "@/lib/utils/constants"
 
 export function MonthSelector() {
   const router = useRouter()
@@ -26,7 +12,7 @@ export function MonthSelector() {
   }
 
   return (
-    <div className='container py-4 my-4'>
+    <div className='container py-4 my-4 px-4'>
       <div className='flex flex-col mb-6 items-center justify-center gap-3'>
         <div className='flex items-center gap-2 justify-center'>
           <CalendarDays className='h-6 w-6 text-primary' />
