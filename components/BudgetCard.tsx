@@ -16,7 +16,6 @@ export function BudgetCard({ budget }: { budget: BudgetType }) {
   async function deleteMyBudget(budgetId: string) {
     if (!budgetId) {
       toast.error("Enveloppe introuvable.", {
-        duration: 1200,
         className: "text-red-500",
       })
       return
@@ -26,7 +25,6 @@ export function BudgetCard({ budget }: { budget: BudgetType }) {
       const response = await deleteBudgetById(budgetId)
       if (response) {
         toast.success("Enveloppe supprimée !", {
-          duration: 1200,
           className: "text-primary",
         })
         router.push("/budgets")
@@ -34,7 +32,6 @@ export function BudgetCard({ budget }: { budget: BudgetType }) {
     } catch (error) {
       console.error("Erreur lors de la suppression de l'enveloppe:", error)
       toast.error("Une erreur est survenue veuillez réessayer", {
-        duration: 1200,
         className: "text-red-500",
       })
     } finally {

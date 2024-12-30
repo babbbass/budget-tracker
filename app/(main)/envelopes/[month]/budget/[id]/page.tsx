@@ -24,14 +24,16 @@ export default function Page() {
   }
   return (
     <>
-      <BackNavigation router={router} />
-      <div className='flex flex-1 justify-start items-center w-full md:w-2/3 p-2 flex-col gap-4'>
+      <div className='flex items-start  justify-between mb-8 w-full md:w-2/3 px-2'>
+        <BackNavigation router={router} />
         {monthPlan && budget && (
           <AddTransactionDialog
             budget={{ id: budget.id, name: budget.name }}
             monthPlan={monthPlan}
           />
         )}
+      </div>
+      <div className='flex flex-1 justify-start items-center w-full md:w-2/3 p-2 flex-col gap-4'>
         {/* @ts-expect-error "error type unknown" */}
         {budget && <BudgetCard budget={budget} />}
         {/* @ts-expect-error "error type unknown" */}
