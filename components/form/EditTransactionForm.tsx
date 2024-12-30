@@ -60,7 +60,6 @@ export function EditTransactionForm({
         id: transaction.id,
         nameTransaction,
         amount,
-        budgetId: transaction.budgetId,
       })
 
       if (response) {
