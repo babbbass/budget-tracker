@@ -23,15 +23,22 @@ export function DeleteTransactionDialog({
   const queryClient = useQueryClient()
 
   const handleDelete = async () => {
-    setLoading(true)
-    const success = await deleteTransaction(transaction)
-    if (success) {
-      queryClient.invalidateQueries({ queryKey: ["budget_by_id"] })
-      toast.success("transaction supprimée avec succès !")
-    } else {
+    try {
+      setLoading(true)
+      const success = await deleteTransaction(transaction)
+
+      if (success) {
+        queryClient.invalidateQueries({ queryKey: ["budget_by_id"] })
+        toast.success("transaction supprimée avec succès !", {
+          className: "text-primary",
+        })
+      }
+    } catch (error) {
       toast.error("Erreur lors de la suppression.")
+      console.error("Erreur lors de la suppression de la transaction:", error)
+    } finally {
+      setLoading(false)
     }
-    setLoading(false)
   }
 
   return (

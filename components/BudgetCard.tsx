@@ -16,7 +16,7 @@ export function BudgetCard({ budget }: { budget: BudgetType }) {
   async function deleteMyBudget(budgetId: string) {
     if (!budgetId) {
       toast.error("Enveloppe introuvable.", {
-        duration: 1500,
+        duration: 1200,
         className: "text-red-500",
       })
       return
@@ -26,15 +26,15 @@ export function BudgetCard({ budget }: { budget: BudgetType }) {
       const response = await deleteBudgetById(budgetId)
       if (response) {
         toast.success("Enveloppe supprimée !", {
-          duration: 1500,
-          className: "text-green-500",
+          duration: 1200,
+          className: "text-primary",
         })
         router.push("/budgets")
       }
     } catch (error) {
       console.error("Erreur lors de la suppression de l'enveloppe:", error)
       toast.error("Une erreur est survenue veuillez réessayer", {
-        duration: 1500,
+        duration: 1200,
         className: "text-red-500",
       })
     } finally {
@@ -42,12 +42,11 @@ export function BudgetCard({ budget }: { budget: BudgetType }) {
     }
   }
   const totalTransactionAmount = totalAmount(budget?.transactions || [])
+  const remainingAmount = budget?.amount - totalTransactionAmount
   const progressValue =
     totalTransactionAmount > budget.amount
       ? 100
       : (totalTransactionAmount / budget.amount) * 100
-
-  const startAmount = budget?.amount + totalTransactionAmount
   return (
     <Card className='w-full md:w-2/3 md:mx-auto bg-primary text-slate-50 font-sans p-0'>
       <CardHeader className='flex flex-row justify-between items-center border-b py-1 mb-4 p-2'>
@@ -58,17 +57,17 @@ export function BudgetCard({ budget }: { budget: BudgetType }) {
           </span>
         </div>
         <div className='flex flex-col text-sm'>
-          <span>{budget?.amount}€</span>
+          <span>{remainingAmount}€</span>
           <span>restants</span>
         </div>
       </CardHeader>
       <CardContent className='flex flex-col gap-2 p-2 font-sans'>
         <p className='flex justify-center'>
-          {`${totalTransactionAmount}€ sur ${startAmount}€`}
+          {`${totalTransactionAmount}€ sur ${budget?.amount}€`}
         </p>
-        <span className='mt-4'>
-          <Progress value={progressValue} indicatorColor='bg-black-600' />
-        </span>
+        <div className='my-4 w-3/4 mx-auto border border-slate-200 rounded-xl'>
+          <Progress value={progressValue} indicatorColor='bg-slate-200' />
+        </div>
         <Button
           className='bg-slate-50 text-primary font-sans hover:bg-slate-50/90 transition-all w-2/3 mx-auto duration-300 ease-in-out'
           onClick={async () => {

@@ -71,18 +71,8 @@ export async function getTransactionsByUser(email: string, period: string) {
   }
 }
 
-export async function deleteTransaction(transaction: {
-  id: string
-  budgetId: string
-  amount: number
-}) {
+export async function deleteTransaction(transaction: { id: string }) {
   try {
-    await updateBudgetTransaction({
-      budgetId: transaction.budgetId,
-      amount: transaction.amount,
-      operation: "increment",
-    })
-
     await prisma.transaction.delete({
       where: {
         id: transaction.id,
@@ -105,16 +95,6 @@ export async function addTransactionToBudget({
   name: string
 }) {
   try {
-    const budget = await updateBudgetTransaction({
-      budgetId,
-      amount,
-      operation: "decrement",
-    })
-
-    if (!budget) {
-      throw new Error("Budget non trouvé.")
-    }
-
     const newTransaction = await prisma.transaction.create({
       data: {
         amount,
@@ -155,90 +135,24 @@ export async function updateTransaction({
   id,
   nameTransaction,
   amount,
-  budgetId,
 }: {
   id: string
   nameTransaction: string
   amount: number
-  budgetId: string
 }) {
   try {
-    const transaction = await prisma.transaction.findUnique({
-      where: {
-        id,
-      },
-    })
-
-    if (!transaction) {
-      throw new Error("Transaction introuvable")
-    }
-
-    const addOrLess = transaction.amount - amount
-
-    await updateBudgetTransaction({
-      budgetId,
-      amount: addOrLess,
-      operation: addOrLess > 0 ? "increment" : "decrement",
-    })
-
-    const newTransaction = await prisma.transaction.update({
+    const transaction = await prisma.transaction.update({
       where: {
         id,
       },
       data: {
         name: nameTransaction,
         amount,
-        // budget: {
-        //   connect: {
-        //     id: budgetId,
-        //   },
-        // },
       },
     })
-    return newTransaction
+    return transaction
   } catch (error) {
     console.log(error)
     throw new Error("Transaction introuvable")
-  }
-}
-
-async function updateBudgetTransaction({
-  budgetId,
-  amount,
-  operation,
-}: {
-  budgetId: string
-  amount: number
-  operation: "increment" | "decrement"
-}) {
-  try {
-    if (operation === "increment") {
-      const budget = await prisma.budget.update({
-        where: {
-          id: budgetId,
-        },
-        data: {
-          amount: {
-            increment: amount,
-          },
-        },
-      })
-      return budget
-    }
-
-    const budget = await prisma.budget.update({
-      where: {
-        id: budgetId,
-      },
-      data: {
-        amount: {
-          decrement: amount,
-        },
-      },
-    })
-    return budget
-  } catch (error) {
-    console.log(error)
-    throw new Error("Budget introuvable")
   }
 }
