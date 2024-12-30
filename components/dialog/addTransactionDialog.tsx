@@ -7,13 +7,16 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog"
 import { AddTransactionForm } from "@/components/form/addTransactionForm"
-import { BudgetType, MonthlyPlanType } from "@/types"
+import { MonthlyPlanType } from "@/types"
 
 export function AddTransactionDialog({
   budget,
   monthPlan,
 }: {
-  budget: BudgetType
+  budget: {
+    id: string
+    name: string
+  }
   monthPlan?: MonthlyPlanType
 }) {
   const [isOpen, setIsOpen] = useState(false)

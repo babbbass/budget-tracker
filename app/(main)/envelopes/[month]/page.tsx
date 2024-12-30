@@ -23,10 +23,11 @@ import {
   CircleChevronRight,
   CircleChevronLeft,
   Mails,
-  Pencil,
+  EyeIcon,
 } from "lucide-react"
 import { useRouter, usePathname } from "next/navigation"
 import Link from "next/link"
+import { months } from "@/lib/utils/constants"
 
 type Budget = {
   id: string
@@ -45,21 +46,6 @@ type Category = {
   userId?: string
   budgets: Budget[]
 }
-
-const months = [
-  "janvier",
-  "fevrier",
-  "mars",
-  "avril",
-  "mai",
-  "juin",
-  "juillet",
-  "aout",
-  "septembre",
-  "octobre",
-  "novembre",
-  "decembre",
-]
 
 export default function MonthlyBudgetPage() {
   const { user } = useUser()
@@ -184,7 +170,7 @@ export default function MonthlyBudgetPage() {
                     href={`/envelopes/${month}/budget/${budget.id}`}
                     className='cursor-pointer hover:scale-125 transition-all duration-300 ease-in-out'
                   >
-                    <Pencil className='w-5 h-5' />
+                    <EyeIcon className='w-5 h-5' />
                   </Link>
                   <Trash
                     className='w-5 h-5 text-red-600 cursor-pointer hover:text-red-800 transition-all duration-300 ease-in-out hover:scale-125 font-bold'

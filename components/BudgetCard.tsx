@@ -46,7 +46,6 @@ export function BudgetCard({ budget }: { budget: BudgetType }) {
     totalTransactionAmount > budget.amount
       ? 100
       : (totalTransactionAmount / budget.amount) * 100
-
   const startAmount = budget?.amount + totalTransactionAmount
   return (
     <Card className='w-full md:w-2/3 md:mx-auto bg-primary text-slate-50 font-sans p-0'>
@@ -66,9 +65,9 @@ export function BudgetCard({ budget }: { budget: BudgetType }) {
         <p className='flex justify-center'>
           {`${totalTransactionAmount}€ sur ${startAmount}€`}
         </p>
-        <span className='mt-4'>
-          <Progress value={progressValue} indicatorColor='bg-black-600' />
-        </span>
+        <p className='my-4 w-3/4 mx-auto border border-slate-200 rounded-xl'>
+          <Progress value={progressValue} indicatorColor='bg-slate-200' />
+        </p>
         <Button
           className='bg-slate-50 text-primary font-sans hover:bg-slate-50/90 transition-all w-2/3 mx-auto duration-300 ease-in-out'
           onClick={async () => {
