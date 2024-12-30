@@ -47,6 +47,7 @@ export function BudgetCard({ budget }: { budget: BudgetType }) {
     totalTransactionAmount > budget.amount
       ? 100
       : (totalTransactionAmount / budget.amount) * 100
+
   return (
     <Card className='w-full md:w-2/3 md:mx-auto bg-primary text-slate-50 font-sans p-0'>
       <CardHeader className='flex flex-row justify-between items-center border-b py-1 mb-4 p-2'>
@@ -68,6 +69,9 @@ export function BudgetCard({ budget }: { budget: BudgetType }) {
         <div className='my-4 w-3/4 mx-auto border border-slate-200 rounded-xl'>
           <Progress value={progressValue} indicatorColor='bg-slate-200' />
         </div>
+        <p className='my-4 w-3/4 mx-auto border border-slate-200 rounded-xl'>
+          <Progress value={progressValue} indicatorColor='bg-slate-200' />
+        </p>
         <Button
           className='bg-slate-50 text-primary font-sans hover:bg-slate-50/90 transition-all w-2/3 mx-auto duration-300 ease-in-out'
           onClick={async () => {
