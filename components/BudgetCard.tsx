@@ -69,9 +69,6 @@ export function BudgetCard({ budget }: { budget: BudgetType }) {
         <div className='my-4 w-3/4 mx-auto border border-slate-200 rounded-xl'>
           <Progress value={progressValue} indicatorColor='bg-slate-200' />
         </div>
-        <p className='my-4 w-3/4 mx-auto border border-slate-200 rounded-xl'>
-          <Progress value={progressValue} indicatorColor='bg-slate-200' />
-        </p>
         <Button
           className='bg-slate-50 text-primary font-sans hover:bg-slate-50/90 transition-all w-2/3 mx-auto duration-300 ease-in-out'
           onClick={async () => {
