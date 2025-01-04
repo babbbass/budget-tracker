@@ -6,7 +6,6 @@ import React, { useEffect, useState } from "react"
 import { getTransactionsByUser } from "@/lib/actionsTransaction"
 import { TransactionCard } from "@/components/TransactionCard"
 import Link from "next/link"
-import { BudgetAssistant } from "@/components/BudgetAssistant"
 
 export default function Page() {
   const { user } = useUser()
@@ -64,7 +63,6 @@ export default function Page() {
           </div>
         )}
       </div>
-      <BudgetAssistant />
     </>
   )
 }
