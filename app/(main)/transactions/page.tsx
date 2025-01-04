@@ -6,6 +6,7 @@ import React, { useEffect, useState } from "react"
 import { getTransactionsByUser } from "@/lib/actionsTransaction"
 import { TransactionCard } from "@/components/TransactionCard"
 import Link from "next/link"
+import { BudgetAssistant } from "@/components/BudgetAssistant"
 
 export default function Page() {
   const { user } = useUser()
@@ -33,19 +34,6 @@ export default function Page() {
 
   return (
     <>
-      {/* <div className='flex justify-end mb-5 '>
-        <select
-          className='input input-bordered input-md'
-          defaultValue='last30'
-          onChange={(e) => fetchTransactions(e.target.value)}
-        >
-          <option value='last7'>Derniers 7 jours</option>
-          <option value='last30'>Derniers 30 jours</option>
-          <option value='last90'>Derniers 90 jours</option>
-          <option value='last365'>Derniers 365 jours</option>
-        </select>
-      </div> */}
-
       <div className='flex justify-center items-start w-full bg-base-200/35 p-5 rounded-xl flex-1'>
         {loading ? (
           <div className='flex justify-center items-center flex-1'>
@@ -76,6 +64,7 @@ export default function Page() {
           </div>
         )}
       </div>
+      <BudgetAssistant />
     </>
   )
 }

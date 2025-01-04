@@ -20,8 +20,8 @@ export function Navbar() {
         {/* Menu desktop */}
         <div className='hidden lg:flex space-x-4'>
           <Link href={"/budgets"}>Mes enveloppes</Link>
-          <Link href={"/dashboard"}>Tableau de bord</Link>
-          <Link href={"/transactions"}>Mes Transactions</Link>
+          {/* <Link href={"/dashboard"}>Tableau de bord</Link> */}
+          <Link href={"/mon-assistant"}>Assistant</Link>
           {/* <Link href={"/epargnes"}>Mon Epargne</Link> */}
           <Link href={"/dashboard/settings"}>Reglages - configuration</Link>
         </div>
@@ -60,19 +60,19 @@ export function Navbar() {
             <Link href={"/budgets"} className='mb-4' onClick={toggleMobileMenu}>
               Mes enveloppes
             </Link>
-            <Link
+            {/* <Link
               href={"/dashboard"}
               className='mb-4'
               onClick={toggleMobileMenu}
             >
               Tableau de bord
-            </Link>
+            </Link> */}
             <Link
-              href={"/transactions"}
+              href={"/mon-assistant"}
               className='mb-4'
               onClick={toggleMobileMenu}
             >
-              Mes Transactions
+              Assistant
             </Link>
             {/* <Link
               href={"/epargnes"}
