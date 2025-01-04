@@ -85,7 +85,6 @@ export async function addBudgetForSetting({
         endDate: formattedEndDate ? new Date(formattedEndDate) : undefined,
       },
     })
-    console.log("created budget", createdBudget)
 
     return createdBudget
   } catch (error) {

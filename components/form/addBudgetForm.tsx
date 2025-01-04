@@ -34,7 +34,7 @@ import { CalendarIcon } from "lucide-react"
 import { format } from "date-fns"
 import { fr } from "date-fns/locale"
 import { CategoriesEnum as Categories } from "@/types"
-import { LoadingSpinner } from "@/components/LoadingSpinner"
+import { SpinnerForm } from "@/components/SpinnerForm"
 import { useQueryClient } from "@tanstack/react-query"
 import { ArrowRightCircle } from "lucide-react"
 
@@ -293,7 +293,7 @@ export function AddBudgetForm({
             type='submit'
             className='bg-emerald-600 text-white font-sans hover:bg-emerald-700 px-2 py-4 rounded-lg'
           >
-            {loading && <LoadingSpinner />}
+            {loading && <SpinnerForm />}
             Validez <ArrowRightCircle className='w-4 h-4' />
           </Button>
         </div>
