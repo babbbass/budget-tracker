@@ -8,7 +8,7 @@ export async function POST(req: NextRequest) {
 
     if (!question || !userId) {
       return NextResponse.json(
-        { error: "Question et userId requis" },
+        { error: "Question et userId sont requis" },
         { status: 400 }
       )
     }

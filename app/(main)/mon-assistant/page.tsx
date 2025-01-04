@@ -10,11 +10,11 @@ export default async function MonAssistant() {
     redirect("/connexion")
   }
   return (
-    <div className='flex flex-col justify-center items-center w-full bg-base-200/35 p-5 rounded-xl flex-1 md:w-2/3'>
-      <h1 className='text-2xl md:text-3xl font-title my-5'>
+    <div className='flex flex-col justify-start items-center w-full bg-base-200/35 p-5 rounded-xl flex-1 md:w-2/3'>
+      <h1 className='text-2xl md:text-3xl font-title'>
         Mon Assistant Budgétaire Intelligent
       </h1>
-      <p className='font-sans mb-5 w-3/4'>
+      <p className='font-sans mb-10 mt-10 w-3/4 pl-4'>
         Bienvenue dans votre assistant budgétaire personnalisé. Posez vos
         questions, explorez vos finances, et obtenez des réponses intelligentes
         et rapides pour mieux gérer vos dépenses, vos économies et vos objectifs

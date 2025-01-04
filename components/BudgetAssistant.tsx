@@ -16,7 +16,6 @@ export function BudgetAssistant({ userId }: { userId: string }) {
   const [isLoading, setIsLoading] = useState(false)
 
   const askQuestion = async (e: React.FormEvent) => {
-    console.log("askQuestion", question, userId)
     e.preventDefault()
     if (!question.trim() || !userId) return
 
@@ -25,8 +24,7 @@ export function BudgetAssistant({ userId }: { userId: string }) {
       role: "user",
       content: question,
     }
-    // console.log("newMessage", newMessage)
-    // return
+
     setMessages((prev) => [...prev, newMessage])
     setIsLoading(true)
 
