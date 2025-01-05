@@ -24,6 +24,7 @@ export async function findMonthPlanByEmail(email: string, month: string) {
       },
       include: {
         category: true,
+        transactions: true,
       },
     })
     return monthlyBudgets

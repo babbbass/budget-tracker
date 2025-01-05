@@ -64,7 +64,7 @@ export function TransactionsByBudget({
               budget.transactions?.map((transaction) => (
                 <TableRow
                   key={transaction.id}
-                  className='border-0 cursor-pointer h-16 hover:bg-transparent'
+                  className='border-0 border-b cursor-pointer h-16 hover:bg-transparent'
                   // onClick={() => router.push(`/transactions/${transaction.id}`)}
                 >
                   <TableCell className='font-title text-slate-50'>
@@ -74,12 +74,12 @@ export function TransactionsByBudget({
                     {transaction.amount} €
                   </TableCell>
                   <TableCell className='text-center font-sans text-slate-50'>
-                    le {transaction.createdAt.getDate()}/
+                    {/* le {transaction.createdAt.getDate()}/
                     {transaction.createdAt.getMonth()}/
-                    {transaction.createdAt.getFullYear()}
+                    {transaction.createdAt.getFullYear()} */}
                   </TableCell>
                   <TableCell className='p-0 font-sans '>
-                    <div className='flex gap-1 text-right'>
+                    <div className='flex gap-4 text-right'>
                       <EditTransactionDialog
                         transaction={transaction}
                         budgetName={budget.name}

@@ -1,6 +1,6 @@
 "use client"
 import React from "react"
-import { useMonth } from "@/hooks/useMonths"
+import { useBudgetsForMonth } from "@/hooks/useMonths"
 import { useBudgetById } from "@/hooks/useBudgets"
 import { useParams, useRouter } from "next/navigation"
 import { useUser } from "@clerk/nextjs"
@@ -16,7 +16,7 @@ export default function Page() {
   const { user } = useUser()
   const email = user?.emailAddresses[0]?.emailAddress || ""
 
-  const { data: monthPlan } = useMonth(email, month as string)
+  const { data: monthPlan } = useBudgetsForMonth(email, month as string)
   const { data: budget, isLoading } = useBudgetById(id as string)
 
   if (isLoading) {

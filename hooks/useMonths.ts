@@ -1,7 +1,7 @@
 import { useQuery } from "@tanstack/react-query"
 import { findMonthPlanByEmail } from "@/lib/actionsMonth"
 
-export function useMonth(email: string, month: string) {
+export function useBudgetsForMonth(email: string, month: string) {
   return useQuery(
     ["month", [email, month]],
     () => findMonthPlanByEmail(email, month),

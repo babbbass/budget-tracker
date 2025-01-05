@@ -16,7 +16,7 @@ import { LoadingSpinner } from "@/components/LoadingSpinner"
 import { addBudgetForMonth, removeBudgetForMonth } from "@/lib/actionsBudget"
 import { useUser } from "@clerk/nextjs"
 import { useBudgetsGenericForMonth } from "@/hooks/useBudgets"
-import { useMonth } from "@/hooks/useMonths"
+import { useBudgetsForMonth } from "@/hooks/useMonths"
 import { useQueryClient } from "@tanstack/react-query"
 import {
   Trash,
@@ -24,6 +24,7 @@ import {
   CircleChevronLeft,
   Mails,
   EyeIcon,
+  CalendarPlus,
 } from "lucide-react"
 import { useRouter, usePathname } from "next/navigation"
 import Link from "next/link"
@@ -34,6 +35,7 @@ type BudgetByMonth = {
   name: string
   amount: number
   category: Category
+  transactions: { amount: number; id: string; name: string }[]
 }[]
 
 type Budget = {
@@ -42,13 +44,13 @@ type Budget = {
   amount: number
   category: Category
   monthlyPlanId: string
+  transactions: { amount: number; id: string; name: string }[]
 }
 
 type Category = {
   id: string
   name: string
   userId?: string
-  // budgets: Budget[]
 }
 
 export default function MonthlyBudgetPage() {
@@ -62,7 +64,7 @@ export default function MonthlyBudgetPage() {
     email,
     month as string
   )
-  const { data: budgetsForMonth } = useMonth(email, month as string)
+  const { data: budgetsForMonth } = useBudgetsForMonth(email, month as string)
   const currentMonth = Object.keys(Months).find(
     (key) => month?.toString().toUpperCase() === key
   )
@@ -97,6 +99,7 @@ export default function MonthlyBudgetPage() {
 
   const budgetsByCategory = budgetsForMonth && groupByCategory(budgetsForMonth)
 
+  /* @ts-expect-error "error type unknown" */
   const genericBudgets = budgets && groupByCategory(budgets)
 
   async function handleAddToMonthly(budget: {
@@ -158,6 +161,12 @@ export default function MonthlyBudgetPage() {
     }
   }
 
+  function totalAmountTransactions(
+    budgets: { amount: number; id: string; name: string }[]
+  ) {
+    return budgets.reduce((total, budget) => total + budget.amount, 0)
+  }
+
   const renderMonthlyBudgets = (category: BudgetByMonth) => (
     <Card
       key={category[0].category.id}
@@ -186,7 +195,11 @@ export default function MonthlyBudgetPage() {
                 className='font-sans hover:bg-transparent hover:text-slate-100 transition-all duration-300 ease-in-out'
               >
                 <TableCell>{budget.name}</TableCell>
-                <TableCell className='text-right'>{budget.amount}€</TableCell>
+                <TableCell className='text-right'>
+                  {budget.amount -
+                    totalAmountTransactions(budget?.transactions)}
+                  €
+                </TableCell>
                 <TableCell className='flex justify-end gap-3'>
                   <Link
                     href={`/envelopes/${month}/budget/${budget.id}`}
@@ -238,10 +251,10 @@ export default function MonthlyBudgetPage() {
                 <TableCell className='text-right'>{budget.amount}€</TableCell>
                 <TableCell className='text-right'>
                   <Button
-                    className='text-primary bg-slate-50 hover:bg-slate-50/90 hover:scale-110 transition-all duration-300 ease-in-out font-sans'
+                    className='text-slate-100 cursor-pointer hover:bg-slate-50/90 hover:scale-110 transition-all duration-300 ease-in-out font-sans'
                     onClick={() => handleAddToMonthly(budget)}
                   >
-                    Ajouter
+                    <CalendarPlus className='w-5 h-5' />
                   </Button>
                 </TableCell>
               </TableRow>
