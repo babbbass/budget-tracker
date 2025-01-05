@@ -8,13 +8,25 @@ export async function findMonthPlanByEmail(email: string, month: string) {
     const user = await getUserByEmail(email)
     const monthPlan = await prisma.monthlyPlan.findFirst({
       where: {
-        month:
-          MonthsEnum[String(month).toUpperCase() as keyof typeof MonthsEnum],
+        month: Object.keys(MonthsEnum)
+          .filter((key) => isNaN(Number(key)))
+          .indexOf(month.toUpperCase()),
         year: 2025,
         userId: user.id,
       },
     })
-    return monthPlan
+    if (!monthPlan) {
+      return []
+    }
+    const monthlyBudgets = await prisma.budget.findMany({
+      where: {
+        monthlyPlanId: monthPlan?.id,
+      },
+      include: {
+        category: true,
+      },
+    })
+    return monthlyBudgets
   } catch (error) {
     console.error("Erreur lors de la recherche du budget:", error)
     throw error

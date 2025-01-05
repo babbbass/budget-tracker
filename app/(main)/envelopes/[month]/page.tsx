@@ -15,7 +15,7 @@ import { toast } from "sonner"
 import { LoadingSpinner } from "@/components/LoadingSpinner"
 import { addBudgetForMonth, removeBudgetForMonth } from "@/lib/actionsBudget"
 import { useUser } from "@clerk/nextjs"
-import { useBudgets } from "@/hooks/useBudgets"
+import { useBudgetsGenericForMonth } from "@/hooks/useBudgets"
 import { useMonth } from "@/hooks/useMonths"
 import { useQueryClient } from "@tanstack/react-query"
 import {
@@ -29,22 +29,26 @@ import { useRouter, usePathname } from "next/navigation"
 import Link from "next/link"
 import { MonthsEnum as Months } from "@/types"
 
+type BudgetByMonth = {
+  id: string
+  name: string
+  amount: number
+  category: Category
+}[]
+
 type Budget = {
   id: string
   name: string
   amount: number
-  monthlyPlans: {
-    id: string
-    budgetId: string
-    monthlyPlanId: string
-  }[]
+  category: Category
+  monthlyPlanId: string
 }
 
 type Category = {
   id: string
   name: string
   userId?: string
-  budgets: Budget[]
+  // budgets: Budget[]
 }
 
 export default function MonthlyBudgetPage() {
@@ -54,9 +58,11 @@ export default function MonthlyBudgetPage() {
   const queryClient = useQueryClient()
   const router = useRouter()
   const email = user?.emailAddresses[0].emailAddress || ""
-  const { data: budgets, isLoading } = useBudgets(email)
-  const { data: monthPlan } = useMonth(email, month as string)
-
+  const { data: budgets, isLoading } = useBudgetsGenericForMonth(
+    email,
+    month as string
+  )
+  const { data: budgetsForMonth } = useMonth(email, month as string)
   const currentMonth = Object.keys(Months).find(
     (key) => month?.toString().toUpperCase() === key
   )
@@ -76,35 +82,29 @@ export default function MonthlyBudgetPage() {
   // const handleCalendarClick = () => {
   //   toast.info("Fonctionnalité du mini-calendrier à implémenter")
   // }
-  const budgetsForMonth = budgets?.categories
-    .map((category) => {
-      const filteredBudgets = category.budgets.filter(
-        (budget) => budget.monthlyPlanId === monthPlan?.id
-      )
 
-      return filteredBudgets.length > 0
-        ? { ...category, budgets: filteredBudgets }
-        : null
-    })
-    .filter(Boolean)
+  function groupByCategory(items: BudgetByMonth) {
+    return items.reduce((acc: Record<string, BudgetByMonth>, item) => {
+      const categoryId = item.category.id
 
-  const genericBudgets = budgets?.categories
-    .map((category) => {
-      const filteredBudgets = category.budgets.filter(
-        (budget) =>
-          (budget.monthlyPlans.length === 0 ||
-            budget.monthlyPlans?.every(
-              (plan) => plan.monthlyPlanId !== monthPlan?.id
-            )) &&
-          !budget.monthlyPlanId
-      )
+      if (!acc[categoryId]) {
+        acc[categoryId] = []
+      }
+      acc[categoryId].push(item)
+      return acc
+    }, {})
+  }
 
-      return filteredBudgets.length > 0
-        ? { ...category, budgets: filteredBudgets }
-        : null
-    })
-    .filter(Boolean)
-  async function handleAddToMonthly(budget: Budget) {
+  const budgetsByCategory = budgetsForMonth && groupByCategory(budgetsForMonth)
+
+  const genericBudgets = budgets && groupByCategory(budgets)
+
+  async function handleAddToMonthly(budget: {
+    id: string
+    name: string
+    amount: number
+    category: Category
+  }) {
     try {
       await addBudgetForMonth({
         email: email,
@@ -112,7 +112,8 @@ export default function MonthlyBudgetPage() {
         month: month as string,
         pathToRevalidate: pathname,
       })
-      queryClient.invalidateQueries({ queryKey: ["budgets"] })
+      queryClient.invalidateQueries({ queryKey: ["budgetsGenericForMonth"] })
+      queryClient.invalidateQueries({ queryKey: ["month"] })
       toast.success("Enveloppe ajouté au mois", {
         duration: 1200,
         className: "text-primary",
@@ -127,15 +128,22 @@ export default function MonthlyBudgetPage() {
     }
   }
 
-  async function removeToMonthly(budget: Budget) {
-    if (!monthPlan) return
+  async function removeToMonthly(budget: {
+    id: string
+    name: string
+    monthlyPlanId?: string
+    category: Category
+  }) {
+    if (!budgetsForMonth) return
     try {
       await removeBudgetForMonth({
         budgetId: budget.id,
-        monthId: monthPlan.id,
+        budgetName: budget.name,
+        monthlyPlanId: budget.monthlyPlanId as string,
         pathToRevalidate: pathname,
       })
-      queryClient.invalidateQueries({ queryKey: ["budgets"] })
+      queryClient.invalidateQueries({ queryKey: ["budgetsGenericForMonth"] })
+      queryClient.invalidateQueries({ queryKey: ["month"] })
       toast.success("Enveloppe retiré du mois", {
         duration: 1200,
         className: "text-primary",
@@ -150,13 +158,15 @@ export default function MonthlyBudgetPage() {
     }
   }
 
-  const renderMonthlyBudgets = (category: Category) => (
+  const renderMonthlyBudgets = (category: BudgetByMonth) => (
     <Card
-      key={category.id}
+      key={category[0].category.id}
       className='w-4/5 md:w-2/3 mb-4 bg-primary text-slate-50 font-sans p-0 mx-auto'
     >
       <CardHeader>
-        <CardTitle className='text-xl text-center'>{category.name}</CardTitle>
+        <CardTitle className='text-xl text-center'>
+          {category[0].category.name}
+        </CardTitle>
       </CardHeader>
       <CardContent>
         <Table>
@@ -170,7 +180,7 @@ export default function MonthlyBudgetPage() {
             </TableRow>
           </TableHeader>
           <TableBody>
-            {category.budgets.map((budget) => (
+            {category.map((budget) => (
               <TableRow
                 key={budget.id}
                 className='font-sans hover:bg-transparent hover:text-slate-100 transition-all duration-300 ease-in-out'
@@ -197,14 +207,14 @@ export default function MonthlyBudgetPage() {
     </Card>
   )
 
-  const renderGenericBudgets = (category: Category) => (
+  const renderGenericBudgets = (category: BudgetByMonth) => (
     <Card
-      key={category.id}
+      key={category[0].id}
       className='w-4/5 md:w-2/3 mb-4 bg-primary text-slate-50 font-sans p-0 mx-auto'
     >
       <CardHeader>
         <CardTitle className='text-xl text-center font-title'>
-          {category.name}
+          {category[0].category.name}
         </CardTitle>
       </CardHeader>
       <CardContent>
@@ -219,7 +229,7 @@ export default function MonthlyBudgetPage() {
             </TableRow>
           </TableHeader>
           <TableBody>
-            {category.budgets.map((budget) => (
+            {category.map((budget) => (
               <TableRow
                 key={budget.id}
                 className='font-sans hover:bg-transparent hover:text-slate-100 transition-all duration-300 ease-in-out'
@@ -255,9 +265,7 @@ export default function MonthlyBudgetPage() {
       <div className='flex md:flex-row flex-col justify-center items-center mb-12 gap-4'>
         <div className='md:hidden flex items-center justify-center gap-3'>
           <Mails className='inline h-8 w-8 text-primary' />
-          <h1 className='text-2xl font-title text-slate-50'>{`Enveloppes ${month
-            ?.toString()
-            .toUpperCase()}`}</h1>
+          <h1 className='text-2xl font-title text-slate-50'>{`Enveloppes ${currentMonth}`}</h1>
         </div>
         <div className='flex flex-row justify-between md:justify-around w-full'>
           <Button
@@ -268,7 +276,7 @@ export default function MonthlyBudgetPage() {
           </Button>
           <div className='hidden md:flex items-center justify-center gap-3 mb-6'>
             <Mails className='inline h-8 w-8 text-primary' />
-            <h1 className='text-2xl font-title text-slate-50'>{`Enveloppe ${currentMonth}`}</h1>
+            <h1 className='text-2xl font-title text-slate-50'>{`Enveloppes ${currentMonth}`}</h1>
           </div>
           {/* <Button
           className='text-slate-50 bg-primary'
@@ -290,21 +298,23 @@ export default function MonthlyBudgetPage() {
           Aucune enveloppe pour ce mois-ci
         </p>
       ) : (
-        budgetsForMonth?.map((category) =>
-          renderMonthlyBudgets(category as Category)
+        budgetsByCategory &&
+        Object.values(budgetsByCategory).map((items) =>
+          renderMonthlyBudgets(items as Budget[])
         )
       )}
 
       <h2 className='text-xl my-10 mb-8 w-full text-center font-title text-slate-50'>
         Enveloppes génériques
       </h2>
-      {genericBudgets?.length === 0 ? (
+      {budgets?.length === 0 ? (
         <p className='text-center text-slate-50 font-sans'>
           Aucune enveloppe générique pour ce mois-ci
         </p>
       ) : (
-        genericBudgets?.map((category) =>
-          renderGenericBudgets(category as Category)
+        genericBudgets &&
+        Object.values(genericBudgets).map((category) =>
+          renderGenericBudgets(category)
         )
       )}
     </div>

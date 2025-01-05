@@ -1,5 +1,9 @@
 import { useQuery } from "@tanstack/react-query"
-import { findAllBudgetByUser, getBudgetById } from "@/lib/actionsBudget"
+import {
+  findAllBudgetByUser,
+  getBudgetById,
+  findBudgetsForMonth,
+} from "@/lib/actionsBudget"
 
 export function useBudgets(email: string) {
   return useQuery(["budgets", email], () => findAllBudgetByUser(email), {
@@ -9,6 +13,20 @@ export function useBudgets(email: string) {
     refetchOnWindowFocus: true,
     enabled: !!email,
   })
+}
+
+export function useBudgetsGenericForMonth(email: string, month: string) {
+  return useQuery(
+    ["budgetsGenericForMonth", [email, month]],
+    () => findBudgetsForMonth(email, month),
+    {
+      staleTime: 0,
+      cacheTime: 1000 * 60 * 5,
+      refetchOnMount: true,
+      refetchOnWindowFocus: true,
+      enabled: !!email,
+    }
+  )
 }
 
 export function useBudgetById(budgetId: string) {

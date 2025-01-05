@@ -139,40 +139,47 @@ export const findAllBudgetByUser = cache(async (email: string) => {
   }
 })
 
-// export async function findBudgetsForMonth(
-//   email: string
-//   // month: string,
-//   // year: number
-// ) {
-//   try {
-//     const userBudgets = await prisma.user.findUnique({
-//       where: { email },
-//       include: {
-//         categories: {
-//           include: {
-//             budgets: {
-//               include: {
-//                 // monthlyPlan: {
-//                 //   where: {
-//                 //     //month,
-//                 //     year,
-//                 //   },
-//                 //   select: {
-//                 //     month: true,
-//                 //     year: true,
-//                 //   },
-//                 // },
-//               },
-//             },
-//           },
-//         },
-//       },
-//     })
-//     return userBudgets
-//   } catch (error) {
-//     console.error("Erreur lors de la recherche des budgets:", error)
-//   }
-// }
+export async function findBudgetsForMonth(email: string, month: string) {
+  try {
+    const monthDb = await prisma.monthlyPlan.findFirst({
+      where: {
+        month: Object.keys(MonthsEnum)
+          .filter((key) => isNaN(Number(key)))
+          .indexOf(month.toUpperCase()),
+        year: 2025,
+      },
+    })
+
+    const budgets = await prisma.budget.findMany({
+      where: {
+        category: {
+          user: {
+            email,
+          },
+        },
+        AND: [
+          { monthlyPlanId: null },
+          {
+            monthlyPlans: monthDb
+              ? {
+                  none: {
+                    monthlyPlanId: monthDb.id,
+                  },
+                }
+              : {},
+          },
+        ],
+      },
+      include: {
+        monthlyPlans: true,
+        category: true,
+      },
+    })
+    return budgets
+  } catch (error) {
+    console.error("Erreur lors de la recherche des budgets:", error)
+  }
+}
 
 export async function getBudgetsByCategory(
   email: string,
@@ -332,37 +339,45 @@ export async function addBudgetForMonth({
 
 export async function removeBudgetForMonth({
   budgetId,
-  monthId,
+  budgetName,
+  monthlyPlanId,
   pathToRevalidate,
 }: {
   budgetId: string
-  monthId: string
+  budgetName: string
+  monthlyPlanId: string
   pathToRevalidate: string
 }) {
+  // console.log("action", budgetId, monthlyPlanId)
   try {
     await prisma.monthlyPlanBudget.deleteMany({
       where: {
         budgetId: budgetId,
-        monthlyPlanId: monthId,
+        monthlyPlanId,
       },
     })
-
-    const budgetsToDelete = await prisma.budget.findMany({
+    // console.log("deletedBudget", deletedBudget)
+    // const budgetsToDelete = await prisma.budget.findMany({
+    //   where: {
+    //     monthlyPlans: {
+    //       some: {
+    //         monthlyPlanId,
+    //       },
+    //     },
+    //   },
+    // })
+    const parentBudget = await prisma.budget.findFirst({
       where: {
-        monthlyPlans: {
-          some: {
-            monthlyPlanId: monthId,
-          },
-        },
+        name: budgetName,
+        monthlyPlanId: null,
       },
     })
-
+    //console.log("budgetsToDelete", budgetsToDelete)
+    // return
     await prisma.monthlyPlanBudget.deleteMany({
       where: {
-        AND: budgetsToDelete.map((budget) => ({
-          budgetId: budget.id,
-          monthlyPlanId: monthId as string,
-        })),
+        budgetId: parentBudget?.id,
+        monthlyPlanId,
       },
     })
 

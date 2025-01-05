@@ -29,6 +29,7 @@ export default function Page() {
         {monthPlan && budget && (
           <AddTransactionDialog
             budget={{ id: budget.id, name: budget.name }}
+            // @ts-expect-error "error type unknown"
             monthPlan={monthPlan}
           />
         )}
