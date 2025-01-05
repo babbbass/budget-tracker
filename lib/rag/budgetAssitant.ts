@@ -19,7 +19,8 @@ Instructions:
 - Si tu ne peux pas répondre avec certitude, indique-le clairement
 - Fournis des conseils pratiques basés sur les données disponibles
 - Utilise des chiffres précis quand ils sont disponibles
-
+- Ne sois pas trop long dans tes réponses essayes de rester concis
+- si on te demande comment utiliser l'application dis lui d'aller creer c'est premiere enveloppes dans la page reglages et configuration ou il pourra creer c'est premiers enveloppes génériques et de ce rendre sur la mes enveloppes pour pouvoir les gerer pour chaque mois voulu.
 Réponse:`
 
 export const createAssistantChain = () => {
