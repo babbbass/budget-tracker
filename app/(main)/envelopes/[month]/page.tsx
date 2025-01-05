@@ -27,7 +27,7 @@ import {
 } from "lucide-react"
 import { useRouter, usePathname } from "next/navigation"
 import Link from "next/link"
-import { months } from "@/lib/utils/constants"
+import { MonthsEnum as Months } from "@/types"
 
 type Budget = {
   id: string
@@ -57,7 +57,19 @@ export default function MonthlyBudgetPage() {
   const { data: budgets, isLoading } = useBudgets(email)
   const { data: monthPlan } = useMonth(email, month as string)
 
-  const currentMonthIndex = months.indexOf(month as string)
+  const currentMonth = Object.keys(Months).find(
+    (key) => month?.toString().toUpperCase() === key
+  )
+  if (!currentMonth) {
+    return (
+      <div className='flex flex-1 justify-center items-center w-full md:w-2/3 p-2 flex-col gap-4'>
+        Page introuvable
+      </div>
+    )
+  }
+
+  const months = Object.keys(Months).filter((key) => isNaN(Number(key)))
+  const currentMonthIndex = months.indexOf(currentMonth as string)
   const nextMonth = months[(currentMonthIndex + 1) % 12]
   const prevMonth = months[(currentMonthIndex - 1 + 12) % 12]
 
@@ -256,9 +268,7 @@ export default function MonthlyBudgetPage() {
           </Button>
           <div className='hidden md:flex items-center justify-center gap-3 mb-6'>
             <Mails className='inline h-8 w-8 text-primary' />
-            <h1 className='text-2xl font-title text-slate-50'>{`Enveloppe ${month
-              ?.toString()
-              .toUpperCase()}`}</h1>
+            <h1 className='text-2xl font-title text-slate-50'>{`Enveloppe ${currentMonth}`}</h1>
           </div>
           {/* <Button
           className='text-slate-50 bg-primary'
