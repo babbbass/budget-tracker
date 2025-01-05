@@ -15,8 +15,8 @@ import { toast } from "sonner"
 import { LoadingSpinner } from "@/components/LoadingSpinner"
 import { addBudgetForMonth, removeBudgetForMonth } from "@/lib/actionsBudget"
 import { useUser } from "@clerk/nextjs"
-import { useBudgetsGenericForMonth } from "@/hooks/useBudgets"
-import { useBudgetsForMonth } from "@/hooks/useMonths"
+// import { useBudgetsGenericForMonth } from "@/hooks/useBudgets"
+// import { useBudgetsForMonth } from "@/hooks/useMonths"
 import { useQueryClient } from "@tanstack/react-query"
 import {
   Trash,
@@ -29,6 +29,7 @@ import {
 import { useRouter, usePathname } from "next/navigation"
 import Link from "next/link"
 import { MonthsEnum as Months } from "@/types"
+import { useBudgetForMonth } from "@/hooks/useBudgetForMonth"
 
 type BudgetByMonth = {
   id: string
@@ -60,11 +61,7 @@ export default function MonthlyBudgetPage() {
   const queryClient = useQueryClient()
   const router = useRouter()
   const email = user?.emailAddresses[0].emailAddress || ""
-  const { data: budgets, isLoading } = useBudgetsGenericForMonth(
-    email,
-    month as string
-  )
-  const { data: budgetsForMonth } = useBudgetsForMonth(email, month as string)
+  const { data, isLoading } = useBudgetForMonth(email, month as string)
   const currentMonth = Object.keys(Months).find(
     (key) => month?.toString().toUpperCase() === key
   )
@@ -97,10 +94,11 @@ export default function MonthlyBudgetPage() {
     }, {})
   }
 
-  const budgetsByCategory = budgetsForMonth && groupByCategory(budgetsForMonth)
+  const budgetsByCategory =
+    data?.budgetsForMonth && groupByCategory(data.budgetsForMonth)
 
   /* @ts-expect-error "error type unknown" */
-  const genericBudgets = budgets && groupByCategory(budgets)
+  const genericBudgets = data?.budgets && groupByCategory(data.budgets)
 
   async function handleAddToMonthly(budget: {
     id: string
@@ -137,7 +135,7 @@ export default function MonthlyBudgetPage() {
     monthlyPlanId?: string
     category: Category
   }) {
-    if (!budgetsForMonth) return
+    if (!data?.budgetsForMonth) return
     try {
       await removeBudgetForMonth({
         budgetId: budget.id,
@@ -306,7 +304,7 @@ export default function MonthlyBudgetPage() {
         </div>
       </div>
 
-      {budgetsForMonth?.length === 0 ? (
+      {data?.budgetsForMonth?.length === 0 ? (
         <p className='text-center text-slate-50 font-sans'>
           Aucune enveloppe pour ce mois-ci
         </p>
@@ -320,7 +318,7 @@ export default function MonthlyBudgetPage() {
       <h2 className='text-xl my-10 mb-8 w-full text-center font-title text-slate-50'>
         Enveloppes génériques
       </h2>
-      {budgets?.length === 0 ? (
+      {data?.budgets.length === 0 ? (
         <p className='text-center text-slate-50 font-sans'>
           Aucune enveloppe générique pour ce mois-ci
         </p>
