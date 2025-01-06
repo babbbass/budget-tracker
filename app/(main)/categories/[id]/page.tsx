@@ -1,42 +1,28 @@
 "use client"
-import React, { useEffect } from "react"
-import { useParams } from "next/navigation"
+import React from "react"
+import { useParams, useRouter } from "next/navigation"
 import { BudgetsByCategory } from "@/components/BudgetsByCategory"
 import { fetchCategoryById } from "@/lib/actionsCategory"
 import { LoadingSpinner } from "@/components/LoadingSpinner"
 import { ChartColumnStacked } from "lucide-react"
+import { BackNavigation } from "@/components/navigation/BackNavigation"
+import { useQuery } from "@tanstack/react-query"
 
-type budgetsByCategory = {
-  name: string
-  budgets: {
-    id: string
-    name: string
-    amount: number
-    transactions: { id: string }[]
-  }[]
-}
 export default function Page() {
-  const [category, setCategory] = React.useState<budgetsByCategory | null>(null)
-
-  async function fetchCategories(id: string) {
-    try {
-      const category = await fetchCategoryById(id)
-      setCategory(category)
-    } catch (err: unknown) {
-      //@ts-expect-error "error type unknown"
-      console.log({ error: err.message })
-    }
-  }
-
+  const router = useRouter()
   const { id } = useParams()
   const idCategory = String(id)
-  useEffect(() => {
-    if (id) {
-      fetchCategories(idCategory)
-    }
-  }, [])
 
-  if (!category) {
+  const {
+    data: category,
+    isLoading,
+    error,
+  } = useQuery({
+    queryKey: ["categories"],
+    queryFn: () => fetchCategoryById(idCategory),
+  })
+
+  if (isLoading) {
     return (
       <div className='flex flex-1 justify-center items-center'>
         <LoadingSpinner />
@@ -44,13 +30,22 @@ export default function Page() {
     )
   }
 
+  if (error) {
+    return (
+      <div className='flex flex-1 justify-center items-center'>
+        <p className='text-slate-50 text-2xl'>Une erreur est survenue</p>
+      </div>
+    )
+  }
+
   return (
-    <div className='flex flex-1 flex-col w-full items-center gap-10 px-4'>
-      <h1 className='text-2xl md:text-3xl font-title text-slate-50 flex items-center gap-3'>
+    <div className='flex flex-1 flex-col w-full items-center px-4'>
+      <BackNavigation router={router} />
+      <h1 className='text-2xl md:text-3xl font-title text-slate-50 flex items-center gap-3 mb-4'>
         <ChartColumnStacked className='inline h-8 w-8 text-primary' />
-        {category.name}
+        {category?.name}
       </h1>
-      <BudgetsByCategory budgets={category.budgets} />
+      {category && <BudgetsByCategory budgets={category.budgets} />}
     </div>
   )
 }
