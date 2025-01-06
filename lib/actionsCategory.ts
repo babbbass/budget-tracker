@@ -50,6 +50,9 @@ export async function fetchCategoryById(categoryId: string) {
       select: {
         name: true,
         budgets: {
+          where: {
+            monthlyPlanId: null,
+          },
           select: {
             id: true,
             name: true,

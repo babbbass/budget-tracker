@@ -43,23 +43,14 @@ export default function Page() {
       </div>
     )
   }
-  if (!category) {
-    return (
-      <div className='flex flex-1 justify-center items-center'>
-        <LoadingSpinner />
-      </div>
-    )
-  }
+
   return (
-    <div className='flex flex-1 flex-col w-full items-center gap-10'>
-      <h1 className='text-3xl font-title text-primary flex items-center gap-3'>
-        <ChartColumnStacked className='inline h-8 w-8 text-gray-800' />
+    <div className='flex flex-1 flex-col w-full items-center gap-10 px-4'>
+      <h1 className='text-2xl md:text-3xl font-title text-slate-50 flex items-center gap-3'>
+        <ChartColumnStacked className='inline h-8 w-8 text-primary' />
         {category.name}
       </h1>
-      <BudgetsByCategory
-        budgets={category.budgets}
-        categoryName={category.name}
-      />
+      <BudgetsByCategory budgets={category.budgets} />
     </div>
   )
 }

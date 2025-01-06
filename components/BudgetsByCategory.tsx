@@ -9,30 +9,23 @@ type BudgetsByCategory = {
     id: string
     transactions: { id: string }[]
   }[]
-  categoryName: string
 }
 
-export function BudgetsByCategory({
-  budgets,
-  categoryName,
-}: BudgetsByCategory) {
+export function BudgetsByCategory({ budgets }: BudgetsByCategory) {
   const router = useRouter()
   return (
-    <div className='w-full'>
-      <h3 className='font-title text-2xl text-center w-full mb-0 bg-primary text-white py-4'>
-        {categoryName}
-      </h3>
+    <div className='w-full md:w-2/3'>
       <div className='overflow-x-auto'>
-        <table className='min-w-full bg-white'>
-          <thead className='bg-gray-100 hidden md:table-header-group'>
+        <table className='min-w-full bg-primary font-sans text-slate-50'>
+          <thead className='bg-emerald-800 hidden md:table-header-group'>
             <tr>
-              <th className='px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wide'>
+              <th className='px-6 py-3 text-center text-xs font-medium text-slate-50 uppercase tracking-wide'>
                 Budgets
               </th>
-              <th className='px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wide'>
+              <th className='px-6 py-3 text-center text-xs font-medium text-slate-50 uppercase tracking-wide'>
                 Montant
               </th>
-              <th className='px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wide'>
+              <th className='px-6 py-3 text-center text-xs font-medium text-slate-50 uppercase tracking-wide'>
                 Nombre de transactions
               </th>
             </tr>
@@ -47,10 +40,10 @@ export function BudgetsByCategory({
                 <td className='px-6 py-4 whitespace-nowrap text-left md:text-center font-sans flex md:table-cell before:content-["Catégorie:"] before:font-bold before:mr-2 md:before:content-none before:w-1/2 '>
                   {budget.name}
                 </td>
-                <td className='px-6 py-4 whitespace-nowrap text-left md:text-center font-sans flex md:table-cell before:content-["Objectif:"] before:font-bold before:mr-2 md:before:content-none before:w-1/2'>
+                <td className='px-6 py-4 whitespace-nowrap text-left md:text-center font-sans flex md:table-cell before:content-["Montant:"] before:font-bold before:mr-2 md:before:content-none before:w-1/2'>
                   {budget.amount} €
                 </td>
-                <td className='px-6 py-4 whitespace-nowrap text-left md:text-center font-sans flex md:table-cell before:content-["Montant_épargné:"] before:font-bold before:mr-2 md:before:content-none before:w-1/2'>
+                <td className='px-6 py-4 whitespace-nowrap text-left md:text-center font-sans flex md:table-cell before:content-["Transactions:"] before:font-bold before:mr-2 md:before:content-none before:w-1/2'>
                   {budget.transactions.length}
                 </td>
               </tr>
