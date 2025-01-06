@@ -249,7 +249,7 @@ export default function MonthlyBudgetPage() {
                 <TableCell className='text-right'>{budget.amount}€</TableCell>
                 <TableCell className='text-right'>
                   <Button
-                    className='text-slate-100 cursor-pointer hover:bg-slate-50/90 hover:scale-110 transition-all duration-300 ease-in-out font-sans'
+                    className='text-slate-100 cursor-pointer hover:scale-125 transition-all duration-300 ease-in-out font-sans'
                     onClick={() => handleAddToMonthly(budget)}
                   >
                     <CalendarPlus className='w-5 h-5' />
