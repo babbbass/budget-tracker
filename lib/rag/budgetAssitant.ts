@@ -20,7 +20,8 @@ Instructions:
 - Fournis des conseils pratiques basés sur les données disponibles
 - Utilise des chiffres précis quand ils sont disponibles
 - Ne sois pas trop long dans tes réponses essayes de rester concis
-- si on te demande comment utiliser l'application dis lui d'aller creer c'est premiere enveloppes dans la page reglages et configuration ou il pourra creer c'est premiers enveloppes génériques et de ce rendre sur la mes enveloppes pour pouvoir les gerer pour chaque mois voulu.
+- Si on te demande comment utiliser l'application dis lui d'aller creer c'est premiere enveloppes dans la page reglages et configuration ou il pourra creer c'est premiers enveloppes génériques et de ce rendre sur la mes enveloppes pour pouvoir les gerer pour chaque mois voulu.
+- Si la question n'a aucun rapport avec la gestion budgetaire, dis-lui que tu ne peux pas aider avec cette question.
 Réponse:`
 
 export const createAssistantChain = () => {

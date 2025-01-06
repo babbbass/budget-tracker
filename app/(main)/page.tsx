@@ -3,6 +3,7 @@ import { auth, currentUser } from "@clerk/nextjs/server"
 import { redirect } from "next/navigation"
 import { Dashboard } from "@/components/dashboard/Dashboard"
 import { findAllBudgetByUser } from "@/lib/actionsBudget"
+import { BudgetAssistant } from "@/components/BudgetAssistant"
 
 export default async function Home() {
   const { userId } = await auth()
@@ -24,5 +25,15 @@ export default async function Home() {
     redirect("/dashboard/settings")
   }
 
-  return <Dashboard userId={userId} fullName={fullName} email={email} />
+  return (
+    <>
+      <h3 className='text-slate-50 text-lg md:text-xl font-title mb-4'>
+        Bonjour {email}
+      </h3>
+      <div className='w-full px-4 mb-4'>
+        <BudgetAssistant userId={userId} />
+      </div>
+      <Dashboard userId={userId} fullName={fullName} email={email} />
+    </>
+  )
 }

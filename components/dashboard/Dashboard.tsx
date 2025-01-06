@@ -25,12 +25,9 @@ export async function Dashboard({ userId, fullName, email }: Dashboard) {
   return (
     <section className='flex flex-1 gap-2 flex-col font-bold w-full px-4 py-2'>
       <section className='flex flex-col gap-4 justify-between items-center md:flex-row'>
-        <div>
-          <h3 className='text-slate-50 text-lg font-title'>Bonjour {email}</h3>
-          <p className='font-sans text-slate-200 text-sm'>
-            Voici votre tableau de bord
-          </p>
-        </div>
+        <p className='font-title text-slate-200 mb-2 text-left w-full text-lg'>
+          Votre tableau de bord
+        </p>
         <div className='flex gap-10 md:gap-2 items-center justify-between text-slate-50 font-sans'>
           <span className='text-sm italic'>
             {new Date().toLocaleDateString("fr-FR")}

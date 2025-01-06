@@ -14,7 +14,7 @@ export default async function MonAssistant() {
       <h1 className='text-2xl md:text-3xl font-title'>
         Mon Assistant Budgétaire Intelligent
       </h1>
-      <p className='font-sans mb-10 mt-10 w-3/4 pl-4'>
+      <p className='font-sans mb-10 mt-10 w-full md:w-3/4'>
         Bienvenue dans votre assistant budgétaire personnalisé. Posez vos
         questions, explorez vos finances, et obtenez des réponses intelligentes
         et rapides pour mieux gérer vos dépenses, vos économies et vos objectifs
