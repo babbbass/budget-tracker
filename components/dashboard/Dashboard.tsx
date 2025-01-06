@@ -55,7 +55,7 @@ export async function Dashboard({ userId, fullName, email }: Dashboard) {
           {/* @ts-expect-error "error type unknown */}
           <CategoryCards categories={budgets?.categories} />
         </div>
-        <section className='w-full md:w-1/3 flex justify-center'>
+        <section className='w-full md:w-1/3 flex justify-start'>
           <MonthSelector />
         </section>
       </div>
