@@ -18,7 +18,7 @@ export function AddBudgetDialog({
 }: {
   email: string
   triggerSentence?: string
-  category: {
+  category?: {
     name: string
   }
   className?: string

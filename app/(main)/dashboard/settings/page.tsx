@@ -136,7 +136,6 @@ export default function BudgetConfiguration() {
             email={email}
             triggerSentence='Nouvelle enveloppe'
             category={{
-              id: category.id,
               name: category.name,
             }}
           />

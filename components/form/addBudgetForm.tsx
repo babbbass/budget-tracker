@@ -74,14 +74,14 @@ export function AddBudgetForm({
 }: {
   emailUser: string
   isOpen: React.Dispatch<React.SetStateAction<boolean>>
-  category: {
+  category?: {
     name: string
   }
 }) {
   const queryClient = useQueryClient()
   const router = useRouter()
   const [showDates, setShowDates] = useState(
-    showDatesInputArray.includes(category.name)
+    showDatesInputArray.includes(category?.name as string)
   )
   const [loading, setLoading] = useState<boolean>(false)
   const form = useForm<z.infer<typeof formSchema>>({
