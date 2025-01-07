@@ -82,20 +82,21 @@ export async function createInitialCategory(email: string) {
       throw new Error("Utilisateur non trouvé")
     }
     const categories = await Promise.all(
-      ["Revenus", "Depenses fixes", "Depenses variables"].map((name) =>
-        prisma.category.create({
-          data: {
-            name,
-            type: name
-              .toUpperCase()
-              .replace(/\s/g, "_") as keyof typeof CategoriesEnum,
-            user: {
-              connect: {
-                id: user.id,
+      ["Revenus", "Depenses fixes", "Depenses variables", "Epargnes"].map(
+        (name) =>
+          prisma.category.create({
+            data: {
+              name,
+              type: name
+                .toUpperCase()
+                .replace(/\s/g, "_") as keyof typeof CategoriesEnum,
+              user: {
+                connect: {
+                  id: user.id,
+                },
               },
             },
-          },
-        })
+          })
       )
     )
 

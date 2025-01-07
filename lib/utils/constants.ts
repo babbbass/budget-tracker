@@ -12,3 +12,5 @@ export const months = [
   "Novembre",
   "Decembre",
 ]
+
+export const showDatesInputArray = ["Epargnes"]

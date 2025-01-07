@@ -19,11 +19,10 @@ export function Navbar() {
       <SignedIn>
         {/* Menu desktop */}
         <div className='hidden lg:flex space-x-4'>
-          <Link href={"/budgets"}>Mes enveloppes</Link>
-          {/* <Link href={"/dashboard"}>Tableau de bord</Link> */}
+          <Link href={"/budgets"}>Mon calendrier</Link>
           <Link href={"/mon-assistant"}>Assistant</Link>
-          {/* <Link href={"/epargnes"}>Mon Epargne</Link> */}
-          <Link href={"/dashboard/settings"}>Reglages - configuration</Link>
+          <Link href={"/epargnes"}>Mon Epargne</Link>
+          <Link href={"/dashboard/settings"}>Mes enveloppes</Link>
         </div>
 
         {/* Menu mobile */}
@@ -58,7 +57,7 @@ export function Navbar() {
               <UserButton />
             </div>
             <Link href={"/budgets"} className='mb-4' onClick={toggleMobileMenu}>
-              Mes enveloppes
+              Mon calendrier
             </Link>
             {/* <Link
               href={"/dashboard"}
@@ -74,19 +73,19 @@ export function Navbar() {
             >
               Assistant
             </Link>
-            {/* <Link
+            <Link
               href={"/epargnes"}
               className='mb-4'
               onClick={toggleMobileMenu}
             >
               Mon Epargne
-            </Link> */}
+            </Link>
             <Link
               href={"/dashboard/settings"}
               className='mb-4'
               onClick={toggleMobileMenu}
             >
-              Reglages & configuration
+              Mes enveloppes
             </Link>
           </div>
         </div>

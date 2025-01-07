@@ -37,11 +37,16 @@ import { CategoriesEnum as Categories } from "@/types"
 import { SpinnerForm } from "@/components/SpinnerForm"
 import { useQueryClient } from "@tanstack/react-query"
 import { ArrowRightCircle } from "lucide-react"
+import { showDatesInputArray } from "@/lib/utils/constants"
 
 const formSchema = z
   .object({
     category: z.string().min(1, "La catégorie est obligatoire."),
     budgetName: z.string().min(1, "Le nom de la sous-catégorie est requis."),
+    startAmount: z.coerce
+      .number({ invalid_type_error: "Le montant doit être un nombre." })
+      .positive("Le montant doit être supérieur à 0.")
+      .optional(),
     amount: z.coerce
       .number({ invalid_type_error: "Le montant doit être un nombre." })
       .positive("Le montant doit être supérieur à 0."),
@@ -61,6 +66,7 @@ const formSchema = z
     }
   )
 const categories = Object.values(Categories)
+
 export function AddBudgetForm({
   emailUser,
   isOpen,
@@ -68,14 +74,15 @@ export function AddBudgetForm({
 }: {
   emailUser: string
   isOpen: React.Dispatch<React.SetStateAction<boolean>>
-  category?: {
-    id: string
+  category: {
     name: string
   }
 }) {
   const queryClient = useQueryClient()
   const router = useRouter()
-  const [showDates, setShowDates] = useState(false)
+  const [showDates, setShowDates] = useState(
+    showDatesInputArray.includes(category.name)
+  )
   const [loading, setLoading] = useState<boolean>(false)
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -85,16 +92,16 @@ export function AddBudgetForm({
   })
 
   const onSubmit = async (data: z.infer<typeof formSchema>) => {
-    //console.log("Données soumises :", data)
-    //return
     try {
       setLoading(true)
-      const { category, budgetName, amount, startDate, endDate } = data
+      const { category, budgetName, amount, startAmount, startDate, endDate } =
+        data
       const response = await addBudgetForSetting({
         email: emailUser,
         categoryName: category,
         budgetName,
         amount,
+        startAmount,
         startDate,
         endDate,
       })
@@ -102,22 +109,22 @@ export function AddBudgetForm({
       if (response) {
         queryClient.invalidateQueries({ queryKey: ["categories"] })
         toast.success("Budget ajouté avec succés", {
-          duration: 1000,
-          className: "text-green-500",
+          duration: 1200,
+          className: "text-primary",
         })
         router.refresh()
         setTimeout(() => {
           isOpen(false)
-        }, 1000)
+        }, 1200)
       } else {
         toast.error("Une erreur est survenue veuillez réessayer", {
-          duration: 1500,
+          duration: 1200,
           className: "text-red-500",
         })
       }
     } catch (error) {
       toast.error("Une erreur est survenue veuillez réessayer", {
-        duration: 1500,
+        duration: 1200,
         className: "text-red-500",
       })
       console.error("Erreur lors de l'ajout du budget:", error)
@@ -182,12 +189,34 @@ export function AddBudgetForm({
             </FormItem>
           )}
         />
+        {showDates && (
+          <FormField
+            control={form.control}
+            name='startAmount'
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Montant de départ</FormLabel>
+                <FormControl>
+                  <Input
+                    className='hover:border-emerald-600'
+                    placeholder='Montant de départ'
+                    {...field}
+                    type='number'
+                  />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+        )}
         <FormField
           control={form.control}
           name='amount'
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Montant</FormLabel>
+              <FormLabel>
+                {category?.name === "Epargnes" ? "Montant Souhaité" : "Montant"}{" "}
+              </FormLabel>
               <FormControl>
                 <Input
                   className='hover:border-emerald-600'

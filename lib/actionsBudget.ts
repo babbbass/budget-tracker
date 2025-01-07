@@ -12,6 +12,7 @@ type AddBudgetType = {
   categoryName: string
   budgetName: string
   amount: number
+  startAmount?: number
   startDate?: Date
   endDate?: Date
 }
@@ -32,6 +33,7 @@ export async function addBudgetForSetting({
   categoryName,
   budgetName,
   amount,
+  startAmount,
   startDate,
   endDate,
 }: AddBudgetType) {
@@ -78,6 +80,7 @@ export async function addBudgetForSetting({
       data: {
         name: budgetName,
         amount,
+        startAmount,
         categoryId: category.id,
         startDate: formattedStartDate
           ? new Date(formattedStartDate)
@@ -156,9 +159,11 @@ export async function findBudgetsForMonth(email: string, month: string) {
           user: {
             email,
           },
+          type: { notIn: ["EPARGNES"] },
         },
         AND: [
           { monthlyPlanId: null },
+
           {
             monthlyPlans: monthDb
               ? {
@@ -199,6 +204,7 @@ export async function getBudgetsByCategory(
                 id: true,
                 name: true,
                 amount: true,
+                startAmount: true,
                 startDate: true,
                 endDate: true,
                 transactions: {
@@ -250,7 +256,6 @@ export async function getBudgetById(budgetId: string) {
 }
 
 export async function deleteBudgetById(budgetId: string): Promise<boolean> {
-  console.log("action", budgetId)
   if (!budgetId) {
     throw new Error("Budget ID manquant.")
   }
@@ -348,7 +353,6 @@ export async function removeBudgetForMonth({
   monthlyPlanId: string
   pathToRevalidate: string
 }) {
-  // console.log("action", budgetId, monthlyPlanId)
   try {
     await prisma.monthlyPlanBudget.deleteMany({
       where: {
@@ -356,24 +360,14 @@ export async function removeBudgetForMonth({
         monthlyPlanId,
       },
     })
-    // console.log("deletedBudget", deletedBudget)
-    // const budgetsToDelete = await prisma.budget.findMany({
-    //   where: {
-    //     monthlyPlans: {
-    //       some: {
-    //         monthlyPlanId,
-    //       },
-    //     },
-    //   },
-    // })
+
     const parentBudget = await prisma.budget.findFirst({
       where: {
         name: budgetName,
         monthlyPlanId: null,
       },
     })
-    //console.log("budgetsToDelete", budgetsToDelete)
-    // return
+
     await prisma.monthlyPlanBudget.deleteMany({
       where: {
         budgetId: parentBudget?.id,
@@ -423,7 +417,7 @@ async function deleteBudgetSettings(budget: {
     monthlyPlanId: string
   }[]
 }) {
-  const deletedBudget = await prisma.$transaction(async (prisma) => {
+  await prisma.$transaction(async (prisma) => {
     // Delete the main budget
     await prisma.budget.delete({
       where: { id: budget.id },
@@ -438,8 +432,6 @@ async function deleteBudgetSettings(budget: {
       },
     })
   })
-
-  console.log("deletedBudget", deletedBudget)
 
   return { success: true }
 }
