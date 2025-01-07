@@ -42,7 +42,6 @@ export function AddTransactionForm({
   })
 
   const onSubmit = async (data: z.infer<typeof formSchema>) => {
-    // console.log("Données soumises :", data)
     try {
       setLoading(true)
       const { nameTransaction, amount } = data
