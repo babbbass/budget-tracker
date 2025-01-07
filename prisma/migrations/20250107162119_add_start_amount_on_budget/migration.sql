@@ -6,7 +6,7 @@
   - Added the required column `name` to the `Transaction` table without a default value. This is not possible if the table is not empty.
 
 */
--- CreateEnum
+-- CreateEnum --
 -- CREATE TYPE "CategoryType" AS ENUM ('REVENUS', 'DETTES', 'EPARGNES', 'INVESTISSEMENTS', 'DEPENSES_FIXES', 'DEPENSES_VARIABLES');
 
 -- AlterTable
