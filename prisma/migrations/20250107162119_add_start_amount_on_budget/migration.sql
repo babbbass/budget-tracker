@@ -16,8 +16,8 @@ ALTER TABLE "Budget" ADD COLUMN     "startAmount" DOUBLE PRECISION DEFAULT 0.0;
 -- ALTER TABLE "Category" ADD COLUMN     "type" "CategoryType" NOT NULL;
 
 -- AlterTable
-ALTER TABLE "Transaction" DROP COLUMN "description",
-ADD COLUMN     "name" TEXT NOT NULL;
+-- ALTER TABLE "Transaction" DROP COLUMN "description",
+-- ADD COLUMN     "name" TEXT NOT NULL;
 
 -- CreateTable
 -- CREATE TABLE "MonthlyPlan" (
