@@ -15,14 +15,19 @@ export default async function SavingsPage() {
   }
   const email = user.emailAddresses[0].emailAddress
   const budgets = await getBudgetsByCategory(email, Categories.EPARGNES)
-  if (budgets?.categories.length === 0 || !budgets) {
+  const notSavingBudgets =
+    budgets?.categories.length === 0 ||
+    !budgets ||
+    budgets.categories[0].budgets.length === 0
+
+  if (notSavingBudgets) {
     return (
-      <div className='flex flex-1 flex-col w-full md:w-2/3 gap-10 items-center'>
-        <h1 className='text-3xl font-title  flex items-center gap-3'>
-          {`Suivi de l'épargne`}{" "}
+      <div className='flex flex-1 flex-col w-full md:w-2/3 gap-10 items-center px-2'>
+        <h1 className='text-2xl md:text-3xl font-title  flex items-center gap-3'>
           <PiggyBank className='inline h-10 w-10 text-primary' />
+          {`Suivi de l'épargne`}{" "}
         </h1>
-        <span className='text-gray-600 font-sans'>{`Vous n'avez pas encore de d'epargne enregistré`}</span>
+        <span className='text-slate-50 text-left md:text-lg font-sans'>{`Vous n'avez pas encore de d'epargne enregistré`}</span>
         <AddBudgetDialog
           email={email}
           triggerSentence='+ Créez votre épargne'
@@ -76,7 +81,7 @@ export default async function SavingsPage() {
             <thead className='bg-emerald-800 hidden md:table-header-group'>
               <tr>
                 <th className='px-6 py-3 text-center text-xs font-medium text-slate-50 uppercase tracking-wide'>
-                  OBJECTIF GLOBAL
+                  OBJECTIF
                 </th>
                 <th className='px-6 py-3 text-center text-xs font-medium text-slate-50 uppercase tracking-wide'>
                   MONTANT ÉPARGNÉ
@@ -100,7 +105,7 @@ export default async function SavingsPage() {
                   {savingTotalAmount}
                 </td>
                 <td className='px-6 py-4 whitespace-nowrap text-left md:text-center font-sans flex md:table-cell before:content-["ÉPARGNÉ:"] before:font-bold before:mr-2 md:before:content-none before:w-1/2'>
-                  {budgets?.categories[0].budgets[0].startAmount}
+                  {budgets?.categories[0].budgets[0]?.startAmount}
                 </td>
                 <td className='px-6 py-4 whitespace-nowrap text-left md:text-center font-sans flex md:table-cell before:content-["RESTANT:"] before:font-bold before:mr-2 md:before:content-none before:w-1/2'>
                   {remainingAmount}
