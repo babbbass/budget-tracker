@@ -35,7 +35,7 @@ export function BudgetsByCategory({ budgets }: BudgetsByCategory) {
               <tr
                 key={budget.id}
                 onClick={() => router.push(`/budgets/${budget.id}`)}
-                className='cursor-pointer hover:bg-emerald-100 flex flex-col md:table-row'
+                className='cursor-pointer hover:bg-emerald-700 flex flex-col md:table-row'
               >
                 <td className='px-6 py-4 whitespace-nowrap text-left md:text-center font-sans flex md:table-cell before:content-["Catégorie:"] before:font-bold before:mr-2 md:before:content-none before:w-1/2 '>
                   {budget.name}
