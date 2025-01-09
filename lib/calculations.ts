@@ -1,7 +1,8 @@
-import { TransactionType, BudgetType } from "@/types"
+import { TransactionType } from "@/types"
 
-export function totalAmount(tabToCalculate: TransactionType[] | BudgetType[]) {
+export function totalAmount(tabToCalculate: TransactionType[]) {
   return tabToCalculate.reduce((total, obj) => {
+    if (obj.type === "ADD") return total
     return total + obj.amount
   }, 0)
 }

@@ -89,16 +89,19 @@ export async function addTransactionToBudget({
   budgetId,
   amount,
   name,
+  modeTransaction,
 }: {
   budgetId: string
   amount: number
   name: string
+  modeTransaction: "ADD" | "REMOVE"
 }) {
   try {
     const newTransaction = await prisma.transaction.create({
       data: {
         amount,
         name,
+        type: modeTransaction,
         budget: {
           connect: {
             id: budgetId,
@@ -106,6 +109,17 @@ export async function addTransactionToBudget({
         },
       },
     })
+
+    if (modeTransaction === "ADD") {
+      await prisma.budget.update({
+        where: { id: budgetId },
+        data: {
+          amount: {
+            increment: amount,
+          },
+        },
+      })
+    }
     return newTransaction
   } catch (error) {
     console.error("Erreur lors de l'ajout de la transaction:", error)

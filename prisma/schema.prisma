@@ -74,6 +74,7 @@ model Transaction {
   id                String     @id @default(uuid())
   name              String
   amount            Float
+  type              TransactionType
   budgetId          String
   budget            Budget    @relation(fields: [budgetId], references: [id], onDelete: Cascade)
   createdAt         DateTime   @default(now())
@@ -122,5 +123,10 @@ enum CategoryType {
   INVESTISSEMENTS
   DEPENSES_FIXES
   DEPENSES_VARIABLES
+}
+
+enum TransactionType {
+  REMOVE
+  ADD
 }
 

@@ -7,6 +7,7 @@ import { LoadingSpinner } from "@/components/LoadingSpinner"
 import { ChartColumnStacked } from "lucide-react"
 import { BackNavigation } from "@/components/navigation/BackNavigation"
 import { useQuery } from "@tanstack/react-query"
+import { Error } from "@/components/Error"
 
 export default function Page() {
   const router = useRouter()
@@ -31,11 +32,7 @@ export default function Page() {
   }
 
   if (error) {
-    return (
-      <div className='flex flex-1 justify-center items-center'>
-        <p className='text-slate-50 text-2xl'>Une erreur est survenue</p>
-      </div>
-    )
+    return <Error />
   }
 
   return (

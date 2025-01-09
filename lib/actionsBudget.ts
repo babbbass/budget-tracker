@@ -236,6 +236,7 @@ export async function getBudgetById(budgetId: string) {
           select: {
             id: true,
             amount: true,
+            type: true,
             createdAt: true,
             name: true,
           },

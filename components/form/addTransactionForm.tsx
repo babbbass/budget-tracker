@@ -17,6 +17,8 @@ import { toast } from "sonner"
 import { addTransactionToBudget } from "@/lib/actionsTransaction"
 import { useQueryClient } from "@tanstack/react-query"
 import { SpinnerForm } from "@/components/SpinnerForm"
+import { Label } from "@/components/ui/label"
+import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group"
 
 const formSchema = z.object({
   nameTransaction: z
@@ -40,8 +42,15 @@ export function AddTransactionForm({
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
   })
+  const [mode, setMode] = useState<"ADD" | "REMOVE">("REMOVE")
+
+  function handleModeChange(mode: "ADD" | "REMOVE") {
+    setMode(mode)
+  }
 
   const onSubmit = async (data: z.infer<typeof formSchema>) => {
+    // console.log(data, mode)
+    // return
     try {
       setLoading(true)
       const { nameTransaction, amount } = data
@@ -49,6 +58,7 @@ export function AddTransactionForm({
         budgetId: budget.budgetId,
         amount,
         name: nameTransaction,
+        modeTransaction: mode,
       })
 
       if (response) {
@@ -110,6 +120,39 @@ export function AddTransactionForm({
               </FormItem>
             )}
           />
+          <RadioGroup
+            defaultValue={mode}
+            onValueChange={handleModeChange}
+            className='flex gap-3 justify-around'
+          >
+            <div className='flex items-center space-x-3 rounded-lg border p-4 cursor-pointer hover:bg-slate-50'>
+              <RadioGroupItem
+                value='ADD'
+                id='add'
+                className='text-emerald-600'
+              />
+              <Label
+                htmlFor='add'
+                className='flex-grow cursor-pointer font-medium'
+              >
+                {`Ajouter à l'enveloppe`}
+              </Label>
+            </div>
+
+            <div className='flex items-center space-x-3 rounded-lg border p-4 cursor-pointer hover:bg-slate-50'>
+              <RadioGroupItem
+                value='REMOVE'
+                id='remove'
+                className='text-emerald-600'
+              />
+              <Label
+                htmlFor='remove'
+                className='flex-grow cursor-pointer font-medium'
+              >
+                {`Retirer de l'enveloppe`}
+              </Label>
+            </div>
+          </RadioGroup>
 
           <Button
             type='submit'

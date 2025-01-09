@@ -16,13 +16,13 @@ export function TransactionCard({
           <span>{budget}</span>
         </div>
         <div className='w-full sm:w-auto text-center sm:text-left'>
-          <h3 className='text-lg font-semibold'>{transaction.description}</h3>
+          <h3 className='text-lg font-semibold'>{transaction.name}</h3>
           <span className='mr-2 text-gray-600'>{transaction.amount}€</span>
         </div>
         <div className='w-full sm:w-auto text-right sm:text-left'>
           <span className='text-sm text-gray-500'>
-            {transaction.createdAt.toLocaleDateString("fr-FR")} à{" "}
-            {transaction.createdAt.toLocaleTimeString("fr-FR", {
+            {transaction.createdAt?.toLocaleDateString("fr-FR")} à{" "}
+            {transaction.createdAt?.toLocaleTimeString("fr-FR", {
               hour: "2-digit",
               minute: "2-digit",
             })}

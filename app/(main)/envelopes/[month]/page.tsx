@@ -15,8 +15,7 @@ import { toast } from "sonner"
 import { LoadingSpinner } from "@/components/LoadingSpinner"
 import { addBudgetForMonth, removeBudgetForMonth } from "@/lib/actionsBudget"
 import { useUser } from "@clerk/nextjs"
-// import { useBudgetsGenericForMonth } from "@/hooks/useBudgets"
-// import { useBudgetsForMonth } from "@/hooks/useMonths"
+import { totalAmount } from "@/lib/calculations"
 import { useQueryClient } from "@tanstack/react-query"
 import {
   Trash,
@@ -36,7 +35,12 @@ type BudgetByMonth = {
   name: string
   amount: number
   category: Category
-  transactions: { amount: number; id: string; name: string }[]
+  transactions: {
+    amount: number
+    id: string
+    name: string
+    type: "ADD" | "REMOVE"
+  }[]
 }[]
 
 type Budget = {
@@ -45,7 +49,12 @@ type Budget = {
   amount: number
   category: Category
   monthlyPlanId: string
-  transactions: { amount: number; id: string; name: string }[]
+  transactions: {
+    amount: number
+    id: string
+    name: string
+    type: "ADD" | "REMOVE"
+  }[]
 }
 
 type Category = {
@@ -159,12 +168,6 @@ export default function MonthlyBudgetPage() {
     }
   }
 
-  function totalAmountTransactions(
-    budgets: { amount: number; id: string; name: string }[]
-  ) {
-    return budgets.reduce((total, budget) => total + budget.amount, 0)
-  }
-
   const renderMonthlyBudgets = (category: BudgetByMonth) => (
     <Card
       key={category[0].category.id}
@@ -194,9 +197,7 @@ export default function MonthlyBudgetPage() {
               >
                 <TableCell>{budget.name}</TableCell>
                 <TableCell className='text-right'>
-                  {budget.amount -
-                    totalAmountTransactions(budget?.transactions)}
-                  €
+                  {budget.amount - totalAmount(budget?.transactions)}€
                 </TableCell>
                 <TableCell className='flex justify-end gap-3'>
                   <Link

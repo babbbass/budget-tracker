@@ -29,7 +29,7 @@ export function TransactionCards({
             >
               <CardContent className='p-4 w-full'>
                 <p className='flex flex-row text-sm gap-2 justify-between font-sans text-gray-900'>
-                  <span className='text-sm'>{transaction.description}</span>
+                  <span className='text-sm'>{transaction.name}</span>
                   <span className='text-right sm:text-left text-emerald-600'>
                     {transaction.amount}€
                   </span>

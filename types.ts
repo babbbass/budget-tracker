@@ -20,9 +20,9 @@ export type CategoryType = {
 export type TransactionType = {
   id: string
   amount: number
-  description: string
-  budgetId: string
-  createdAt: Date
+  type: "ADD" | "REMOVE"
+  budgetId?: string
+  createdAt?: Date
   emoji?: string | null
   budgetName?: string
   name?: string
