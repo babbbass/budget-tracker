@@ -74,7 +74,7 @@ model Transaction {
   id                String     @id @default(uuid())
   name              String
   amount            Float
-  type              TransactionType
+  type              TransactionType @default(REMOVE)
   budgetId          String
   budget            Budget    @relation(fields: [budgetId], references: [id], onDelete: Cascade)
   createdAt         DateTime   @default(now())

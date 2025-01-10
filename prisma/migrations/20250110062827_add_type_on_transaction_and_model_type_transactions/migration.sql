@@ -17,7 +17,7 @@ CREATE TYPE "TransactionType" AS ENUM ('REMOVE', 'ADD');
 -- ALTER TABLE "Category" ADD COLUMN     "type" "CategoryType" NOT NULL;
 
 -- AlterTable
-ALTER TABLE "Transaction" ADD COLUMN     "type" "TransactionType" NOT NULL;
+ALTER TABLE "Transaction" ADD COLUMN  "type" "TransactionType" NOT NULL DEFAULT 'REMOVE';
 -- DROP COLUMN "description",
 -- ADD COLUMN     "name" TEXT NOT NULL,
 
