@@ -10,7 +10,7 @@ export function Logo() {
           <span className='text-lg md:text-xl'>BUDG’UP</span>
         </div>
         <p className='text-xs text-center font-sans'>
-          Vos finances, simplifiées et organisées
+          Simplifiez votre budget. Maîtrisez vos finances.
         </p>
       </div>
     </Link>

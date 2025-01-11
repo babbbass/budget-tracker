@@ -10,7 +10,7 @@ export function AuthLogo() {
           <span className='text-2xl md:text-3xl'>BUDG’UP</span>
         </div>
         <p className='text-base md:text-lg text-center text-slate-50 font-sans'>
-          Vos finances, simplifiées et organisées
+          Simplifiez votre budget. Maîtrisez vos finances.
         </p>
       </div>
     </Link>

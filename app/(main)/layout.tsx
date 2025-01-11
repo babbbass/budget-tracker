@@ -18,7 +18,7 @@ const dmSans = DM_Sans({
 
 export const metadata: Metadata = {
   title: "BUDG’UP",
-  description: "Vos finances, simplifiées et organisées",
+  description: "Simplifiez votre budget. Maîtrisez vos finances.",
 }
 
 export default function RootLayout({
