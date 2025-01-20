@@ -107,7 +107,9 @@ export default function BudgetConfiguration() {
         <CardTitle className='flex justify-between items-center font-title text-lg md:text-2xl w-full'>
           <span>{category.name}</span>
           <span className='font-sans text-base'>
-            {calculateTotal(category.budgets).toLocaleString()}€
+            {category.budgets &&
+              calculateTotal(category.budgets).toLocaleString()}
+            €
           </span>
         </CardTitle>
       </CardHeader>

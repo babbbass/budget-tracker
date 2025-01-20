@@ -9,14 +9,14 @@ export default async function Home() {
   const { userId } = await auth()
   const user = await currentUser()
 
-  if (!userId || !user) {
-    redirect("/connexion")
+  const fullName = user?.firstName + " " + user?.lastName
+  const email = user?.emailAddresses[0].emailAddress
+
+  const budgets = email && (await findAllBudgetByUser(email))
+  if (!budgets) {
+    redirect("/dashboard/settings")
   }
 
-  const fullName = user.firstName + " " + user.lastName
-  const email = user.emailAddresses[0].emailAddress
-
-  const budgets = await findAllBudgetByUser(email)
   const userBudgets = budgets?.categories.filter((category) => {
     return category.budgets.length > 0
   })
@@ -31,9 +31,9 @@ export default async function Home() {
         Bonjour {email}
       </h3>
       <div className='w-full px-4 mb-4'>
-        <BudgetAssistant userId={userId} />
+        <BudgetAssistant userId={userId as string} />
       </div>
-      <Dashboard userId={userId} fullName={fullName} email={email} />
+      <Dashboard userId={userId as string} fullName={fullName} email={email} />
     </>
   )
 }

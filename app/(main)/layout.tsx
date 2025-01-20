@@ -8,6 +8,8 @@ import { Toaster } from "sonner"
 import { Inter, DM_Sans } from "next/font/google"
 import { SpeedInsights } from "@vercel/speed-insights/next"
 import { ReactQueryProvider } from "@/providers/ReactQueryProvider"
+import { currentUser } from "@clerk/nextjs/server"
+import { redirect } from "next/navigation"
 
 const inter = Inter({ subsets: ["latin"], variable: "--font-inter" })
 const dmSans = DM_Sans({
@@ -21,11 +23,16 @@ export const metadata: Metadata = {
   description: "Simplifiez votre budget. Maîtrisez vos finances.",
 }
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode
 }>) {
+  const user = await currentUser()
+
+  if (!user) {
+    redirect("/connexion")
+  }
   return (
     <ClerkProvider localization={frFR}>
       <html lang='fr'>
