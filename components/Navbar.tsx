@@ -19,10 +19,10 @@ export function Navbar() {
       <SignedIn>
         {/* Menu desktop */}
         <div className='hidden lg:flex space-x-4'>
-          <Link href={"/budgets"}>Mon calendrier</Link>
-          <Link href={"/mon-assistant"}>Assistant</Link>
-          <Link href={"/epargnes"}>Mon Epargne</Link>
           <Link href={"/dashboard/settings"}>Mes enveloppes</Link>
+          <Link href={"/mon-assistant"}>Assistant</Link>
+          <Link href={"/budgets"}>Mon calendrier</Link>
+          <Link href={"/epargnes"}>Mon Epargne</Link>
         </div>
 
         {/* Menu mobile */}
@@ -56,16 +56,13 @@ export function Navbar() {
             <div className='mb-2'>
               <UserButton />
             </div>
-            <Link href={"/budgets"} className='mb-4' onClick={toggleMobileMenu}>
-              Mon calendrier
-            </Link>
-            {/* <Link
-              href={"/dashboard"}
+            <Link
+              href={"/dashboard/settings"}
               className='mb-4'
               onClick={toggleMobileMenu}
             >
-              Tableau de bord
-            </Link> */}
+              Mes enveloppes
+            </Link>
             <Link
               href={"/mon-assistant"}
               className='mb-4'
@@ -73,19 +70,15 @@ export function Navbar() {
             >
               Assistant
             </Link>
+            <Link href={"/budgets"} className='mb-4' onClick={toggleMobileMenu}>
+              Mon calendrier
+            </Link>
             <Link
               href={"/epargnes"}
               className='mb-4'
               onClick={toggleMobileMenu}
             >
               Mon Epargne
-            </Link>
-            <Link
-              href={"/dashboard/settings"}
-              className='mb-4'
-              onClick={toggleMobileMenu}
-            >
-              Mes enveloppes
             </Link>
           </div>
         </div>
