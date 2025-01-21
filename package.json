@@ -12,10 +12,11 @@
   "dependencies": {
     "@clerk/localizations": "^3.7.0",
     "@clerk/nextjs": "^6.5.0",
+    "@ducanh2912/next-pwa": "^10.2.9",
     "@hookform/resolvers": "^3.9.1",
     "@langchain/core": "^0.3.27",
     "@langchain/openai": "^0.3.16",
-    "@prisma/client": "^6.0.1",
+    "@prisma/client": "^6.2.1",
     "@radix-ui/react-accordion": "^1.2.2",
     "@radix-ui/react-alert-dialog": "^1.1.2",
     "@radix-ui/react-dialog": "^1.1.2",
@@ -28,6 +29,7 @@
     "@radix-ui/react-separator": "^1.1.0",
     "@radix-ui/react-slot": "^1.1.0",
     "@tanstack/react-query": "4",
+    "@types/next-pwa": "^5.6.9",
     "@vercel/speed-insights": "^1.1.0",
     "class-variance-authority": "^0.7.0",
     "clsx": "^2.1.1",
@@ -37,7 +39,6 @@
     "langchain": "^0.3.9",
     "lucide-react": "^0.460.0",
     "next": "15.0.3",
-    "prisma": "^6.0.1",
     "react": "19.0.0-rc-66855b96-20241106",
     "react-day-picker": "8.10.1",
     "react-dom": "19.0.0-rc-66855b96-20241106",
@@ -56,6 +57,7 @@
     "eslint": "^8",
     "eslint-config-next": "15.0.3",
     "postcss": "^8",
+    "prisma": "^6.2.1",
     "tailwindcss": "^3.4.1",
     "typescript": "^5"
   }

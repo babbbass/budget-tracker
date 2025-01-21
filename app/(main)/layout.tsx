@@ -10,6 +10,7 @@ import { SpeedInsights } from "@vercel/speed-insights/next"
 import { ReactQueryProvider } from "@/providers/ReactQueryProvider"
 import { currentUser } from "@clerk/nextjs/server"
 import { redirect } from "next/navigation"
+import Head from "next/head"
 
 const inter = Inter({ subsets: ["latin"], variable: "--font-inter" })
 const dmSans = DM_Sans({
@@ -20,7 +21,7 @@ const dmSans = DM_Sans({
 
 export const metadata: Metadata = {
   title: "BUDG’UP",
-  description: "Simplifiez votre budget. Maîtrisez vos finances.",
+  description: "Votre assistant budgétaire personnalisé",
 }
 
 export default async function RootLayout({
@@ -34,9 +35,15 @@ export default async function RootLayout({
     redirect("/connexion")
   }
   return (
-    <ClerkProvider localization={frFR}>
-      <html lang='fr'>
-        <body className={`${inter.variable} ${dmSans.variable} antialiased `}>
+    <html lang='fr'>
+      <Head>
+        <meta name='viewport' content='width=device-width, initial-scale=1' />
+        <meta name='theme-color' content='#059669' />{" "}
+        <link rel='manifest' href='/manifest.json' />
+        <link rel='apple-touch-icon' href='/icons/icon.png' />{" "}
+      </Head>
+      <body className={`${inter.variable} ${dmSans.variable} antialiased `}>
+        <ClerkProvider localization={frFR}>
           <main className='relative bg-emerald-900 text-slate-50 flex flex-col items-center min-h-screen max-w-[1440px] mx-auto'>
             <Navbar />
             <Toaster />
@@ -44,8 +51,8 @@ export default async function RootLayout({
             <Footer />
             <SpeedInsights />
           </main>
-        </body>
-      </html>
-    </ClerkProvider>
+        </ClerkProvider>
+      </body>
+    </html>
   )
 }
